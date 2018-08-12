@@ -1,0 +1,91 @@
+package cn.com.voge.gzvm.service;
+
+import java.util.Date;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.voyageci.tools.utils.GeneralUtils;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.beans.Sms;
+import cn.com.voge.gzvm.beans.User;
+import cn.com.voge.gzvm.beans.UserToken;
+
+@SuppressWarnings({"rawtypes","unchecked"})
+
+public class UserService extends GzvmSercice {
+	
+	
+	/** 用户账号认证
+	 * @author lianzw
+	 * @param adminCode
+	 * @param password
+	 * @return
+	 */
+	public Map authenticate(String Code, String password){
+		Map criteria = initCriteria();
+		criteria.put("mobile", Code);// 手机号或者管理员编码
+		User user = getUser(criteria);
+		if (user == null) {
+			return getReturnMap("登录失败，账号不存在。", Constant.RESULT_CODE_ERROR);
+		}
+		String dbPwd = user.getPassword();
+		if (dbPwd.equals(GeneralUtils.MD5(password))){
+			return userManager.getRecordDetail(user);
+		} 
+		return getReturnMap("登录失败，账号或密码错误。", Constant.RESULT_CODE_ERROR);
+	}
+	
+	public User getUser(Map criteria){
+		return userManager.getUser(criteria);
+	}
+	
+	
+	public Map getUsers(Map criteria,Integer start, Integer pageSize){
+		criteria = initCriteria(criteria);
+		if((start == null)||(start<0)){
+			start = 0;
+		}
+		if((pageSize == null)||(pageSize<0)){
+			pageSize = Constant.ROWS_MAX;
+		}
+		return userManager.getUsers(criteria, start, pageSize);
+	}
+	
+	public Map saveUser(Map values){
+		return userManager.saveUser(values);
+	}
+	
+	public Map deleteUser(Integer userId){
+		return userManager.deleteUser(userId);
+	}
+	
+	public UserToken getUserToken(Integer userId,String userCode,String token){
+		Map criteria = initCriteria();
+		if (userId != null && userId > 0) {
+			criteria.put("userId", userId);
+		}else if (userCode!=null && userCode.length() > 0) {
+			criteria.put("userCode", userCode);
+		}else{
+			return null;
+		}
+		criteria.put("token", token);
+		return userManager.getUserToken(criteria);
+	}
+	
+	public UserToken saveUserToken(Integer userId,HttpServletRequest request){
+		return userManager.saveUserToken(userId, request);
+	}
+	
+	public Sms saveSms(Integer authCode,String mobile,Date endTime){
+		return userManager.saveSms(authCode, mobile,endTime);
+	}
+	
+	public Sms getSms(Integer authCode,String mobile,Date endTime){
+		return userManager.getSms(authCode, mobile,endTime);
+	}
+	
+	
+	
+}

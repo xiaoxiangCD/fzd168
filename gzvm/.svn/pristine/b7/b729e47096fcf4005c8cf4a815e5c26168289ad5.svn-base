@@ -1,0 +1,235 @@
+
+/*清除样式*/
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+body {
+    line-height:1;
+}
+
+:focus {
+	outline: 1;
+}
+
+article,aside,canvas,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section,summary { 
+    display:block;
+}
+
+ul {
+    list-style:none;
+}
+
+li{
+	list-style:none;
+}
+
+blockquote, q {
+    quotes:none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none;
+}
+
+a {
+    margin:0;
+    padding:0;
+    border:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	text-decoration: none; /* 指正常的未被访问过的链接*/
+}
+
+a:visited {
+	text-decoration: none; /*指已经访问过的链接*/
+}
+
+a:hover {
+	text-decoration: none; /*指鼠标在链接*/
+}
+
+a:active {
+	text-decoration: none; /* 指正在点的链接*/
+}
+
+ins {
+    background-color:#ff9;
+    color:#000;
+    text-decoration:none;
+}
+
+mark {
+    background-color:#ff9;
+    color:#000; 
+    font-style:italic;
+    font-weight:bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+    border-bottom:1px dotted #000;
+    cursor:help;
+}
+
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+hr {
+    display:block;
+    height:1px;
+    border:0;   
+    border-top:1px solid #cccccc;
+    margin:1em 0;
+    padding:0;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+input,input[type="button"], input[type="submit"], input[type="reset"],input[type="date"],input[type="moth"] {/* iPhone表单空件样式清除 */
+-webkit-appearance: none;
+}
+
+textarea {  -webkit-appearance: none;resize: none;}   
+
+/*end*/
+
+/*header样式*/
+#header {
+	width:100%;position:fixed;top:0;left:0;
+}
+
+#header .header_panel{
+	background:#333;height:80px;text-align: -webkit-center;overflow:hidden;
+}
+
+#header .header_item{
+	width:88%;
+	max-width:1200px;
+}
+
+#header .logo_panel{
+	text-align:-webkit-left;
+}
+
+#header .user_panel{
+	text-align:-webkit-right;
+}
+
+#header .logo_img{
+	height:80px;
+	display:inline-block;
+	vertical-align: top;
+}
+
+#header .head_img{
+	height:40px;
+	width:40px;
+	display:inline-block;
+	vertical-align: middle;
+}
+
+#header .header_fonts{
+	font-size:22px;color:#FFF;height:80px;line-height:80px;display:inline-block;
+}
+
+#header .login_out{
+	font-size:14px;color:#FFF;height:80px;line-height:80px;display:inline-block;
+}
+
+#header .user_panel{
+	display:inline-block;
+}
+
+#header .user_name{
+	display:inline-block;
+	font-size:14px;color:#FFF;
+}
+
+
+/*footer样式*/
+#footer{
+	width:100%;position:fixed;bottom:0;left:0;
+}
+
+#footer .footer_panel{
+	background:#999;height:45px;text-align:center;overflow:hidden;
+}
+
+#footer .footer_item{
+	color:#FFF;margin-top:15px;
+}
+
+/*container样式*/
+#container{
+	background:#FEF8B6;
+	margin-top:80px;
+}
+
+/*管理端全局样式*/
+
+.mg_input_text{
+	border-radius:5px;margin:0 auto;
+}
+
+.mg_btn{
+	border-radius:5px;margin:0 auto;background:#FF9933;color:#FFF;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

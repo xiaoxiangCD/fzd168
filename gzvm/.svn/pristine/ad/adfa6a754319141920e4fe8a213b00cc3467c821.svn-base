@@ -1,0 +1,11 @@
+package cn.com.voge.gzvm.service;
+
+import com.voyageci.core.service.BaseService;
+
+
+@SuppressWarnings({"rawtypes","unchecked"})
+
+public class UserService extends BaseService {
+	
+	
+}

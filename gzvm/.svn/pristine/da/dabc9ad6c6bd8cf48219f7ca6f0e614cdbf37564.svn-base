@@ -1,0 +1,9 @@
+var WH = $(window).height();
+
+
+$().ready(function(){
+	var HH = $("#header").height();
+	var IH = WH - HH ;
+	console.log(WH+','+ HH +','+IH);
+	$('#rightPanel').css('min-height',IH);
+})

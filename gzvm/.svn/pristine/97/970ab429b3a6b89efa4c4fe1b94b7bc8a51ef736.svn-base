@@ -1,0 +1,172 @@
+package cn.com.voge.gzvm.beans;
+
+import com.voyageci.core.beans.support.BaseBean;
+
+/** 
+ * @author lianzw 
+ * @version 创建时间：2017年5月3日 下午6:04:11 
+ * 类说明 
+ */
+public class JoinCompetition extends BaseBean {
+	
+	private static final long serialVersionUID = -3725422989382622466L;
+	private Integer joinId;
+	private String competiId;
+	private String groupType;
+	private String ownerId;
+	private String joinType;
+	private String payState;
+	private String joinState;
+	private Integer joinTime;
+	
+	@Override
+	public String getIdName() {
+		return "joinId";
+	}
+
+	public Integer getJoinId() {
+		return joinId;
+	}
+
+	public void setJoinId(Integer joinId) {
+		this.joinId = joinId;
+	}
+
+	public String getCompetiId() {
+		return competiId;
+	}
+
+	public void setCompetiId(String competiId) {
+		this.competiId = competiId;
+	}
+
+	public String getGroupType() {
+		return groupType;
+	}
+
+	public void setGroupType(String groupType) {
+		this.groupType = groupType;
+	}
+
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
+
+	public String getJoinType() {
+		return joinType;
+	}
+
+	public void setJoinType(String joinType) {
+		this.joinType = joinType;
+	}
+
+	public String getPayState() {
+		return payState;
+	}
+
+	public void setPayState(String payState) {
+		this.payState = payState;
+	}
+
+	public String getJoinState() {
+		return joinState;
+	}
+
+	public void setJoinState(String joinState) {
+		this.joinState = joinState;
+	}
+
+	public Integer getJoinTime() {
+		return joinTime;
+	}
+
+	public void setJoinTime(Integer joinTime) {
+		this.joinTime = joinTime;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((competiId == null) ? 0 : competiId.hashCode());
+		result = prime * result
+				+ ((groupType == null) ? 0 : groupType.hashCode());
+		result = prime * result + ((joinId == null) ? 0 : joinId.hashCode());
+		result = prime * result
+				+ ((joinState == null) ? 0 : joinState.hashCode());
+		result = prime * result
+				+ ((joinTime == null) ? 0 : joinTime.hashCode());
+		result = prime * result
+				+ ((joinType == null) ? 0 : joinType.hashCode());
+		result = prime * result + ((ownerId == null) ? 0 : ownerId.hashCode());
+		result = prime * result
+				+ ((payState == null) ? 0 : payState.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JoinCompetition other = (JoinCompetition) obj;
+		if (competiId == null) {
+			if (other.competiId != null)
+				return false;
+		} else if (!competiId.equals(other.competiId))
+			return false;
+		if (groupType == null) {
+			if (other.groupType != null)
+				return false;
+		} else if (!groupType.equals(other.groupType))
+			return false;
+		if (joinId == null) {
+			if (other.joinId != null)
+				return false;
+		} else if (!joinId.equals(other.joinId))
+			return false;
+		if (joinState == null) {
+			if (other.joinState != null)
+				return false;
+		} else if (!joinState.equals(other.joinState))
+			return false;
+		if (joinTime == null) {
+			if (other.joinTime != null)
+				return false;
+		} else if (!joinTime.equals(other.joinTime))
+			return false;
+		if (joinType == null) {
+			if (other.joinType != null)
+				return false;
+		} else if (!joinType.equals(other.joinType))
+			return false;
+		if (ownerId == null) {
+			if (other.ownerId != null)
+				return false;
+		} else if (!ownerId.equals(other.ownerId))
+			return false;
+		if (payState == null) {
+			if (other.payState != null)
+				return false;
+		} else if (!payState.equals(other.payState))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "JoinCompetition [joinId=" + joinId + ", competiId=" + competiId
+				+ ", groupType=" + groupType + ", ownerId=" + ownerId
+				+ ", joinType=" + joinType + ", payState=" + payState
+				+ ", joinState=" + joinState + ", joinTime=" + joinTime + "]";
+	}
+	
+}

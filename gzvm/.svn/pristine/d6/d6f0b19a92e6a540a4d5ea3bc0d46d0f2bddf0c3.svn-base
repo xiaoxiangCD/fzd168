@@ -1,0 +1,200 @@
+.mg_choice_panel {
+	height: 100%;
+}
+
+.mg_left_panel {
+	height: 100%;
+	background: #FFF;
+	color: #333;
+	padding: 0;
+	font-size: 1.6em;
+	border: 1px solid #ccc;
+	margin-top: 1em;
+}
+
+.mg_choice_item {
+	
+}
+
+.mg_choice_name {
+	padding: 5px 45px;
+}
+
+.mg_choice_list {
+	
+}
+
+.mg_list_item {
+	padding: 1em .5em;
+	cursor: pointer;
+	text-align: -webkit-center;
+}
+
+.mg_list_item:hover {
+	background: #EEE;
+}
+
+.mg_active {
+	background: #44B549;
+	color: #FFF;
+}
+
+.mg_active:hover {
+	background: #44B549;
+	color: #FFF;
+}
+
+.ctrl_panel {
+	margin: 20px;
+	border-bottom: 1px solid #488200;
+}
+
+.ctrl_item {
+	padding: 10px;
+	text-align: left;
+	font-size:1.6em;
+	font-weight:bold;
+}
+
+.item_go_back{
+	padding: 14px 5px;
+	text-align: right;
+	cursor: pointer;
+}
+
+.item_go_back>a:hover{
+	text-decoration:underline;
+	color: #427305
+}
+
+.ctrl_item a {
+	color: #333;
+	margin-left: 2px;
+}
+
+.anli_panel {
+	padding: 10px 20px;
+}
+
+.anli_product_img {
+	width: 80%;
+	height: 13em;
+	display: block;
+	margin: 20px auto;
+}
+
+.anli_product_number {
+	color: #F00;
+	font-size: 1.5em;
+}
+
+.anli_product_name {
+	display: block;
+	text-align: -webkit-center;
+	margin: 1em 0;
+	font-size: 1.3em;
+	color: #427305;
+}
+
+.anli_product_item {
+	display: block;
+	text-align: -webkit-left;
+	margin-top: 1em;
+	padding: 0 1.1em;
+	font-size: 1em;
+	color: #427305;
+	margin-bottom: 1em;
+	line-height: 22px;
+	min-height: 5em;
+}
+
+.anli_product_item:hover {
+	color: #427305;
+}
+
+.anli_product_panel {
+	border: 1px solid #DDD;
+	border-radius: 10px;
+	padding: 3px 20px;
+}
+
+.anli_product_panel:hover {
+	border-bottom: 3px solid #44B549;
+	padding-bottom: 1px;
+}
+
+.anli_mobile_list {
+	margin-bottom: 2em;
+}
+
+.health_panel {
+	padding: 10px 20px;
+}
+
+.health_product_img {
+	width: 80%;
+	height: 13em;
+	display: block;
+	margin: 20px auto;
+}
+
+.health_product_number {
+	color: #F00;
+	font-size: 1.5em;
+}
+
+.health_product_name {
+	display: block;
+	text-align: -webkit-center;
+	margin: 1em 0;
+	font-size: 1.3em;
+	color: #427305;
+}
+
+.health_product_item {
+	display: block;
+	text-align: -webkit-left;
+	margin-top: 1em;
+	padding: 0 1.1em;
+	font-size: 1em;
+	color: #427305;
+	margin-bottom: 1em;
+	line-height: 22px;
+	cursor: pointer;
+}
+
+.health_product_item:hover {
+	color: #427305;
+}
+
+.health_mobile_list {
+	margin-bottom: 1em;
+	border: 1px solid #DDD;
+	background: url('/gzvm/fzd/images/go_item.png') no-repeat 98%;
+	background-size: 2.5em;
+}
+
+.health_mobile_list:hover {
+	border-left: 3px solid #44B549;
+	padding-left: 13px;
+	background: url('/gzvm/fzd/images/go_item_hover.png') no-repeat 98%;
+	background-size: 2.5em;
+}
+
+@media only screen and (max-width: 767px) {
+	.mg_left_panel {
+		height: 100%;
+		background: #FFF;
+		color: #333;
+		padding: 0;
+		font-size: 1.6em;
+		border: 1px solid #ccc;
+		margin: 1em;
+	}
+	.anli_mobile_list {
+		margin-bottom: 1em;
+	}
+	.ctrl_item {
+		text-align: center;
+	}
+}

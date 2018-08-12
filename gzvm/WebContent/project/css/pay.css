@@ -1,0 +1,129 @@
+
+.sign_btn{
+	color:#fff !important;
+	width:30%;
+}
+/* 赛事列表 */
+.competition{
+	padding:30px;
+}
+.comptition_img{
+	width:100%;
+	height:auto;
+}
+.comptition_img img{
+	display:inline-block;
+	width:100%;
+	height:auto;
+}
+.comptition_text{
+	padding-left:30px;
+	padding-top:10px;
+}
+.competition_title{
+	font-weight:bold;
+	font-size:16px;
+	margin:15px 0;
+}
+.competition_type p{
+	display:inline-block;
+	background-color:#333;
+	padding:5px 20px;
+	border-radius:2px;
+	margin-right:10px;
+	color:#fff;
+	font-size:12px;
+	margin:10px 0 ;
+}
+.competiton_date p,.competiton_adress p,.competiton_sign p,.competiton_high p,.competiton_floor p,.competiton_package p{
+	display:inline-block;
+	margin-right:10px;
+	margin:10px 0;
+}
+.competiton_package #package span{
+	display:inline-block;
+}
+.competiton_package #price{
+	margin-left:20px;
+	color:#ff9966;
+	font-size:20px;
+	font-weight:bold;
+}
+.competiton_date #date{
+	color:#ff9966;
+}
+
+/*title*/
+.detail_title{
+	height:50px;
+	line-height:50px;
+	border:solid 1px #eee;
+	margin:20px 0;
+	position:relative;
+}
+.detail_title p{
+	display:inline-block;
+}
+.detail_name{
+	font-size:20px;
+	padding:0 30px;
+}
+/*内容*/
+.pay_content{
+	border:solid 1px #eee;
+}
+
+/*口令减免*/
+.verify_text{
+	width:68%;
+	text-align:left;
+	line-height:34px;
+}
+.verify_btn{
+	width:24%;
+	margin-left:4%;
+	border:none;
+	color:#fff;
+}
+.rule_select{
+	width:16px;
+	height:16px;
+	margin:0 !important;
+}
+.privilege_dsc{
+	color:#ccc;
+	line-height:34px;
+	display:inline-block;
+	margin-left:20px;
+}
+/*支付方式*/
+.n_padding{
+	padding:0;
+}
+.pay_type{
+	height:42px;
+	margin:60px 0;
+}
+.pay_title{
+	line-height:42px;
+}
+.pay{
+	position:relative;
+}
+.pay_type input{
+	position:absolute;
+	top:12px;
+}
+.pay_image{
+	display:inline-block;
+	margin-left:30px;
+}
+.pay_image img{
+	height:42px;
+	width:auto;
+	display:inline-block;
+}
+.pay_btn{
+	color:#fff;
+	margin-bottom:100px;
+}

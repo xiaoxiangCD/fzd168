@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.BlackList">
+	<typeAlias alias="BlackList" type="cn.com.voge.gzvm.beans.BlackList" />
+
+	<resultMap id="BlackListMap" class="BlackList">
+		<result property="blackId" column="BLACK_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="description" column="DESCRIPTION" />
+
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_BLACKLIST
+	</select>
+
+	<select id="select" resultMap="BlackListMap">
+		SELECT * FROM TB_BLACKLIST
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				BLACK_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY BLACK_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="BlackListMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="BlackListMap">
+		SELECT * FROM TB_BLACKLIST
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="blackId">
+				BLACK_ID=#blackId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="description">
+				DESCRIPTION=#description#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY BlackList_ID
+	</select>
+
+	<insert id="insert" parameterClass="BlackList">
+		<selectKey resultClass="int" keyProperty="blackId">
+			SELECT NEXTVAL('SQ_USER')
+		</selectKey>
+		INSERT INTO
+		TB_BLACKLIST(BLACK_ID,USER_ID,DESCRIPTION,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#blackId#,#userId#,#description#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+
+	<delete id="delete" parameterClass="BlackList">
+		DELETE FROM TB_BLACKLIST WHERE BLACK_ID=#blackId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_BLACKLIST WHERE BLACK_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_BLACKLIST
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="blackId">
+				BLACK_ID=#blackId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="description">
+				DESCRIPTION=#description#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	
+	<update id="update" parameterClass="BlackList">
+		UPDATE TB_BLACKLIST SET
+		BLACK_ID=#blackId#,USER_ID=#userId#,DESCRIPTION=#description#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE BLACK_ID=#blackId#
+	</update>
+	
+
+</sqlMap>

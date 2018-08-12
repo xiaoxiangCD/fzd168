@@ -1,0 +1,140 @@
+@CHARSET "UTF-8";
+
+
+.step{
+	background-color:#ffcc99;
+	height:50px;
+	line-height:50px;
+	font-size:18px;
+	color:#fff;
+}
+
+.hint{
+	font-size:20px;
+	color:#ff9966;
+	margin-bottom:50px;	
+}
+.infor{
+	bakground-color:#fff;
+	border:solid 1px #eee;
+}
+.date{
+	height:34px;
+	width:28%;
+	margin-right:6%;
+}
+.date_left{
+	width:29% !important;
+}
+.date_right{
+	margin-right:0 !important;
+}
+.area{
+	height:68px;
+}
+.btn{
+	color:#fff;
+	font-size:16px;
+	margin-bottom:50px;
+}
+/*手机验证*/
+.verify_text{
+	width:69%;
+}
+.verify_btn{
+	width:25%;
+	margin-left:4%;
+	border:none;
+	color:#fff;
+}
+
+
+.sub_btn{
+	margin-top:60px;
+	margin-bottom:200px;
+}
+
+/*温馨提示*/
+.success_hint {
+	font-weight:bold;
+	font-size:20px;
+	margin:10px 0;
+}
+
+
+/*阅读保险*/
+.rule_select{
+	display:inline-block;
+	width:14px !important;
+	height:14px !important;
+}
+.rule input{
+	margin-top:0 !important;
+	margin-right:10px;
+}
+.rule p{
+	display:inline-block;
+}
+.rule{
+	margin-top:10px;
+}
+
+/*赛事包*/
+.col-md-10{
+	padding:0;
+}
+.package{
+	border:solid 1px #3399cc;
+}
+.package_title{
+	border-bottom:solid 1px #3399cc;
+	height:40px;
+	padding-left:20px;
+}
+.package_title p{
+	display:inline-block;
+	line-height:40px;
+}
+.package_value,.secure_value{
+	color:#ff9966;
+	font-weight:bold;
+}
+.package_text{
+	padding-left:20px;
+	height:100px;
+	position:relative;
+}
+
+.package_content{
+	vertical-align:middle;
+	line-height:100px;
+}
+.package_select{
+	width:24px;
+	height:24px;
+	position:absolute;
+	top:50%;
+	right:20px;
+	margin-top:-12px !important;
+}
+
+/* 保险 */
+.secure p{
+	padding:0 30px;
+	line-height:40px;
+}
+.secure_select{
+	width:24px;
+	height:24px;
+	display:inline-block;
+	margin-right:10px;
+	margin-top:8px;
+}
+.secure_dsc,.secure_value{
+	display:inline-block;
+}
+.secure_dsc a{
+	text-decoration:underline;
+	display:inline-block;
+	padding-top:5px;
+}

@@ -1,0 +1,44 @@
+.mg_choice_panel{
+	height:100%;
+	font-size:14px;
+}
+
+.mg_left_panel{
+	height:100%;background:#666;color:#fff;padding: 0;
+}
+
+.mg_choice_item{
+	margin-top: 15px;
+}
+
+.mg_choice_name{
+	padding: 5px 45px;
+}
+
+.mg_choice_list{
+	
+}
+
+.mg_list_item{
+	padding: 5px;
+    padding-left: 60px;
+    cursor:pointer;
+}
+
+.mg_list_item:hover{
+	background:#FF9933;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

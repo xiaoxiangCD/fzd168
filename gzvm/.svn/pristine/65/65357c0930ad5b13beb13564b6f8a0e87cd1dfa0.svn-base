@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.OldUser">
+	<typeAlias alias="OldUser" type="cn.com.voge.gzvm.beans.OldUser" />
+
+	<resultMap id="OldUserMap" class="OldUser">
+		<result property="oldId" column="OLD_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="year" column="YEAR" />
+		<result property="joinDate" column="JOIN_DATE" />
+		<result property="joinTime" column="JOIN_TIME" />
+
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_OLD_USER
+	</select>
+
+	<select id="select" resultMap="OldUserMap">
+		SELECT * FROM TB_OLD_USER
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				OLD_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY OLD_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="OldUserMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="OldUserMap">
+		SELECT * FROM TB_OLD_USER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="oldId">
+				OLD_ID=#oldId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="year">
+				YEAR=#year#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinDate">
+				JOIN_DATE=#joinDate#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinTime">
+				JOIN_TIME=#joinTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY OldUser_ID
+	</select>
+
+	<insert id="insert" parameterClass="OldUser">
+		<selectKey resultClass="int" keyProperty="oldId">
+			SELECT NEXTVAL('SQ_USER')
+		</selectKey>
+		INSERT INTO
+		TB_OLD_USER(OLD_ID,USER_ID,YEAR,JOIN_DATE,JOIN_TIME,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#oldId#,#userId#,#year#,#joinDate#,#joinTime#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+
+	<delete id="delete" parameterClass="OldUser">
+		DELETE FROM TB_OLD_USER WHERE OLD_ID=#oldId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_OLD_USER WHERE OLD_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_OLD_USER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="oldId">
+				OLD_ID=#oldId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="year">
+				YEAR=#year#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinDate">
+				JOIN_DATE=#joinDate#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinTime">
+				JOIN_TIME=#joinTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+		</dynamic>
+	</delete>
+
+
+	
+	<update id="update" parameterClass="OldUser">
+		UPDATE TB_OLD_USER SET
+		OLD_ID=#oldId#,USER_ID=#userId#,YEAR=#year#,JOIN_DATE=#joinDate#,JOIN_TIME=#joinTime#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE OldUser_ID=#OldUserId#
+	</update>
+	
+
+</sqlMap>

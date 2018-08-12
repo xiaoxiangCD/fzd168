@@ -1,0 +1,29 @@
+package cn.com.voge.gzvm.action;
+
+
+import cn.com.voge.base.action.BaseAction;
+import cn.com.voge.gzvm.service.CompetitionService;
+
+import com.opensymphony.xwork2.Preparable;
+
+public class CompetitionAction extends BaseAction implements Preparable {
+
+	private static final long serialVersionUID = 3201323292295599856L;
+	private CompetitionService competitionService;
+	
+	
+	public CompetitionService getCompetitionService() {
+		return competitionService;
+	}
+
+	public void setCompetitionService(CompetitionService competitionService) {
+		this.competitionService = competitionService;
+	}
+
+	@Override
+	public void prepare() throws Exception {
+		
+	}
+
+
+}

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.UserOrder">
+	<typeAlias alias="UserOrder" type="cn.com.voge.gzvm.beans.UserOrder" />
+
+	<resultMap id="UserOrderMap" class="UserOrder">
+		<result property="orderId" column="ORDER_ID" />
+		<result property="competiId" column="COMPETI_ID" />
+		<result property="teamType" column="TEAM_TYPE" />
+		<result property="ownerId" column="OWNER_ID" />
+		<result property="payType" column="PAY_TYPE" />
+        <result property="outTradeNo" column="OUT_TRADE_NO" />
+		<result property="transactionId" column="TRANSACTION_ID" />
+		<result property="prepayId" column="PREPAY_ID" />
+		<result property="totalFee" column="TOTAL_FEE" />
+		<result property="tradeState" column="TRADE_STATE" />
+		<result property="bankType" column="BANK_TYPE" />
+		<result property="timeEnd" column="TIME_END" />
+		<result property="orderDate" column="ORDER_DATE" javaType="date"/>
+		<result property="orderTime" column="ORDER_TIME" javaType="date"/>
+		<result property="remark" column="REMARK" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_USER_ORDER
+	</select>
+
+	<select id="select" resultMap="UserOrderMap">
+		SELECT * FROM TB_USER_ORDER
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				ORDER_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY ORDER_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="UserOrderMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="UserOrderMap">
+		SELECT * FROM TB_USER_ORDER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="orderId">
+				ORDER_ID=#orderId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="competiId">
+				COMPETI_ID=#competiId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="teamType">
+				TEAM_TYPE=#teamType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="ownerId">
+				OWNER_ID=#ownerId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="payType">
+				PAY_TYPE=#payType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="outTradeNo">
+				OUT_TRADE_NO=#outTradeNo#
+			</isNotNull>
+			<isNotNull prepend="AND" property="transactionId">
+				TRANSACTION_ID=#transactionId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="prepayId">
+				PREPAY_ID=#prepayId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="totalFee">
+				TOTAL_FEE=#totalFee#
+			</isNotNull>
+			<isNotNull prepend="AND" property="tradeState">
+				TRADE_STATE=#tradeState#
+			</isNotNull>
+			<isNotNull prepend="AND" property="bankType">
+				BANK_TYPE=#bankType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="timeEnd">
+				TIME_END=#timeEnd#
+			</isNotNull>
+			<isNotNull prepend="AND" property="orderDate">
+				ORDER_DATE=#orderDate#
+			</isNotNull>
+			<isNotNull prepend="AND" property="orderTime">
+				ORDER_TIME=#orderTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="remark">
+				REMARK=#remark#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY ORDER_ID
+	</select>
+
+	<insert id="insert" parameterClass="UserOrder">
+		<selectKey resultClass="int" keyProperty="oldId">
+			SELECT NEXTVAL('SQ_USER')
+		</selectKey>
+		INSERT INTO
+		TB_USER_ORDER(ORDER_ID,COMPETI_ID,TEAM_TYPE,OWNER_ID,PAY_TYPE,OUT_TRADE_NO,TRANSACTION_ID,PREPAY_ID,TOTAL_FEE,TRADE_STATE,BANK_TYPE,TIME_END,ORDER_DATE,ORDER_TIME,REMARK,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#orderId#,#competiId#,#teamType#,#ownerId#,#payType#,#outTradeNo#,#transactionId#,#prepayId#,#totalFee#,#tradeState#,#bankType#,#timeEnd#,#orderDate#,#orderTime#,#remark#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+
+	<delete id="delete" parameterClass="UserOrder">
+		DELETE FROM TB_USER_ORDER WHERE ORDER_ID=#orderId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_USER_ORDER WHERE ORDER_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_USER_ORDER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="orderId">
+				ORDER_ID=#orderId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="competiId">
+				COMPETI_ID=#competiId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="teamType">
+				TEAM_TYPE=#teamType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="ownerId">
+				OWNER_ID=#ownerId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="payType">
+				PAY_TYPE=#payType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="outTradeNo">
+				OUT_TRADE_NO=#outTradeNo#
+			</isNotNull>
+			<isNotNull prepend="AND" property="transactionId">
+				TRANSACTION_ID=#transactionId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="prepayId">
+				PREPAY_ID=#prepayId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="totalFee">
+				TOTAL_FEE=#totalFee#
+			</isNotNull>
+			<isNotNull prepend="AND" property="tradeState">
+				TRADE_STATE=#tradeState#
+			</isNotNull>
+			<isNotNull prepend="AND" property="bankType">
+				BANK_TYPE=#bankType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="timeEnd">
+				TIME_END=#timeEnd#
+			</isNotNull>
+			<isNotNull prepend="AND" property="orderDate">
+				ORDER_DATE=#orderDate#
+			</isNotNull>
+			<isNotNull prepend="AND" property="orderTime">
+				ORDER_TIME=#orderTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="remark">
+				REMARK=#remark#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+
+		
+	<update id="update" parameterClass="UserOrder">
+		UPDATE TB_USER_ORDER SET
+		ORDER_ID=#orderId#,COMPETI_ID=#competiId#,TEAM_TYPE=#teamType#,OWNER_ID=#ownerId#,
+		PAY_TYPE=#payType#,OUT_TRADE_NO=#outTradeNo#,TRANSACTION_ID=#transactionId#,PREPAY_ID=#prepayId#,
+			TOTAL_FEE=#totalFee#,TRADE_STATE=#tradeState#,BANK_TYPE=#bankType#,TIME_END=#timeEnd#,
+			ORDER_DATE=#orderDate#,ORDER_TIME=#orderTime#,REMARK=#remark#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE ORDER_ID=#orderId#
+	</update>
+
+</sqlMap>

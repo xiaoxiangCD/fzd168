@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.WXUser">
+<typeAlias alias="WXUser" type="cn.com.voge.gzvm.beans.WXUser"/>
+
+<resultMap id="WXUserMap" class="WXUser">
+	<result property="userId" column="USER_ID"/>
+	<result property="openid" column="OPENID"/>
+	<result property="nickname" column="NICKNAME"/>
+	<result property="sex" column="SEX"/>
+	<result property="province" column="PROVINCE"/>
+	<result property="country" column="COUNTRY"/>
+	<result property="city" column="CITY"/>
+	<result property="headimgurl" column="HEADIMGURL" />
+	
+	<result property="versionNum" column="VER_NUM" nullValue="0"/>
+	<result property="instanceId" column="INSTANCE_ID" nullValue="0"/>
+	<result property="state" column="STATE" nullValue="0"/>
+	<result property="createUser" column="CREATE_USER" nullValue="0"/>
+	<result property="createDate" column="CREATE_DATE" javaType="date"/>
+</resultMap>
+
+<select id="count" resultClass="int">
+	SELECT count(*) FROM TB_WX_USER
+</select>
+
+<select id="select" resultMap="WXUserMap">
+	SELECT * FROM TB_WX_USER
+	<dynamic prepend="WHERE">
+		<isParameterPresent>
+			USER_ID=#value#
+		</isParameterPresent>
+	</dynamic>
+	ORDER BY INSTANCE_ID,USER_ID
+</select>
+
+<select id="selectBySql" parameterClass="string" resultMap="WXUserMap">
+	$value$
+</select>
+
+<select id="selectByMap" parameterClass="map" resultMap="WXUserMap">
+	SELECT * FROM TB_WX_USER
+	<dynamic prepend="WHERE">
+		<isNotNull prepend="AND" property="instanceId">
+			INSTANCE_ID=#instanceId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="userId">
+			USER_ID=#userId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="openid">
+			OPENID=#openid#
+		</isNotNull>
+		<isNotNull prepend="AND" property="nickname">
+			NICKNAME=#nickname#
+		</isNotNull>
+		<isNotNull prepend="AND" property="sex">
+			SEX=#sex#
+		</isNotNull>
+		<isNotNull prepend="AND" property="province">
+			PROVINCE=#province#
+		</isNotNull>
+		<isNotNull prepend="AND" property="state">
+			(STATE &amp; #state#) >0
+		</isNotNull>
+		<isNotNull prepend="AND" property="authoritySQL">
+			$authoritySQL$
+		</isNotNull>
+		
+	</dynamic>
+	ORDER BY INSTANCE_ID,USER_ID
+</select>
+
+<insert id="insert" parameterClass="WXUser">
+	<selectKey resultClass="int" keyProperty="userId"  >   
+     SELECT NEXTVAL('SQ_WXUSER')   
+   	</selectKey>
+	INSERT INTO TB_WX_USER(USER_ID,OPENID,NICKNAME,SEX,PROVINCE,COUNTRY,CITY,HEADIMGURL,
+	    VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+	VALUES(#userId#,#openid#,#nickname#,#sex#,#province#,#country#,#city#,#headimgurl#,
+	    #versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+</insert>
+
+<delete id="delete" parameterClass="WXUser">
+	DELETE FROM TB_WX_USER WHERE USER_ID=#userId#
+</delete>
+
+<delete id="deleteByPK" parameterClass="int">
+	DELETE FROM TB_WX_USER WHERE USER_ID=#value#
+</delete>
+
+<delete id="deleteByMap" parameterClass="map">
+DELETE FROM TB_WX_USER
+<dynamic prepend="WHERE">
+		<isNotNull prepend="AND" property="instanceId">
+			INSTANCE_ID=#instanceId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="userId">
+			USER_ID=#userId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="openid">
+			OPENID=#openid#
+		</isNotNull>
+		<isNotNull prepend="AND" property="nickname">
+			NICKNAME=#nickname#
+		</isNotNull>
+		<isNotNull prepend="AND" property="province">
+			PROVINCE=#province#
+		</isNotNull>
+		<isNotNull prepend="AND" property="state">
+			(STATE &amp; #state#) >0
+		</isNotNull>
+		<isNotNull prepend="AND" property="authoritySQL">
+			$authoritySQL$
+		</isNotNull>
+	</dynamic>
+</delete>
+
+<update id="update" parameterClass="WXUser">
+	UPDATE TB_WX_USER 
+	SET OPENID=#openid#,NICKNAME=#nickname#,SEX=#sex#,PROVINCE=#province#,CITY=#city#,COUNTRY=#country#,HEADIMGURL=#headimgurl#,
+	  	VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+	WHERE USER_ID=#userId#
+</update>
+
+</sqlMap>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.JoinPhoto">
+	<typeAlias alias="JoinPhoto" type="cn.com.voge.gzvm.beans.JoinPhoto" />
+
+	<resultMap id="JoinPhotoMap" class="JoinPhoto">
+		<result property="photoId" column="PHOTO_ID" />
+		<result property="joinId" column="JOIN_ID" />
+		<result property="photoName" column="PHOTO_NAME" />
+		<result property="photoTime" column="PHOTO_TIME" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_JOIN_PHOTO
+	</select>
+
+	<select id="select" resultMap="JoinPhotoMap">
+		SELECT * FROM TB_JOIN_PHOTO
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				PHOTO_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY PHOTO_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="JoinPhotoMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="JoinPhotoMap">
+		SELECT * FROM TB_JOIN_PHOTO
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="photoId">
+				PHOTO_ID=#photoId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinId">
+				JOIN_ID=#joinId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="photoName">
+				PHOTO_NAME=#photoName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="photoTime">
+				PHOTO_TIME=#photoTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="remark">
+				REMARK=#remark#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY PHOTO_TIME
+	</select>
+
+	<insert id="insert" parameterClass="JoinPhoto">
+		<selectKey resultClass="int" keyProperty="photoId">
+			SELECT NEXTVAL('SQ_PACKAGE')
+		</selectKey>
+		INSERT INTO
+		TB_JOIN_PHOTO(PHOTO_ID,JOIN_ID,PHOTO_NAME,PHOTO_TIME,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#photoId#,#joinId#,#photoName#,#photoTime#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+	<delete id="delete" parameterClass="JoinPhoto">
+		DELETE FROM TB_JOIN_PHOTO WHERE PHOTO_ID=#photoId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_JOIN_PHOTO WHERE PHOTO_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_JOIN_PHOTO
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="photoId">
+				PHOTO_ID=#photoId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinId">
+				JOIN_ID=#joinId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="photoName">
+				PHOTO_NAME=#photoName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="photoTime">
+				PHOTO_TIME=#photoTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="JoinPhoto">
+		UPDATE TB_JOIN_PHOTO SET
+		JOIN_ID=#joinId#,PHOTO_NAME=#photoName#,PHOTO_TIME=#photoTime#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE PHOTO_ID=#photoId#
+	</update>
+	
+
+</sqlMap>

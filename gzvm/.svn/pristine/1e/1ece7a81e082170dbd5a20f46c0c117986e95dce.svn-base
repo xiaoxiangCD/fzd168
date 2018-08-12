@@ -1,0 +1,57 @@
+
+$().ready(function() { 
+	initList()
+})
+
+function initList(){
+	initTable({
+		tableId :"table",
+		url : '/gzvm/admin!getAdmins.action',
+		queryParams : {},
+		columns: [
+//	        {field:"adminid",title:"",align:"center",valign:"middle",sortable:"true",checkbox:"true"},
+            {field:"adminName",title:"管理员姓名",align:"center",valign:"middle",sortable:"true"},
+			{field:"adminCode",title:"管理员编码",align:"center",valign:"middle",sortable:"true"},
+			{field:"mobile",title:"手机号",align:"center",valign:"middle",sortable:"true"},
+			{field:"qq",title:"QQ号",align:"center",valign:"middle",sortable:"true"},
+		],
+	})
+}
+
+function showAdd(){
+	$('#addWindow').show();
+}
+
+
+
+function save(){
+	var param = {};
+	param.adminName = $('#adminName').val();
+	if (param.adminName == '') {
+		
+		return;
+	}
+	
+	
+}
+
+function closeAdd(){
+	$('#addWindow').hide();
+	$('#addForm').reset();
+}
+
+function showDel(){
+	$('#alertWindow').show();
+}
+
+function closeDel(){
+	$('#alertWindow').hide();
+}
+
+
+
+
+
+
+
+

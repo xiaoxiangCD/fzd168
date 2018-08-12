@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.VMAdmin">
+	<typeAlias alias="VMAdmin" type="cn.com.voge.gzvm.beans.VMAdmin" />
+
+	<resultMap id="VMAdminMap" class="VMAdmin">
+		<result property="adminId" column="ADMIN_ID" />
+		<result property="password" column="PASSWORD" />
+		<result property="adminCode" column="ADMIN_CODE" />
+		<result property="adminName" column="ADMIN_NAME" />
+		<result property="adminType" column="ADMIN_TYPE" />
+		<result property="mobile" column="MOBILE" />
+		<result property="qq" column="QQ" />
+		<result property="dispIndex" column="DISP_INDEX" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_VM_ADMIN
+	</select>
+
+	<select id="select" resultMap="VMAdminMap">
+		SELECT * FROM TB_VM_ADMIN
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				LAN_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY DISP_INDEX
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="VMAdminMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="VMAdminMap">
+		SELECT * FROM TB_VM_ADMIN
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="adminId">
+				ADMIN_ID=#adminId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="password">
+				PASSWORD=#password#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminCode">
+				ADMIN_CODE=#adminCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="loginCode">
+				ADMIN_CODE=#loginCode# OR MOBILE=#loginCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminName">
+				ADMIN_NAME=#adminName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminType">
+				ADMIN_TYPE=#adminType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="mobile">
+				MOBILE=#mobile#
+			</isNotNull>
+			<isNotNull prepend="AND" property="qq">
+				QQ=#qq#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY DISP_INDEX
+	</select>
+
+	<insert id="insert" parameterClass="VMAdmin">
+		<selectKey resultClass="int" keyProperty="adminId">
+			SELECT NEXTVAL('SQ_WXUSER')
+		</selectKey>
+		INSERT INTO TB_VM_ADMIN(ADMIN_ID,ADMIN_CODE,ADMIN_NAME,ADMIN_TYPE,MOBILE,QQ,PASSWORD,DISP_INDEX,
+			VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#adminId#,#adminCode#,#adminName#,#adminType#,#mobile#,#qq#,#password#,#dispIndex#,
+			#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+
+	<delete id="delete" parameterClass="VMAdmin">
+		DELETE FROM TB_VM_ADMIN WHERE ADMIN_ID=#adminId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_VM_ADMIN WHERE ADMIN_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_VM_ADMIN
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="adminId">
+				ADMIN_ID=#adminId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="password">
+				PASSWORD=#password#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminCode">
+				ADMIN_CODE=#adminCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminName">
+				ADMIN_NAME=#adminName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminType">
+				ADMIN_TYPE=#adminType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="mobile">
+				MOBILE=#mobile#
+			</isNotNull>
+			<isNotNull prepend="AND" property="qq">
+				QQ=#qq#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="VMAdmin">
+		UPDATE TB_VM_ADMIN SET
+			ADMIN_CODE=#adminCode#,ADMIN_NAME=#adminName#,ADMIN_TYPE=#adminType#,MOBILE=#mobile#,
+			QQ=#qq#,PASSWORD=#password#,DISP_INDEX=#dispIndex#,
+			VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE ADMIN_ID=#adminId#
+	</update>
+	
+
+</sqlMap>

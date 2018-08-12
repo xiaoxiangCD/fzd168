@@ -1,0 +1,549 @@
+package cn.com.voge.gzvm.action;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.security.AdminSession;
+import cn.com.voge.gzvm.service.CompetitionService;
+ 
+import com.google.common.collect.Maps;
+import com.opensymphony.xwork2.Preparable;
+import com.voyageci.tools.utils.NumberUtils;
+@SuppressWarnings({"rawtypes","unchecked"})
+public class CompetitionAction extends GebileAction implements Preparable {
+
+	private static final long serialVersionUID = 3201323292295599856L;
+	private CompetitionService competitionService;
+	private String mobile;
+	private String idCard;
+	private String defineIds;
+	private String values;
+	private String competiType;
+	private String level;
+	private String city;
+	private String joinType;
+	private Date joinStartTime;
+	private Date joinEndTime;// 
+	private Date startTime;
+	private Date endTime;
+	private Integer discountSet;
+	private Integer luckyType;
+	private Integer joinProve;
+	private Integer chargeType;
+	private Integer groupType;
+	private Integer peopleNum;
+	private Integer groupNum;
+	private Integer competiId;
+	private Integer joinId;
+	private Integer productId;
+	private String size;
+	private String userName;
+	private Integer age;
+	private String contactName;
+	private String contactNumber;
+	private String idType;
+	
+	/** 赛事列表
+	 * @author lianzw
+	 */
+	public void getCompetitions(){
+		AdminSession session = getAdminSession(true);
+		if (session == null) {
+			return;
+		}
+		Map criteria = getValueMaps();
+		if (searchLike != null) {
+			criteria.put("competiLike", searchLike);
+		}
+		Map result = null;
+		try {
+			result = competitionService.getCompetitions(criteria, start, pageSize);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (result == null) {
+			result = getReturnMap("获取赛事列表失败！", Constant.RESULT_CODE_ERROR);
+		}else{
+			result = getReturnMap("获取赛事列表成功！", Constant.RESULT_CODE_SUCCESS);
+		}
+		writeJson(response, result);
+	}
+	
+	/** 保存赛事
+	 * @author lianzw
+	 */
+	public void saveCompeti(){
+		AdminSession session = getAdminSession(true);
+		if (session == null) {
+			return;
+		}
+		Map values = getValueMaps();
+		Map result = null;
+		try {
+			result = competitionService.saveCompetition(values);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (result == null) {
+			result = getReturnMap("保存赛事失败！", Constant.RESULT_CODE_ERROR);
+		}else{
+			result = getReturnMap("保存赛事成功！", Constant.RESULT_CODE_SUCCESS);
+		}
+		saveAdminLog(session, "CompetitionAction", "saveCompeti", "保存赛事接口.", result);
+		writeJson(response, result);
+	}
+	
+	/** 删除赛事
+	 * @author lianzw
+	 */
+	public void delCompeti(){
+		AdminSession session = getAdminSession(true);
+		if (session == null) {
+			return;
+		}
+		Map result = null;
+		try {
+			result = competitionService.deleteCompetition(competiId);
+		} catch (Exception e) {
+			result = getReturnMap("删除赛事失败！", Constant.RESULT_CODE_ERROR);
+			System.err.println(e.getMessage());
+		}
+		saveAdminLog(session, "CompetitionAction", "delCompeti", "删除赛事接口.", result);
+		writeJson(response, result);
+	}
+	
+	/** 获取报名列表
+	 * @author lianzw
+	 */
+	public void getJoins(){
+		AdminSession session = getAdminSession(true);
+		if (session == null) {
+			return;
+		}
+		Map criteria = getValueMaps();
+		if (searchLike != null) {
+			criteria.put("joinLike", searchLike);
+		}
+		Map result = null;
+		try {
+			result = competitionService.getJoins(criteria, start, pageSize);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (result == null) {
+			result = getReturnMap("获取报名列表失败！", Constant.RESULT_CODE_ERROR);
+		}else{
+			result = getReturnMap("获取报名列表成功！", Constant.RESULT_CODE_SUCCESS);
+		}
+		saveAdminLog(session, "CompetitionAction", "getJoins", "获取报名列表接口.", result);
+		writeJson(response, result);
+	}
+	
+	/** 获取报名详情
+	 * @author lianzw
+	 */
+	public void getJoinDetail(){
+		AdminSession session = getAdminSession(true);
+		if (session == null) {
+			return;
+		}
+		Map result = null;
+		try {
+			result = competitionService.getJoinDetail(joinId);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (result == null) {
+			result = getReturnMap("获取报名详情失败！", Constant.RESULT_CODE_ERROR);
+		}else{
+			result = getReturnMap("获取报名详情成功！", Constant.RESULT_CODE_SUCCESS);
+		}
+		saveAdminLog(session, "CompetitionAction", "getJoins", "获取报名列表接口.", result);
+		writeJson(response, result);
+	}
+	
+	/** 验证手机号或者证件号存不存在系统
+	 * @author lianzw
+	 */
+	public void validationIdCard(){
+		AdminSession session = getAdminSession(true);
+		if (session == null) {
+			return;
+		}
+		Map result = null;
+		String loginCode = null;
+		if (mobile != null) {
+			loginCode = mobile;
+		}else{
+			loginCode = idCard;
+		}
+		try {
+			result = competitionService.validationIdCard(loginCode);
+		} catch (Exception e) {
+			result = getReturnMap("验证失败", Constant.RESULT_CODE_ERROR);
+			System.err.println(e.getMessage());
+		}
+		writeJson(response, result);
+	}
+	
+	/** 保存报名详情
+	 * @author lianzw
+	 */
+	public void saveJoindetail(){
+		AdminSession session = getAdminSession(true);
+		if (session == null) {
+			return;
+		}
+		List<Map> infos = new ArrayList<Map>();
+		String[] strIds = defineIds.split(",");
+		String[] strVals = values.split(",");
+		for (int i = 0; i < strIds.length; i++) {
+			Integer defineId = NumberUtils.toInt(strIds[i]);
+			String value = strVals[i];
+			Map map = Maps.newHashMap();
+			map.put("defineId", defineId);
+			map.put("value", value);
+			infos.add(map);
+		}
+		Map params = getValueMaps();
+		Map result = null;
+		try {
+			result = competitionService.saveJoindetail(params, infos);
+		} catch (Exception e) {
+			result = getReturnMap("验证失败", Constant.RESULT_CODE_ERROR);
+			System.err.println(e.getMessage());
+		}
+		writeJson(response, result);
+		
+		
+	}
+	
+	// ------------- //
+	public Map getValueMaps(){
+		Map criteria = Maps.newHashMap();
+		if (competiType != null) {
+			criteria.put("competiType", competiType);
+		}
+		if (level != null) {
+			criteria.put("level", level);
+		}
+		if (city != null) {
+			criteria.put("city", city);
+		}
+		if (groupType != null) {
+			criteria.put("groupType", groupType);
+		}
+		if (joinType != null) {
+			criteria.put("joinType", joinType);
+		}
+		if (state != null) {
+			criteria.put("state", state);
+		}
+		if (joinStartTime != null) {
+			criteria.put("joinStartTime",joinStartTime);
+		}
+		if (joinEndTime != null) {
+			criteria.put("joinEndTime",joinEndTime);
+		}
+		if (startTime != null) {
+			criteria.put("startTime", startTime);
+		}
+		if (endTime != null) {
+			criteria.put("endTime", endTime);
+		}
+		if (discountSet != null) {
+			criteria.put("discountSet", discountSet);
+		}
+		if (luckyType != null) {
+			criteria.put("luckyType", luckyType);
+		}
+		if (joinProve != null) {
+			criteria.put("joinProve", joinProve);
+		}
+		if (chargeType != null) {
+			criteria.put("chargeType", chargeType);
+		}
+		if (peopleNum != null) {
+			criteria.put("peopleNum", peopleNum);
+		}
+		if (groupNum != null) {
+			criteria.put("groupNum", groupNum);
+		}
+		if (competiId != null) {
+			criteria.put("competiId", competiId);
+		}
+		if (userId != null) {
+			criteria.put("userId", userId);
+		}
+		if (productId != null) {
+			criteria.put("productId", productId);
+		}
+		if (size != null) {
+			criteria.put("size", size);
+		}
+		if (userName != null) {
+			criteria.put("userName", userName);
+		}
+		if (age != null) {
+			criteria.put("age", age);
+		}
+		if (contactName != null) {
+			criteria.put("contactName", contactName);
+		}
+		if (contactNumber != null) {
+			criteria.put("contactNumber", contactNumber);
+		}
+		if (idType != null) {
+			criteria.put("idType", idType);
+		}
+		if (idCard != null) {
+			criteria.put("idCard", idCard);
+		}
+		if (mobile != null) {
+			criteria.put("mobile", mobile);
+		}
+		return criteria;
+	}
+	
+	@Override
+	public void prepare() throws Exception {
+		
+	}
+	
+	public CompetitionService getCompetitionService() {
+		return competitionService;
+	}
+
+	public void setCompetitionService(CompetitionService competitionService) {
+		this.competitionService = competitionService;
+	}
+	
+	public String getCompetiType() {
+		return competiType;
+	}
+
+	public void setCompetiType(String competiType) {
+		this.competiType = competiType;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getJoinType() {
+		return joinType;
+	}
+
+	public void setJoinType(String joinType) {
+		this.joinType = joinType;
+	}
+
+	public Date getJoinStartTime() {
+		return joinStartTime;
+	}
+
+	public void setJoinStartTime(Date joinStartTime) {
+		this.joinStartTime = joinStartTime;
+	}
+
+	public Date getJoinEndTime() {
+		return joinEndTime;
+	}
+
+	public void setJoinEndTime(Date joinEndTime) {
+		this.joinEndTime = joinEndTime;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public Integer getDiscountSet() {
+		return discountSet;
+	}
+
+	public void setDiscountSet(Integer discountSet) {
+		this.discountSet = discountSet;
+	}
+
+	public Integer getLuckyType() {
+		return luckyType;
+	}
+
+	public void setLuckyType(Integer luckyType) {
+		this.luckyType = luckyType;
+	}
+
+	public Integer getJoinProve() {
+		return joinProve;
+	}
+
+	public void setJoinProve(Integer joinProve) {
+		this.joinProve = joinProve;
+	}
+
+	public Integer getChargeType() {
+		return chargeType;
+	}
+
+	public void setChargeType(Integer chargeType) {
+		this.chargeType = chargeType;
+	}
+
+	public Integer getGroupType() {
+		return groupType;
+	}
+
+	public void setGroupType(Integer groupType) {
+		this.groupType = groupType;
+	}
+
+	public Integer getPeopleNum() {
+		return peopleNum;
+	}
+
+	public void setPeopleNum(Integer peopleNum) {
+		this.peopleNum = peopleNum;
+	}
+
+	public Integer getGroupNum() {
+		return groupNum;
+	}
+
+	public void setGroupNum(Integer groupNum) {
+		this.groupNum = groupNum;
+	}
+
+	public Integer getCompetiId() {
+		return competiId;
+	}
+
+	public void setCompetiId(Integer competiId) {
+		this.competiId = competiId;
+	}
+
+	public Integer getJoinId() {
+		return joinId;
+	}
+
+	public void setJoinId(Integer joinId) {
+		this.joinId = joinId;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getIdCard() {
+		return idCard;
+	}
+
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
+	}
+
+	public String getDefineIds() {
+		return defineIds;
+	}
+
+	public void setDefineIds(String defineIds) {
+		this.defineIds = defineIds;
+	}
+
+	public String getValues() {
+		return values;
+	}
+
+	public void setValues(String values) {
+		this.values = values;
+	}
+
+	public Integer getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public String getContactName() {
+		return contactName;
+	}
+
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	public String getIdType() {
+		return idType;
+	}
+
+	public void setIdType(String idType) {
+		this.idType = idType;
+	}
+
+
+}

@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+
+.bg{
+	position:relative;
+}
+.content{
+	max-width:1200px;
+	margin-left:auto;
+	margin-right:auto;
+	padding-bottom:60px;
+}
+.bg_color{
+	background-color:#ff9966;
+}
+.space_top {
+	margin-top:30px;
+}
+.space_bottom {
+	margin-bottom:20px;
+}
+.align_l{
+	text-align:left;
+}
+.align_r{
+	text-align:right;
+}
+.align_c{
+	text-align:center;
+}
+.w{
+	width:100%;
+}
+.required{
+	color:#f00;
+}
+.ps{
+	color:#ccc;
+}
+.item{
+	height:34px;
+}

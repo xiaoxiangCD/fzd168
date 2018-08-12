@@ -1,0 +1,156 @@
+package cn.com.voge.gzvm.service;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import com.voyageci.tools.utils.GeneralUtils;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.beans.AdminToken;
+import cn.com.voge.gzvm.beans.VMAdmin;
+
+/** 
+ * @author lianzw 
+ * @version 创建时间：2017年5月4日 上午11:16:52 
+ * 类说明 
+ */
+@SuppressWarnings({"rawtypes","unchecked"})
+public class AdminService extends GzvmService{
+	
+	/** 管理员账号认证
+	 * @author lianzw
+	 * @param adminCode
+	 * @param password
+	 * @return
+	 */
+	public Map authenticate(String adminCode, String password){
+		Map criteria = initCriteria();
+		criteria.put("loginCode", adminCode);// 手机号或者管理员编码
+		VMAdmin admin = getAdmin(criteria);
+		if (admin == null) {
+			return getReturnMap("登录失败，账号不存在。", Constant.RESULT_CODE_ERROR);
+		}
+		String dbPwd = admin.getPassword();
+		String pw = GeneralUtils.MD5(password);
+		if (dbPwd.equals(pw)){
+			Map result =  adminManager.getRecordDetail(admin);
+			result.remove("password");
+			result.putAll(getReturnMap("登录成功", Constant.RESULT_CODE_SUCCESS));
+			return result;
+		} 
+		return getReturnMap("登录失败，账号或密码错误。", Constant.RESULT_CODE_ERROR);
+	}
+	
+	public VMAdmin getAdmin(Integer adminId){
+		return adminManager.get(adminId);
+	}
+	
+	public VMAdmin getAdmin(Map criteria){
+		return adminManager.getAdmin(criteria);
+	}
+
+	public Map getAdmins(Map criteria,Integer start, Integer pageSize){
+		criteria = initCriteria(criteria);
+		if((start == null)||(start<0)){
+			start = 0;
+		}
+		if((pageSize == null)||(pageSize<0)){
+			pageSize = Constant.ROWS_MAX;
+		}
+		return adminManager.getAdmins(criteria, start, pageSize);
+	}
+	
+	public Map getAdminRoles(Map criteria,Integer start, Integer pageSize){
+		criteria = initCriteria(criteria);
+		if((start == null)||(start<0)){
+			start = 0;
+		}
+		if((pageSize == null)||(pageSize<0)){
+			pageSize = Constant.ROWS_MAX;
+		}
+		return adminManager.getAdminRoles(criteria, start, pageSize);
+	}
+	
+	public Map getAdminRelaRoles(Integer adminId,Integer start, Integer pageSize){
+		if((start == null)||(start<0)){
+			start = 0;
+		}
+		if((pageSize == null)||(pageSize<0)){
+			pageSize = Constant.ROWS_MAX;
+		}
+		return adminManager.getAdminRelaRoles(adminId, start, pageSize);
+	}
+	
+	
+	
+	
+	public Map saveAdmin(Map values){
+		return adminManager.saveAdmin(values);
+	}
+	
+	public Map saveAdminRole(Map values){
+		return adminManager.saveAdminRole(values);
+	}
+	
+	public Map saveAdminRelaRole(Map values){
+		return adminManager.saveAdminRelaRole(values);
+	}
+	
+	public Map deleteAdmin(Integer adminId){
+		return adminManager.deleteAdmin(adminId);
+	}
+	
+	public Map delAdminRole(Integer roleId){
+		return adminManager.delAdminRole(roleId);
+	}
+	
+	public Map delAdminRelaRole(Integer relaId){
+		return adminManager.delAdminRelaRole(relaId);
+	}
+	
+	public Map getAdminLogs(Map criteria,Integer start, Integer pageSize){
+		criteria = initCriteria(criteria);
+		if((start == null)||(start<0)){
+			start = 0;
+		}
+		if((pageSize == null)||(pageSize<0)){
+			pageSize = Constant.ROWS_MAX;
+		}
+		return adminManager.getAdminLogs(criteria, start, pageSize);
+	}
+	
+	public Map saveAdminLog(Integer adminId, String module, String method, String describe, Map result){
+		if (adminId <= 0) {
+			return null;
+		}
+		Integer logState = getIntValue(result, "resultCode");
+		String errMsg = getStringValue(result, "resultMsg");
+		return adminManager.saveAdminLog(adminId, module, method, describe,logState,errMsg);
+	}
+	
+	
+	public AdminToken getAdminToken(Integer adminId,String adminCode,String token){
+		Map criteria = initCriteria();
+		if (adminId != null && adminId > 0) {
+			criteria.put("adminId", adminId);
+		}else if (adminCode!=null && adminCode.length() > 0) {
+			criteria.put("adminCode", adminCode);
+		}else{
+			return null;
+		}
+		criteria.put("token", token);
+		return adminManager.getAdminToken(criteria);
+	}
+	
+	
+	public AdminToken saveAdminToken(VMAdmin admin,HttpServletRequest request){
+		return adminManager.saveAdminToken(admin, request);
+	}
+	
+//	public static void main(String[] strings) {
+//		AdminService as = new AdminService();
+//		as.getAdminLogs(null, null, null);
+//		
+//	}
+	
+}

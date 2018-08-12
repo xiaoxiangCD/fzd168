@@ -1,0 +1,81 @@
+
+$().ready(function() { 
+	initList()
+})
+
+function initList(){
+	initTable({
+		tableId :"table",
+		url : '/gzvm/admin!getAdmins.action',
+		queryParams : {},
+		columns: [
+//	        {field:"adminid",title:"",align:"center",valign:"middle",sortable:"true",checkbox:"true"},
+            {field:"adminName",title:"管理员姓名",align:"center",valign:"middle",sortable:"true"},
+			{field:"adminCode",title:"管理员编码",align:"center",valign:"middle",sortable:"true"},
+			{field:"mobile",title:"手机号",align:"center",valign:"middle",sortable:"true"},
+			{field:"qq",title:"QQ号",align:"center",valign:"middle",sortable:"true"},
+		],
+	})
+}
+
+function showAdd(){
+	$('#addWindow').show();
+}
+
+
+
+function save(){
+	var param = {};
+	param.adminName = $('#adminName').val();
+	if (param.adminName == '') {
+		swal('请输入管理员姓名');
+		return;
+	}
+	param.adminCode = $('#adminCode').val();
+	if (param.adminCode == '') {
+		swal('请输入管理员账号');
+		return;
+	}
+	param.mobile = $('#mobile').val();
+	if (param.mobile == '') {
+		swal('请输入管理员手机号');
+		return;
+	}
+	param.password = $('#password').val();
+	if (param.password == '') {
+		swal('请输入密码');
+		return;
+	}
+	$.ajax({
+		url : "/gzvm/admin!saveAdmin.action",
+		data : data,
+		dataType : 'json',
+		type : 'post',
+		success : function(result) {
+			if (result.resultCode != 0) {
+				// 这里明天整 $.ajax{}
+				swal("新增成功!", result.resultMsg);
+				$('#addWindow').hide();
+			}
+		},
+		failure : function(result) {
+			swal("请求失败!", result.resultMsg);
+		}
+	});
+	
+}
+
+function closeAdd(){
+	$('#addWindow').hide();
+	$('#addForm').reset();
+}
+
+function showDel(){
+	$('#alertWindow').show();
+}
+
+function closeDel(){
+	$('#alertWindow').hide();
+}
+
+

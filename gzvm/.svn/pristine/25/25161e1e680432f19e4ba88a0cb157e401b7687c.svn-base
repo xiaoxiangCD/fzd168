@@ -1,0 +1,160 @@
+package cn.com.voge.gzvm.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.codehaus.plexus.util.StringUtils;
+
+import com.google.common.collect.Maps;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.beans.User;
+import cn.com.voge.gzvm.manager.CompetitionManager;
+import cn.com.voge.gzvm.manager.PackageManager;
+
+/** 
+ * @author lianzw 
+ * @version 创建时间：2017年5月4日 上午11:23:29 
+ * 类说明 预留的公共类，写公用方法
+ */
+@SuppressWarnings({"rawtypes","unchecked"})
+public class CompetitionService  extends GzvmService{
+	
+	protected CompetitionManager competitionManager;
+	protected PackageManager packageManager;
+	
+	public Map getCompetitions(Map criteria,Integer start, Integer pageSize){
+		criteria = initCriteria(criteria);
+		if((start == null)||(start<0)){
+			start = 0;
+		}
+		if((pageSize == null)||(pageSize<0)){
+			pageSize = Constant.ROWS_MAX;
+		}
+		return competitionManager.getCompetitions(criteria, start, pageSize);
+	}
+	
+	public Map saveCompetition(Map values){
+		return competitionManager.saveCompetition(values);
+	}
+	
+	public Map deleteCompetition(Integer competiId){
+		return competitionManager.deleteCompetition(competiId);
+	}
+	
+	public Map getJoins(Map criteria,Integer start, Integer pageSize){
+		criteria = initCriteria(criteria);
+		if((start == null)||(start<0)){
+			start = 0;
+		}
+		if((pageSize == null)||(pageSize<0)){
+			pageSize = Constant.ROWS_MAX;
+		}
+		return competitionManager.getJoins(criteria, start, pageSize);
+	}
+	
+	public Map getJoinDetail(Integer joinId){
+		return competitionManager.getJoinDetail(joinId);
+	}
+	
+	/** 验证证件号是否存在系统
+	 * @author lianzw
+	 * @param idCard
+	 * @return
+	 */
+	public Map validationIdCard(String loginCode){
+		Map criteria = Maps.newHashMap();
+		criteria.put("mobile", loginCode);
+		criteria.put("state", Constant.BASE_STATE);
+		User user = userManager.getUser(criteria);
+		if (user != null) {
+			String msg ="该账号已注册，请使用手机号"+StringUtils.substring(user.getMobile(), 0, 2)+"****"+StringUtils.substring(user.getMobile(), 6)+"登录报名。";
+			return getReturnMap(msg, Constant.RESULT_CODE_ERROR);
+		}else{
+			return getReturnMap("可以报名", Constant.RESULT_CODE_SUCCESS);
+		}
+	}
+
+	public Map saveJoindetail(Map values,List<Map> infos){
+		Integer userId = getIntValue(values, "userId");
+		if (userId == 0) {
+			try {
+				Map user = userManager.saveUser(values);
+				values.put("ownerId", getIntValue(user, "userId"));
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+		}else{
+			values.put("ownerId", userId);
+		}
+		
+		//TODO 保存报名信息
+		return competitionManager.saveJoinDetail(values, infos);
+	}
+	
+	public Map deleteJoinDetail(Integer joinId){
+		return competitionManager.deleteJoinDetail(joinId);
+	}
+	
+	public Map getJonInfoDefines(Map criteria){
+		criteria = initCriteria(criteria);
+		return competitionManager.getJonInfoDefines(criteria);
+	}
+	
+	public Map saveJoinInfoDefines(Integer competiId,List<String> names, List<String> types,List<Integer> requireds){
+		return competitionManager.saveJoinInfoDefines(competiId, names, types, requireds);
+	}
+	
+	public Map saveDiscounts(Integer competiId, List<Integer> ruleIds, List<String> passwords, List<Float> discounts, List<Integer> disNums){
+		return competitionManager.saveDiscounts(competiId, ruleIds, passwords, discounts, disNums);
+	}
+	
+	public Map saveCompetitionInsurance(Integer competiId, String fileName, Float cost){
+		return competitionManager.saveCompetitionInsurance(competiId, fileName, cost);
+	}
+	
+	public Map saveInsurance(Integer insuranceId, String fileName, Float cost){
+		return competitionManager.saveInsurance(insuranceId, fileName, cost);
+	}
+	
+	public Map deleteInsurance(Integer insuranceId){
+		return competitionManager.deleteInsurance(insuranceId);
+	}
+	
+	public Map getCompetitionPackage(Integer competiId){
+		return competitionManager.getCompetitionPackage(competiId);
+	}
+	
+	public Map saveCompetitionPackage(Integer competiId,List<Integer> packageIds){
+		return competitionManager.saveCompetitionPackage(competiId, packageIds);
+	}
+	
+	public Map getPackages(Map criteria,Integer start, Integer pageSize){
+		return packageManager.getPackages(criteria, start, pageSize);
+	}
+	
+	public Map savePackage(Map values){
+		return packageManager.savePackage(values);
+	}
+	
+	public Map deletePackage(Integer packageId){
+		return packageManager.deletePackage(packageId);
+	}
+	// ---------- get set ------------ //
+	public CompetitionManager getCompetitionManager() {
+		return competitionManager;
+	}
+
+	public void setCompetitionManager(CompetitionManager competitionManager) {
+		this.competitionManager = competitionManager;
+	}
+
+	public PackageManager getPackageManager() {
+		return packageManager;
+	}
+
+	public void setPackageManager(PackageManager packageManager) {
+		this.packageManager = packageManager;
+	}
+	
+}

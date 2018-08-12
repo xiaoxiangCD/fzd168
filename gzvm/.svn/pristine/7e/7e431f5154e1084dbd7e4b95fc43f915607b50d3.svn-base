@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName" default-lazy-init="true">
+	<!-- ========================= Manage ========================= -->
+	<bean id="adminManager" class="cn.com.voge.gzvm.manager.AdminManager"></bean>
+	<bean id="userManager" class="cn.com.voge.gzvm.manager.UserManager"/>
+	<bean id="competitionManager" class="cn.com.voge.gzvm.manager.CompetitionManager"/>
+	<bean id="packageManager" class="cn.com.voge.gzvm.manager.PackageManager"/>
+	
+	<bean id="moduleManager" class="cn.com.voge.gzvm.manager.ModuleManager"/>
+	
+	<!-- ============================ Serivce ========================= -->
+	<bean id="adminService" class="cn.com.voge.gzvm.service.AdminService"/>
+	<bean id="competitionService" class="cn.com.voge.gzvm.service.CompetitionService"/>
+	<bean id="attachmentService" class="cn.com.voge.gzvm.service.AttachmentService"/>
+	<bean id="gzvmSercice" class="cn.com.voge.gzvm.service.GzvmSercice"/>
+	<bean id="userService" class="cn.com.voge.gzvm.service.UserService"/>
+	<bean id="httpService" class="cn.com.voge.gzvm.service.HttpService"/>
+	<bean id="wxService" class="cn.com.voge.gzvm.service.WXService"/>
+	
+	<!-- ============================ DAO ========================= -->
+	
+	<bean id="adminTokenDao" class="cn.com.voge.gzvm.dao.impl.AdminTokenDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="smsDao" class="cn.com.voge.gzvm.dao.impl.SmsDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="attachmentDao" class="cn.com.voge.gzvm.dao.impl.AttachmentDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="blackListDao" class="cn.com.voge.gzvm.dao.impl.BlackListDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="competitionDao" class="cn.com.voge.gzvm.dao.impl.CompetitionDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="competitionInsuranceDao" class="cn.com.voge.gzvm.dao.impl.CompetitionInsuranceDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="discountDao" class="cn.com.voge.gzvm.dao.impl.DiscountDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="insuranceDao" class="cn.com.voge.gzvm.dao.impl.InsuranceDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="joinCompetitionDao" class="cn.com.voge.gzvm.dao.impl.JoinCompetitionDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="joinInfoDao" class="cn.com.voge.gzvm.dao.impl.JoinInfoDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="joinInfoDefineDao" class="cn.com.voge.gzvm.dao.impl.JoinInfoDefineDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="joinPhotoDao" class="cn.com.voge.gzvm.dao.impl.JoinPhotoDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="oldUserDao" class="cn.com.voge.gzvm.dao.impl.OldUserDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="packageDao" class="cn.com.voge.gzvm.dao.impl.PackageDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="packageNumberDao" class="cn.com.voge.gzvm.dao.impl.PackageNumberDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="packagePhotoDao" class="cn.com.voge.gzvm.dao.impl.PackagePhotoDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="teamDao" class="cn.com.voge.gzvm.dao.impl.TeamDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="teamMemberDao" class="cn.com.voge.gzvm.dao.impl.TeamMemberDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="userCodeDao" class="cn.com.voge.gzvm.dao.impl.UserCodeDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="userDao" class="cn.com.voge.gzvm.dao.impl.UserDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="vmAdminDao" class="cn.com.voge.gzvm.dao.impl.VMAdminDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="vmAdminLogDao" class="cn.com.voge.gzvm.dao.impl.VMAdminLogDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="userTokenDao" class="cn.com.voge.gzvm.dao.impl.UserTokenDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="adminRelaDao" class="cn.com.voge.gzvm.dao.impl.AdminRelaDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="adminRoleDao" class="cn.com.voge.gzvm.dao.impl.AdminRoleDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="userPhotoDao" class="cn.com.voge.gzvm.dao.impl.UserPhotoDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="smBannerDao" class="cn.com.voge.gzvm.dao.impl.SMBannerDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="userOrderDao" class="cn.com.voge.gzvm.dao.impl.UserOrderDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="wXApiTokenDao" class="cn.com.voge.gzvm.dao.impl.WXApiTokenDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="wXUserDao" class="cn.com.voge.gzvm.dao.impl.WXUserDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="productAttrDataDao" class="cn.com.voge.gzvm.dao.impl.ProductAttrDataDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="orderProductDao" class="cn.com.voge.gzvm.dao.impl.OrderProductDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="orderPackageDao" class="cn.com.voge.gzvm.dao.impl.OrderPackageDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+
+	<bean id="operModuleDao" class="cn.com.voge.gzvm.template.dao.impl.OperModuleDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="moduleDao" class="cn.com.voge.gzvm.template.dao.impl.ModuleDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="moduleItemDao" class="cn.com.voge.gzvm.template.dao.impl.ModuleItemDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+	<bean id="itemContent" class="cn.com.voge.gzvm.template.dao.impl.ItemContentDaoImpl" parent="abstractIBatisDao" autowire="no"/>
+</beans> 

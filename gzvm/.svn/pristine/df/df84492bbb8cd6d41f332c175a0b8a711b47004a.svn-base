@@ -1,0 +1,115 @@
+package cn.com.voge.gzvm.action;
+
+import java.util.Map;
+
+import cn.com.voge.gzvm.Constant;
+
+import com.google.common.collect.Maps;
+import com.voyageci.tools.utils.GeneralUtils;
+
+/** 
+ * @author lianzw 
+ * @version 创建时间：2017年5月4日 下午3:29:22 
+ * 类说明 
+ */
+@SuppressWarnings({"rawtypes","unchecked"})
+public class AdminAction extends GebileAction{
+
+	private static final long serialVersionUID = 6031581639462035004L;
+	private String adminId;
+	private String adminCode;
+	private String adminName;
+	private String adminType;
+	private String mobile;
+	private String qq;
+	private String password;
+	
+	/** 保存管理员
+	 * @author lianzw
+	 */
+	public void saveAdmin(){
+		saveAdminLog("AdminAction", "saveAdmin", "新增/编辑管理员接口。");
+		Map values = Maps.newHashMap();
+		if (adminId != null) {
+			values.put("adminId", adminId);
+		}
+		values.put("adminCode", adminCode);
+		values.put("adminName", adminName);
+		if(adminType == null){
+			adminType = Constant.ADMIN_TYPE_COMMON;
+		}
+		values.put("adminType", adminType);
+		values.put("mobile", mobile);
+		values.put("qq", qq);
+		values.put("password",GeneralUtils.MD5(password));
+		Map reuslt = null;
+		try {
+			reuslt = adminService.saveAdmin(values);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (reuslt == null) {
+			reuslt = getReturnMap("保存失败", Constant.RESULT_CODE_ERROR);
+		}else{
+			reuslt.putAll(getReturnMap("保存成功!", Constant.RESULT_CODE_SUCCESS));
+		}
+		writeJson(response, reuslt);
+	}
+
+	public String getAdminId() {
+		return adminId;
+	}
+
+	public void setAdminId(String adminId) {
+		this.adminId = adminId;
+	}
+
+	public String getAdminCode() {
+		return adminCode;
+	}
+
+	public void setAdminCode(String adminCode) {
+		this.adminCode = adminCode;
+	}
+
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+
+	public String getAdminType() {
+		return adminType;
+	}
+
+	public void setAdminType(String adminType) {
+		this.adminType = adminType;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getQq() {
+		return qq;
+	}
+
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+}

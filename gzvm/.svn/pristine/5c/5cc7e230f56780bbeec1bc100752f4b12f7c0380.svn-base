@@ -1,0 +1,39 @@
+package cn.com.voge.gzvm.service;
+
+import java.util.Map;
+
+/** 
+ * @author lianzw 
+ * @version 创建时间：2017年5月4日 上午11:16:52 
+ * 类说明 
+ */
+@SuppressWarnings("rawtypes")
+public class AdminService extends GzvmSercice{
+
+	public Map getAdmins(Map criteria,Integer start, Integer pageSize){
+		initCriteria(criteria);
+		initPagingParams(start, pageSize);
+		return adminManager.getAdmins(criteria, start, pageSize);
+	}
+	
+	public Map saveAdmin(Map values){
+		return adminManager.saveAdmin(values);
+	}
+	
+	public Map deleteAdmin(Integer adminId){
+		return adminManager.deleteAdmin(adminId);
+	}
+	
+	public Map getAdminLogs(Map criteria,Integer start, Integer pageSize){
+		initCriteria(criteria);
+		initPagingParams(start, pageSize);
+		return adminManager.getAdminLogs(criteria, start, pageSize);
+	}
+	
+	public Map saveAdminLogs(Integer adminId, String module, String method, String describe){
+		if (adminId <= 0) {
+			return null;
+		}
+		return adminManager.saveAdminLog(adminId, module, method, describe);
+	}
+}

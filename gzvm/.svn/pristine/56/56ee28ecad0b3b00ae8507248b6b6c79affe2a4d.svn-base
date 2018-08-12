@@ -1,0 +1,202 @@
+package cn.com.voge.gzvm.manager;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.dao.DataAccessException;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.beans.VMAdmin;
+import cn.com.voge.gzvm.beans.VMAdminLog;
+import cn.com.voge.gzvm.dao.VMAdminDao;
+import cn.com.voge.gzvm.dao.VMAdminLogDao;
+
+import com.google.gxp.com.google.common.collect.Maps;
+import com.voyageci.core.manage.AbstractEntityManage;
+import com.voyageci.tools.utils.BeanUtils;
+import com.voyageci.tools.utils.ListUtils;
+
+
+@SuppressWarnings({"rawtypes","unchecked"})
+public class AdminManager extends AbstractEntityManage<VMAdmin, VMAdminDao> {
+
+	private VMAdminDao vmAdminDao;
+	private VMAdminLogDao vmAdminLogDao;
+
+	@Override
+	public Map getRecordDetail(VMAdmin object) throws DataAccessException {
+		Map record = super.getRecordDetail(object);
+		return record;
+	}
+	
+	public VMAdmin getAdmin(Map criteria) throws DataAccessException{
+		VMAdmin amdin = firstFindBy(criteria);
+		return amdin;
+		
+	}
+	
+	/** 获取管理员列表
+	 * @author lianzw
+	 * @param criteria
+	 * @param start
+	 * @param pageSize
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map getAdmins(Map criteria,Integer start, Integer pageSize) throws DataAccessException{
+		Map result = Maps.newHashMap();
+		List<Map> maps = new ArrayList<>();
+		List<VMAdmin> admins = findBy(criteria, start, pageSize);
+		Integer count = 0;
+		if (ListUtils.isNotEmpty(admins)) {
+			for (VMAdmin vmAdmin : admins) {
+				Map map = getRecordDetail(vmAdmin);
+				maps.add(map);
+			}
+			try {
+				count = getRecordCount(criteria);
+			} catch (Exception e) {
+				count = admins.size();
+			}
+		}
+		result.put("results", admins);
+		result.put("totalCount", count);
+		result.put("start", start);
+		result.put("pageSize", pageSize);
+		return result;
+	}
+	
+	/** 新增或更新管理员信息
+	 * @author lianzw
+	 * @param values
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map saveAdmin(Map values) throws DataAccessException{
+		Integer adminId = getIntValue(values, "adminId");
+		int oper = Constant.OPER_UPDATE;
+		VMAdmin admin = null;
+		if (adminId > 0) {
+			admin = get(adminId);
+		}
+		if (admin == null) {
+			oper = Constant.OPER_INSTER;
+			admin = new VMAdmin();
+			admin.setState(Constant.BASE_STATE);
+		}
+		try {
+			BeanUtils.copyProperties(admin, values);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (oper == Constant.OPER_INSTER) {
+			insert(admin);
+		}else{
+			update(admin);
+		}
+		Map record = getRecordDetail(admin);
+		return record;
+	}
+	
+	/** 删除管理员
+	 * @author lianzw
+	 * @param adminId
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map deleteAdmin(Integer adminId) throws DataAccessException{
+		VMAdmin admin = get(adminId);
+		return deleteAdmin(admin);
+	}
+	
+	public Map deleteAdmin(VMAdmin admin) throws DataAccessException{
+		Integer code = Constant.RESULT_CODE_SUCCESS;
+		String msg = "删除成功！";
+		if (admin == null) {
+			code = Constant.RESULT_CODE_ERROR;
+			msg = "删除失败！已经不存在，";
+		} else {
+			remove(admin);
+		}
+
+		Map result = getReturnMap(msg, code);
+		return result;
+	}
+	
+	/** ------ 操作日志   ------ */
+	
+	/** 获取操作日志列表
+	 * @author lianzw
+	 * @param criteria
+	 * @param start
+	 * @param pageSize
+	 * @return
+	 */
+	public Map getAdminLogs(Map criteria, Integer start, Integer pageSize){
+		Map result = Maps.newHashMap();
+		List<Map> maps = new ArrayList<>();
+		List<VMAdminLog> logs = vmAdminLogDao.findBy(criteria, start, pageSize);
+		Integer count = 0;
+		if (ListUtils.isNotEmpty(logs)) {
+			for (VMAdminLog log : logs) {
+				Map map = getRecordMap(log, true);
+				maps.add(map);
+			}
+			try {
+				count = getRecordCount(criteria);
+			} catch (Exception e) {
+				count = logs.size();
+			}
+		}
+		result.put("results", logs);
+		result.put("totalCount", count);
+		result.put("start", start);
+		result.put("pageSize", pageSize);
+		return result;
+	}
+
+	/** 保存管理员操作日志
+	 * @author lianzw
+	 * @param adminId
+	 * @param module
+	 * @param method
+	 * @param describe
+	 * @return
+	 */
+	public Map saveAdminLog(Integer adminId, String module, String method, String describe,Integer logState,String errMsg){
+		VMAdmin admin = get(adminId);
+		VMAdminLog log = null;
+		if (admin != null) {
+			log = new VMAdminLog();
+			log.setAdminId(adminId);
+			log.setAdminName(admin.getAdminName());
+			log.setModule(module);
+			log.setMethod(method);
+			log.setDescribe(describe);
+			log.setLogTime(new Date());
+			log.setErrMsg(errMsg);
+			log.setLogState(logState);
+			log.setLogState(Constant.BASE_STATE);
+		}
+		return getRecordMap(log, true);
+	}
+	
+	public VMAdminDao getVmAdminDao() {
+		return vmAdminDao;
+	}
+
+	public void setVmAdminDao(VMAdminDao vmAdminDao) {
+		this.vmAdminDao = vmAdminDao;
+	}
+
+	public VMAdminLogDao getVmAdminLogDao() {
+		return vmAdminLogDao;
+	}
+
+	public void setVmAdminLogDao(VMAdminLogDao vmAdminLogDao) {
+		this.vmAdminLogDao = vmAdminLogDao;
+	}
+
+}

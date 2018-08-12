@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.AdminRole">
+	<typeAlias alias="AdminRole" type="cn.com.voge.gzvm.beans.AdminRole" />
+
+	<resultMap id="AdminRoleMap" class="AdminRole">
+		<result property="roleId" column="ROLE_ID" />
+		<result property="roleName" column="ROLE_NAME" />
+		<result property="roleCode" column="ROLE_CODE" />
+		<result property="dispIndex" column="DISP_INDEX" />
+		<result property="roleDescribe" column="ROLE_DESCRIBE" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_ADMIN_ROLE
+	</select>
+
+	<select id="select" resultMap="AdminRoleMap">
+		SELECT * FROM TB_ADMIN_ROLE
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				ROLE_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="AdminRoleMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="AdminRoleMap">
+		SELECT * FROM TB_ADMIN_ROLE
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="roleId">
+				ROLE_ID=#roleId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="roleName">
+				ROLE_NAME=#roleName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="roleCode">
+				ROLE_CODE=#roleCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="dispIndex">
+				DISP_INDEX=#dispIndex#
+			</isNotNull>
+			<isNotNull prepend="AND" property="roleDescribe">
+				ROLE_DESCRIBE=#roleDescribe#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+		</dynamic>
+		ORDER BY ROLE_ID
+	</select>
+
+	<insert id="insert" parameterClass="AdminRole">
+		<selectKey resultClass="int" keyProperty="roleId">
+			SELECT NEXTVAL('SQ_USER')
+		</selectKey>
+		INSERT INTO
+		TB_ADMIN_ROLE(ROLE_ID,ROLE_NAME,ROLE_CODE,DISP_INDEX,ROLE_DESCRIBE,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#roleId#,#roleName#,#roleCode#,#dispIndex#,#roleDescribe#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+
+	<delete id="delete" parameterClass="AdminRole">
+		DELETE FROM TB_ADMIN_ROLE WHERE
+		ROLE_ID=#roleId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_ADMIN_ROLE
+		WHERE ROLE_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_ADMIN_ROLE
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="roleId">
+				ROLE_ID=#roleId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="roleName">
+				ROLE_NAME=#roleName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="roleCode">
+				ROLE_CODE=#roleCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="dispIndex">
+				DISP_INDEX=#dispIndex#
+			</isNotNull>
+			<isNotNull prepend="AND" property="roleDescribe">
+				ROLE_DESCRIBE=#roleDescribe#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="AdminRole">
+		UPDATE TB_ADMIN_ROLE SET
+		ROLE_ID=#roleId#,ROLE_NAME=#roleName#,ROLE_CODE=#roleCode#,DISP_INDEX=#dispIndex#,ROLE_DESCRIBE=#roleDescribe#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE ROLE_ID=#roleId#
+	</update>
+
+</sqlMap>

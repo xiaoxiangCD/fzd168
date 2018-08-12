@@ -1,0 +1,163 @@
+
+.search_panel{
+	width:100%;
+	background-color:#e4e4e4;
+	border:solid 1px #ccc;
+	padding:20px 30px;
+	margin-bottom:20px;
+}
+.search_btn{
+	color:#fff !important;
+}
+/* 赛事列表 */
+.competition{
+	border:solid 1px #eee;
+	padding:20px;
+	margin:0 20px 10px 20px ;
+}
+.comptition_img{
+	width:100%;
+	height:auto;
+}
+.comptition_img img{
+	display:inline-block;
+	width:100%;
+	height:auto;
+}
+.comptition_text{
+	padding-left:20px;
+}
+.competition_title{
+	font-weight:bold;
+	font-size:16px;
+	margin:10px 0;
+}
+.competition_type p{
+	display:inline-block;
+	background-color:#333;
+	padding:5px 20px;
+	border-radius:2px;
+	margin-right:10px;
+	color:#fff;
+	font-size:12px;
+	margin:5px 0 ;
+}
+.competiton_date p,.competiton_adress p{
+	display:inline-block;
+	margin-right:10px;
+	margin:5px 0;
+}
+.competiton_date #date{
+	color:#ff9966;
+}
+.competition_dsc{
+	color:#ccc;
+	margin:5px 0;
+	line-height:18px;
+}
+.detail{
+	margin:10px 0;
+}
+
+/* 分页 */
+.page .M-box3{
+	float:right;
+	padding-right:20px;
+}
+
+/*垂直导航*/
+.float_l{
+	float:left;
+}
+.sub_nav{
+	float:left;
+	width:20%;
+	border:solid 1px #ccc;
+	height:600px;
+	background-color:#eee;
+}
+.basics{
+	height:130px;
+	padding:20px;
+	border-bottom:solid 1px #ccc;
+	background-color:#fff;
+}
+.basics > div{
+	display:inline-block;
+}
+.user_img{
+	width:80px;
+	height:80px;
+	border-radius:50%;
+}
+.user_img img{
+	display:inline-block;
+	width:100%;
+	height:100%;
+	border-radius:50%;
+}
+.user_infor{
+	vertical-align:bottom;
+	margin-left:20px;
+}
+.user_infor p{
+	margin-bottom:12px;
+}
+.user_name{
+	font-size:16px;
+}
+.user_detail span{
+	color:#ccc;
+	margin-right:20px;
+}
+.sub_type{
+	height:50px;
+	line-height:50px;
+	padding-left:40px;
+	border-bottom:solid 1px #ccc;
+}
+.detail_panel{
+	float:left;
+	margin-left:20px;
+	width:68%;
+}
+.detail_title{
+	height:60px;
+	line-height:60px;
+	border-bottom:solid 1px #eee;
+	margin-bottom:20px;
+	position:relative;
+}
+.detail_title p{
+	display:inline-block;
+}
+.detail_name{
+	font-size:20px;
+	padding:0 30px;
+}
+.detail_dsc{
+	color:#ccc;
+}
+.list{
+	bakground-color:#fff;
+	border:solid 1px #eee;
+}
+
+/*赛事筛选*/
+.state_search{
+	position:absolute;
+	right:20px;
+	top:13px;
+}
+.state_search select,.state_search input{
+	float:left;
+}
+.search_input{
+	display:inline-block;
+	width:210px;
+	height:34px;
+}
+.state_btn{
+	width:100px;
+	color:#fff;	
+}

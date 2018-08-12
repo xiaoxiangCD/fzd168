@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.SMBanner">
+	<typeAlias alias="SMBanner" type="cn.com.voge.gzvm.beans.SMBanner" />
+
+	<resultMap id="SMBannerMap" class="SMBanner">
+		<result property="bannerId" column="BANNER_ID" />
+		<result property="bannerName" column="BANNER_NAME" />
+		<result property="bannerLink" column="BANNER_LINK" />
+		<result property="dispIndex" column="DISP_INDEX" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_SM_BANNER
+	</select>
+
+	<select id="select" resultMap="SMBannerMap">
+		SELECT * FROM TB_SM_BANNER
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				BANNER_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY DISP_INDEX
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="SMBannerMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="SMBannerMap">
+		SELECT * FROM TB_SM_BANNER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="bannerId">
+				BANNER_ID=#bannerId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="bannerName">
+				BANNER_NAME=#bannerName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="bannerLink">
+				BANNER_LINK=#bannerLink#
+			</isNotNull>
+			<isNotNull prepend="AND" property="dispIndex">
+				DISP_INDEX=#dispIndex#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY DISP_INDEX
+	</select>
+
+	<insert id="insert" parameterClass="SMBanner">
+		<selectKey resultClass="int" keyProperty="bannerId">
+			SELECT NEXTVAL('SQ_SMS')
+		</selectKey>
+		INSERT INTO
+		TB_SM_BANNER(BANNER_ID,BANNER_NAME,BANNER_LINK,DISP_INDEX,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#bannerId#,#bannerName#,#bannerLink#,#dispIndex#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+	<delete id="delete" parameterClass="SMBanner">
+		DELETE FROM TB_SM_BANNER WHERE BANNER_ID=#bannerId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_SM_BANNER WHERE BANNER_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_SM_BANNER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="bannerId">
+				BANNER_ID=#bannerId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="bannerName">
+				BANNER_NAME=#bannerName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="bannerLink">
+				BANNER_LINK=#bannerLink#
+			</isNotNull>
+			<isNotNull prepend="AND" property="dispIndex">
+				DISP_INDEX=#dispIndex#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="SMBanner">
+		UPDATE TB_SM_BANNER SET
+		BANNER_NAME=#bannerName#,BANNER_LINK=#bannerLink#,DISP_INDEX=#dispIndex#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE BANNER_ID=#bannerId#
+	</update>
+	
+
+</sqlMap>

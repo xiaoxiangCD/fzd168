@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.Team">
+	<typeAlias alias="Team" type="cn.com.voge.gzvm.beans.Team" />
+
+	<resultMap id="TeamMap" class="Team">
+		<result property="teamId" column="TEAM_ID" />
+		<result property="competiId" column="COMPETI_ID" />
+		<result property="teamCode" column="TEAM_CODE" />
+		<result property="teamName" column="TEAM_NAME" />
+		<result property="teamType" column="TEAM_TYPE" />
+
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_TEAM
+	</select>
+
+	<select id="select" resultMap="TeamMap">
+		SELECT * FROM TB_TEAM
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				TEAM_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY TEAM_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="TeamMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="TeamMap">
+		SELECT * FROM TB_TEAM
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="teamId">
+				TEAM_ID=#teamId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="competiId">
+				COMPETI_ID=#competiId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="teamCode">
+				TEAM_CODE=#teamCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="teamName">
+				TEAM_NAME=#teamName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="teamType">
+				TEAM_TYPE=#teamType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY TEAM_ID
+	</select>
+
+	<insert id="insert" parameterClass="Team">
+		<selectKey resultClass="int" keyProperty="TEAM_ID">
+			SELECT NEXTVAL('SQ_USER')
+		</selectKey>
+		INSERT INTO
+		TB_TEAM(TEAM_ID,COMPETI_ID,TEAM_CODE,TEAM_NAME,TEAM_TYPE,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#teamId#,#competiId#,#teamCode#,#teamName#,#teamType#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+
+	<delete id="delete" parameterClass="Team">
+		DELETE FROM TB_TEAM WHERE TEAM_ID=#teamId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_TEAM WHERE TEAM_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_TEAM
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="teamId">
+				TEAM_ID=#teamId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="competiId">
+				COMPETI_ID=#competiId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="teamCode">
+				TEAM_CODE=#teamCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="teamName">
+				TEAM_NAME=#teamName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="teamType">
+				TEAM_TYPE=#teamType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+		</dynamic>
+	</delete>
+	
+	<update id="update" parameterClass="Team">
+		UPDATE TB_TEAM SET
+		TEAM_ID=#teamId#,COMPETI_ID=#competiId#,TEAM_CODE=#teamCode#,TEAM_NAME=#teamName#,TEAM_TYPE=#teamType#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE TEAM_ID=#teamId#
+	</update>
+
+</sqlMap>

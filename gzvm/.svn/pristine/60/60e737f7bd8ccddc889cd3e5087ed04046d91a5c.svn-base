@@ -1,0 +1,91 @@
+@CHARSET "UTF-8";
+
+
+.step{
+	background-color:#ffcc99;
+	height:50px;
+	line-height:50px;
+	font-size:18px;
+	color:#fff;
+}
+
+.hint{
+	font-size:20px;
+	color:#ff9966;
+	margin-bottom:50px;	
+}
+.infor{
+	bakground-color:#fff;
+	border:solid 1px #eee;
+}
+.btn{
+	color:#fff;
+	font-size:16px;
+	margin-bottom:50px;
+}
+.verify_text{
+	width:69%;
+}
+.verify_btn{
+	width:25%;
+	margin-left:4%;
+	border:none;
+	color:#fff;
+}
+.sub_btn{
+	margin-top:60px;
+	margin-bottom:200px;
+}
+
+.context_panel{
+	padding-top:160px;
+	padding-bottom:200px;
+}
+
+.pop_panel{
+	width:720px;
+	height:400px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-left:-360px;
+	margin-top:-200px;
+	background-color:#fff;
+	border:solid 1px #ccc;
+	 box-shadow: 5px 3px 10px rgba(0, 0, 0, 0.3) ;
+	 display:none;
+}
+.pop_top{
+	height:40px;
+	background-color:#666;
+}
+.pop_top p{
+	margin-left:20px;
+	height:40px;
+	line-height:40px;
+	color:#fff;
+}
+.pop_exit{
+	position:absolute;
+	right:10px;
+	top:14px;
+	cursor:pointer;
+}
+.pop_exit img{
+	width:12px;
+	height:12px;
+}
+.pop_content{
+	margin-top:80px;
+}
+.pop_hint{
+	display:inline-block;
+}
+.pop_btn{
+	width:320px;
+}
+.success_hint {
+	font-weight:bold;
+	font-size:20px;
+	margin-left:30px;
+}

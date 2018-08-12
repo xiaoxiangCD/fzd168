@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" cacheModelsEnabled="false" enhancementEnabled="true" lazyLoadingEnabled="true"/>
+    <typeHandler jdbcType="BLOB" javaType="java.io.InputStream" callback="com.voyageci.core.dao.support.BlobBinaryStreamTypeHandler"/>   
+    <typeHandler jdbcType="CLOB" javaType="string" callback="org.springframework.orm.ibatis.support.ClobStringTypeHandler"/> 
+   	<typeHandler jdbcType="INTEGER" javaType="boolean" callback="com.voyageci.core.dao.support.IntBoolTypeHandlerCallback"/>
+	
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/AdminToken.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/Attachment.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/BlackList.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/Competition.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/CompetitionInsurance.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/CompetitionPackage.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/Discount.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/Insurance.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/JoinCompetition.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/JoinInfo.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/JoinInfoDefine.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/JoinPhoto.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/OldUser.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/Package.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/PackageNumber.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/PackagePhoto.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/Sms.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/Team.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/TeamMember.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/User.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/UserCode.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/VMAdmin.xml"/>
+	<sqlMap resource="cn/com/voge/gzvm/beans/mapper/VMAdminLog.xml"/>
+</sqlMapConfig>
+

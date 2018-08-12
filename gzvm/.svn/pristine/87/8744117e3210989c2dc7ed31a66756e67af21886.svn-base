@@ -1,0 +1,65 @@
+@CHARSET "UTF-8";
+
+
+.step{
+	background-color:#ffcc99;
+	height:50px;
+	line-height:50px;
+	font-size:18px;
+	color:#fff;
+}
+.step_current{
+	background-color:#ff9966 !important;
+}
+.hint{
+	font-size:20px;
+	color:#ff9966;
+	margin-bottom:50px;	
+}
+.infor{
+	bakground-color:#fff;
+	border:solid 1px #eee;
+}
+.date{
+	height:34px;
+	width:28%;
+	margin-right:6%;
+}
+.date_left{
+	width:29% !important;
+}
+.date_right{
+	margin-right:0 !important;
+}
+.area{
+	height:68px;
+}
+.btn{
+	color:#fff;
+	font-size:16px;
+	margin-bottom:50px;
+}
+.verify_text{
+	width:69%;
+}
+.verify_btn{
+	width:25%;
+	margin-left:4%;
+	border:none;
+	color:#fff;
+}
+.sub_btn{
+	margin-top:60px;
+	margin-bottom:200px;
+}
+.success_hint {
+	font-weight:bold;
+	font-size:20px;
+}
+.hint_img{
+	width:80px;
+	height:80px;
+}
+.hint_panel{
+	padding-top:160px;
+}

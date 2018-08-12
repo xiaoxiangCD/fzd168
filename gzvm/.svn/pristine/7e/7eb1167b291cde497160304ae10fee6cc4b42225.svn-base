@@ -1,0 +1,82 @@
+
+.sign_btn{
+	color:#fff !important;
+	width:30%;
+}
+
+
+/*title*/
+.detail_title{
+	height:50px;
+	line-height:50px;
+	border:solid 1px #eee;
+	margin:20px 0;
+	position:relative;
+}
+.detail_title p{
+	display:inline-block;
+}
+.detail_name{
+	font-size:20px;
+	padding:0 30px;
+}
+.order_detail{
+	position:absolute;
+	right:20px;
+	top:0px;
+}
+/*内容*/
+.pay_content{
+	border:solid 1px #eee;
+	height:630px;                                                                                        
+}
+.price_panel{
+	height:180px;
+	background-color:#fff;
+	margin-left:12%;
+}
+.price_panel div{
+	display:inline-block;
+}
+
+.qrcode_panel{
+	height:450px;
+	background-color:#00a13a;
+}
+.pay_icon{
+	display:inline-block;
+	margin-top:15px;
+	float:left;
+}
+.pay_icon img{
+	display:inline-block;
+	height:140px;
+	width:auto;
+}
+.pay_price{
+	float:left;
+}
+.pay_price p{
+	height:180px;
+	line-height:180px;
+}
+.price{
+	margin-left:40px;
+	color:#ff3600;
+	font-size:40px;
+	font-weight:bold;
+	margin-right:10px;
+}
+.qrcode_panel{
+	padding:100px 0;
+}
+.qrcode img{
+	height:200px;
+	line-height:200px;
+}
+.qrcode_dsc{
+	color:#ccc;
+	width:200px;
+	text-align:center;
+	margin-top:30px;
+}

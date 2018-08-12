@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.WXApiToken">
+<typeAlias alias="WXApiToken" type="cn.com.voge.gzvm.beans.WXApiToken"/>
+
+<resultMap id="WXApiTokenMap" class="WXApiToken">
+	<result property="tokenId" column="TOKEN_ID"/>
+	<result property="token" column="TOKEN"/>
+	<result property="tokenType" column="TOKEN_TYPE"/>
+	<result property="updateTime" column="UPDATE_TIME"/>
+	<result property="expiresTime" column="EXPIRES_TIME"/>
+	
+	<result property="versionNum" column="VER_NUM" nullValue="0"/>
+	<result property="instanceId" column="INSTANCE_ID" nullValue="0"/>
+	<result property="state" column="STATE" nullValue="0"/>
+	<result property="createUser" column="CREATE_USER" nullValue="0"/>
+	<result property="createDate" column="CREATE_DATE" javaType="date"/>
+</resultMap>
+
+<select id="count" resultClass="int">
+	SELECT count(*) FROM TB_WX_TOKEN
+</select>
+
+<select id="select" resultMap="WXApiTokenMap">
+	SELECT * FROM TB_WX_TOKEN
+	<dynamic prepend="WHERE">
+		<isParameterPresent>
+			TOKEN_ID=#value#
+		</isParameterPresent>
+	</dynamic>
+	ORDER BY INSTANCE_ID,TOKEN_ID
+</select>
+
+<select id="selectBySql" parameterClass="string" resultMap="WXApiTokenMap">
+	$value$
+</select>
+
+<select id="selectByMap" parameterClass="map" resultMap="WXApiTokenMap">
+	SELECT * FROM TB_WX_TOKEN X
+	<dynamic prepend="WHERE">
+		<isNotNull prepend="AND" property="instanceId">
+			INSTANCE_ID=#instanceId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="tokenId">
+			TOKEN_ID=#tokenId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="token">
+			TOKEN=#token#
+		</isNotNull>
+		<isNotNull prepend="AND" property="tokenType">
+			TOKEN_TYPE=#tokenType#
+		</isNotNull>
+		<isNotNull prepend="AND" property="updateTime">
+			UPDATE_TIME=#updateTime#
+		</isNotNull>
+		<isNotNull prepend="AND" property="state">
+			(STATE  &amp; #state#) >0
+		</isNotNull>
+		<isNotNull prepend="AND" property="authoritySQL">
+			$authoritySQL$
+		</isNotNull>
+	</dynamic>
+	ORDER BY INSTANCE_ID,TOKEN_ID
+</select>
+
+<insert id="insert" parameterClass="WXApiToken">
+	<selectKey resultClass="int" keyProperty="tokenId" >   
+     SELECT NEXTVAL('SQ_WX_TOKEN')   
+   	</selectKey>
+	INSERT INTO TB_WX_TOKEN(TOKEN_ID,TOKEN,TOKEN_TYPE,UPDATE_TIME,EXPIRES_TIME,
+	    VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+	VALUES(#tokenId#,#token#,#tokenType#,#updateTime#,#expiresTime#,
+	    #versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+</insert>
+
+<delete id="delete" parameterClass="WXApiToken">
+	DELETE FROM TB_WX_TOKEN WHERE TOKEN_ID=#tokenId#
+</delete>
+
+<delete id="deleteByPK" parameterClass="int">
+	DELETE FROM TB_WX_TOKEN WHERE TOKEN_ID=#value#
+</delete>
+
+<delete id="deleteByMap" parameterClass="map">
+	DELETE FROM TB_WX_TOKEN
+	<dynamic prepend="WHERE">
+		<isNotNull prepend="AND" property="instanceId">
+			INSTANCE_ID=#instanceId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="tokenId">
+			TOKEN_ID=#tokenId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="token">
+			TOKEN=#token#
+		</isNotNull>
+		<isNotNull prepend="AND" property="tokenType">
+			TOKEN_TYPE=#tokenType#
+		</isNotNull>
+		<isNotNull prepend="AND" property="updateTime">
+			UPDATE_TIME=#updateTime#
+		</isNotNull>
+		<isNotNull prepend="AND" property="tokenType">
+			TOKEN_TYPE=#tokenType#
+		</isNotNull>
+		<isNotNull prepend="AND" property="state">
+			(STATE  &amp; #state#) >0
+		</isNotNull>
+		<isNotNull prepend="AND" property="authoritySQL">
+			$authoritySQL$
+		</isNotNull>
+	</dynamic>
+</delete>
+
+<update id="update" parameterClass="WXApiToken">
+	UPDATE TB_WX_TOKEN SET TOKEN=#token#,TOKEN_TYPE=#tokenType#,UPDATE_TIME=#updateTime#,EXPIRES_TIME=#expiresTime#,
+	  	VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+	WHERE TOKEN_ID=#tokenId#
+</update>
+
+</sqlMap>

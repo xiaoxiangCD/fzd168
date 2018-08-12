@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.User">
+	<typeAlias alias="User" type="cn.com.voge.gzvm.beans.User" />
+
+	<resultMap id="UserMap" class="User">
+		<result property="userId" column="USER_ID" />
+		<result property="nickname" column="NICKNAME" />
+		<result property="openid" column="OPENID" />
+		<result property="userType" column="USER_TYPE" />
+		<result property="userName" column="USER_NAME" />
+		<result property="idCard" column="ID_CARD" />
+		<result property="idType" column="ID_TYPE" />
+        <result property="mobile" column="MOBILE" />
+        <result property="password" column="PASSWORD" /> 
+        <result property="headimgurl" column="HEADIMGURL" /> 
+        <result property="age" column="AGE" /> 
+        <result property="sex" column="SEX" /> 
+        <result property="stature" column="STATURE" />
+        <result property="weight" column="WEIGHT" />
+        <result property="size" column="SIZE" />
+        <result property="profession" column="PROFESSION" />
+        <result property="city" column="CITY" />
+        <result property="addr" column="ADDR" />
+        <result property="maiBox" column="MAI_BOX" />
+        <result property="contactName" column="CONTACT_NAME" />
+        <result property="contactNumber" column="CONTACT_NUMBER" /> 
+         
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_USER
+	</select>
+
+	<select id="select" resultMap="UserMap">
+		SELECT * FROM TB_USER
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				USER_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY USER_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="UserMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="UserMap">
+		SELECT * FROM TB_USER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="nickname">
+				NICKNAME=#nickname#
+			</isNotNull>
+			<isNotNull prepend="AND" property="maiBox">
+				MAI_BOX=#maiBox#
+			</isNotNull>
+			<isNotNull prepend="AND" property="openid">
+				OPENID=#openid#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userType">
+				USER_TYPE=#userType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userName">
+				USER_NAME=#userName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="idCard">
+				ID_CARD=#idCard#
+			</isNotNull>
+			<isNotNull prepend="AND" property="idType">
+				ID_TYPE=#idType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="mobile">
+				MOBILE=#mobile# OR ID_CARD=#mobile#
+			</isNotNull>
+			<isNotNull prepend="AND" property="password">
+				PASSWORD=#password#
+			</isNotNull>
+			<isNotNull prepend="AND" property="headimgurl">
+				HEADIMGURL=#headimgurl#
+			</isNotNull>
+			<isNotNull prepend="AND" property="age">
+				AGE=#age#
+			</isNotNull>
+			<isNotNull prepend="AND" property="sex">
+				SEX=#sex#
+			</isNotNull>
+			<isNotNull prepend="AND" property="stature">
+				STATURE=#stature#
+			</isNotNull>
+			<isNotNull prepend="AND" property="weight">
+				WEIGHT=#weight#
+			</isNotNull>
+			<isNotNull prepend="AND" property="size">
+				SIZE=#size#
+			</isNotNull>
+			<isNotNull prepend="AND" property="profession">
+				PROFESSION=#profession#
+			</isNotNull>
+			<isNotNull prepend="AND" property="city">
+				CITY=#city#
+			</isNotNull>
+			<isNotNull prepend="AND" property="addr">
+				ADDR=#addr#
+			</isNotNull>
+			<isNotNull prepend="AND" property="contactName">
+				CONTACT_NAME=#contactName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="contactNumber">
+				CONTACT_NUMBER=#contactNumber#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY USER_ID
+	</select>
+
+	<insert id="insert" parameterClass="User">
+		<selectKey resultClass="int" keyProperty="userId">
+			SELECT NEXTVAL('SQ_USER')
+		</selectKey>
+		INSERT INTO
+		TB_USER(USER_ID,NICKNAME,OPENID,USER_TYPE,USER_NAME,ID_CARD,ID_TYPE,MOBILE,PASSWORD,HEADIMGURL,
+		AGE,SEX,STATURE,WEIGHT,SIZE,PROFESSION,CITY,ADDR,CONTACT_NAME,CONTACT_NUMBER,MAI_BOX,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#userId#,#nickname#,#openid#,#userType#,#userName#,#idCard#,#idType#,#mobile#,#password#,#headimgurl#,
+		#age#,#sex#,#stature#,#weight#,#size#,#profession#,#city#,#addr#,#contactName#,#contactNumber#,#maiBox#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+
+	<delete id="delete" parameterClass="User">
+		DELETE FROM TB_USER WHERE USER_ID=#userId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_USER WHERE USER_ID=#userId#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_USER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="nickname">
+				NICKNAME=#nickname#
+			</isNotNull>
+			<isNotNull prepend="AND" property="openid">
+				OPENID=#openid#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userType">
+				USER_TYPE=#userType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userName">
+				USER_NAME=#userName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="idCard">
+				ID_CARD=#idCard#
+			</isNotNull>
+			<isNotNull prepend="AND" property="idType">
+				ID_TYPE=#idType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="mobile">
+				MOBILE=#mobile#
+			</isNotNull>
+			<isNotNull prepend="AND" property="password">
+				PASSWORD=#password#
+			</isNotNull>
+			<isNotNull prepend="AND" property="headimgurl">
+				HEADIMGURL=#headimgurl#
+			</isNotNull>
+			<isNotNull prepend="AND" property="age">
+				AGE=#age#
+			</isNotNull>
+			<isNotNull prepend="AND" property="sex">
+				SEX=#sex#
+			</isNotNull>
+			<isNotNull prepend="AND" property="stature">
+				STATURE=#stature#
+			</isNotNull>
+			<isNotNull prepend="AND" property="weight">
+				WEIGHT=#weight#
+			</isNotNull>
+			<isNotNull prepend="AND" property="size">
+				SIZE=#size#
+			</isNotNull>
+			<isNotNull prepend="AND" property="profession">
+				PROFESSION=#profession#
+			</isNotNull>
+			<isNotNull prepend="AND" property="city">
+				CITY=#city#
+			</isNotNull>
+			<isNotNull prepend="AND" property="addr">
+				ADDR=#addr#
+			</isNotNull>
+			<isNotNull prepend="AND" property="maiBox">
+				MAI_BOX=#maiBox#
+			</isNotNull>
+			<isNotNull prepend="AND" property="contactName">
+				CONTACT_NAME=#contactName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="contactNumber">
+				CONTACT_NUMBER=#contactNumber#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+		</dynamic>
+	</delete>
+	
+		
+	<update id="update" parameterClass="User">
+		UPDATE TB_USER SET
+		USER_ID=#userId#,NICKNAME=#nickname#,OPENID=#openid#,USER_TYPE=#userType#,USER_NAME=#userName#,ID_CARD=#idCard#,
+		ID_TYPE=#idType#,MOBILE=#mobile#,PASSWORD=#password#,HEADIMGURL=#headimgurl#,AGE=#age#,SEX=#sex#,
+		STATURE=#stature#,WEIGHT=#weight#,SIZE=#size#,PROFESSION=#profession#,CITY=#city#,ADDR=#addr#,CONTACT_NAME=#contactName#,CONTACT_NUMBER=#contactNumber#,MAI_BOX=#maiBox#,    
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE USER_ID=#userId#
+	</update>
+
+</sqlMap>

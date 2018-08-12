@@ -1,0 +1,41 @@
+
+/*containerÑùÊ½*/
+#container{
+	background:#FEF8B6;
+}
+
+#container .login_panel{
+	height:100%;
+}
+
+#container .edit_panel{
+	position:relative;height:100%;
+}
+
+#container .login_space{
+	width:350px;height:350px;background:#FFF;border-radius:10px;margin-left:-175px;margin-top:-175px;position: absolute;left:50%;top:50%;
+}
+
+#container .login_row{
+	margin:30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

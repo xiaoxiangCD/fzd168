@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.VMAdminLog">
+	<typeAlias alias="VMAdminLog" type="cn.com.voge.gzvm.beans.VMAdminLog" />
+
+	<resultMap id="VMAdminLogMap" class="VMAdminLog">
+		<result property="logId" column="LOG_ID" />
+		<result property="logTime" column="LOG_TIME" />
+		<result property="adminId" column="ADMIN_ID" />
+		<result property="adminName" column="ADMIN_NAME" />
+		<result property="module" column="MODULE" />
+		<result property="method" column="METHOD" />
+		<result property="describe" column="DESCRIBE" />
+		<result property="logState" column="LOG_STATE" />
+		<result property="errMsg" column="ERR_MSG" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_VM_ADMIN
+	</select>
+
+	<select id="select" resultMap="VMAdminLogMap">
+		SELECT * FROM TB_VM_ADMIN
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				LAN_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY LOG_TIME DESC
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="VMAdminLogMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="VMAdminLogMap">
+		SELECT * FROM TB_VM_ADMIN
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="logId">
+				LOG_ID=#logId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="logTime">
+				LOG_TIME=#logTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminId">
+				ADMIN_ID=#adminId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminName">
+				ADMIN_NAME=#adminName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="module">
+				MODULE=#module#
+			</isNotNull>
+			<isNotNull prepend="AND" property="method">
+				METHOD=#method#
+			</isNotNull>
+			<isNotNull prepend="AND" property="describe">
+				DESCRIBE=#describe#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY LOG_TIME DESC
+	</select>
+
+	<insert id="insert" parameterClass="VMAdminLog">
+		<selectKey resultClass="int" keyProperty="logId">
+			SELECT NEXTVAL('SQ_WXUSER')
+		</selectKey>
+		INSERT INTO TB_VM_ADMIN(LOG_ID,ADMIN_ID,ADMIN_NAME,MODULE,METHOD,DESCRIBE,LOG_TIME,LOG_STATE,ERR_MSG,
+			VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#logId#,#adminId#,#adminName#,#module#,#method#,#describe#,#logTime#,#logState#,#errMsg#,
+			#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+
+	<delete id="delete" parameterClass="VMAdminLog">
+		DELETE FROM TB_VM_ADMIN WHERE LOG_ID=#logId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_VM_ADMIN WHERE LOG_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_VM_ADMIN
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="logId">
+				LOG_ID=#logId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="logTime">
+				LOG_TIME=#logTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminId">
+				ADMIN_ID=#adminId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminName">
+				ADMIN_NAME=#adminName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="module">
+				MODULE=#module#
+			</isNotNull>
+			<isNotNull prepend="AND" property="method">
+				METHOD=#method#
+			</isNotNull>
+			<isNotNull prepend="AND" property="describe">
+				DESCRIBE=#describe#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="VMAdminLog">
+		UPDATE TB_VM_ADMIN SET
+			ADMIN_ID=#adminId#,ADMIN_NAME=#adminName#,MODULE=#module#,METHOD=#method#,
+			DESCRIBE=#describe#,LOG_TIME=#logTime#,LOG_STATE=#logState#,ERR_MSG=#errMsg#,
+			VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE LOG_ID=#logId#
+	</update>
+	
+
+</sqlMap>

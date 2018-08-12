@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName" default-lazy-init="true">
+	<bean id="securityHandler" class="cn.com.voge.actor.security.DefaultSecurityHandler">
+			<property name="clustered" value="false"/>
+			<property name="defaultLoginPage" value="/auth.action"/>
+			<property name="vogeHome" value="${VOGE_HOME}"/>
+			<property name="homeKey" value="VOGE_HOME"/>
+			<property name="spiderUrl" value="${spider_url}"/>
+			<property name="lenFromFile" value="${len_from_file}"/>
+			<property name="customerName" value="${customer_name}"/>
+			<property name="needLogin" value="${needLogin}"/>
+	</bean>
+	<bean id="authenticator" class="cn.com.voge.actor.security.authentication.AuthenticatorLocalImpl">
+		<property name="authUser" value="10"/>
+		<property name="authPwd" value="Encode"/>
+	</bean>
+	<bean id="logService" class="cn.com.voge.actor.log.LogService"/>
+</beans>

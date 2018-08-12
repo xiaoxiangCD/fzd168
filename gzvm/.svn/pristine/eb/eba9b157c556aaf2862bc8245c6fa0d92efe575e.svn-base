@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.Sms">
+	<typeAlias alias="Sms" type="cn.com.voge.gzvm.beans.Sms" />
+
+	<resultMap id="SmsMap" class="Sms">
+		<result property="smsId" column="SMS_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="mobile" column="MOBILE" />
+		<result property="content" column="CONTENT" />
+		<result property="authCode" column="AUTHCODE" />
+		<result property="usefulLife" column="USEFUL_LIFE" />
+		<result property="sendTime" column="SEND_TIME" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_SM_SMS
+	</select>
+
+	<select id="select" resultMap="SmsMap">
+		SELECT * FROM TB_SM_SMS
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				LAN_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY SMS_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="SmsMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="SmsMap">
+		SELECT * FROM TB_SM_SMS
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="smsId">
+				SMS_ID=#smsId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="mobile">
+				MOBILE=#mobile#
+			</isNotNull>
+			<isNotNull prepend="AND" property="content">
+				CONTENT=#content#
+			</isNotNull>
+			<isNotNull prepend="AND" property="authCode">
+				AUTHCODE=#authCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="usefulLife">
+				USEFUL_LIFE=#usefulLife#
+			</isNotNull>
+			<isNotNull prepend="AND" property="sendTime">
+				SEND_TIME=#sendTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY SMS_ID
+	</select>
+
+	<insert id="insert" parameterClass="Sms">
+		<selectKey resultClass="int" keyProperty="smsId">
+			SELECT NEXTVAL('SQ_SMS')
+		</selectKey>
+		INSERT INTO
+		TB_SM_SMS(SMS_ID,MOBILE,CONTENT,AUTHCODE,USEFUL_LIFE,SEND_TIME,USER_ID,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#smsId#,#mobile#,#content#,#authCode#,#usefulLife#,#sendTime#,#userId#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+	<delete id="delete" parameterClass="Sms">
+		DELETE FROM TB_SM_SMS WHERE SMS_ID=#smsId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_SM_SMS WHERE SMS_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_SM_SMS
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="smsId">
+				SMS_ID=#smsId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="mobile">
+				MOBILE=#mobile#
+			</isNotNull>
+			<isNotNull prepend="AND" property="content">
+				CONTENT=#content#
+			</isNotNull>
+			<isNotNull prepend="AND" property="authCode">
+				AUTHCODE=#authCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="usefulLife">
+				USEFUL_LIFE=#usefulLife#
+			</isNotNull>
+			<isNotNull prepend="AND" property="sendTime">
+				SEND_TIME=#sendTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="Sms">
+		UPDATE TB_SM_SMS SET
+			MOBILE=#mobile#,CONTENT=#content#,AUTHCODE=#authCode#,USEFUL_LIFE=#usefulLife#,SEND_TIME=#sendTime#,USER_ID=#userId#,
+			VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE SMS_ID=#smsId#
+	</update>
+	
+
+</sqlMap>

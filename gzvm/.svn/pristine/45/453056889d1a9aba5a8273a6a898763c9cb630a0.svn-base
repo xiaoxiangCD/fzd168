@@ -1,0 +1,126 @@
+package cn.com.voge.gzvm.manager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.dao.DataAccessException;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.beans.Competition;
+import cn.com.voge.gzvm.dao.CompetitionDao;
+
+import com.google.gxp.com.google.common.collect.Maps;
+import com.voyageci.core.manage.AbstractEntityManage;
+import com.voyageci.tools.utils.BeanUtils;
+import com.voyageci.tools.utils.ListUtils;
+
+
+@SuppressWarnings({"rawtypes","unchecked"})
+public class CompetitionManager extends AbstractEntityManage<Competition, CompetitionDao> {
+
+	private CompetitionDao competitionDao;
+
+	@Override
+	public Map getRecordDetail(Competition object) throws DataAccessException {
+		Map record = super.getRecordDetail(object);
+		return record;
+	}
+	
+	/** 获取管理员列表
+	 * @author lianzw
+	 * @param criteria
+	 * @param start
+	 * @param pageSize
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map getCompetitions(Map criteria,Integer start, Integer pageSize) throws DataAccessException{
+		Map result = Maps.newHashMap();
+		List<Map> maps = new ArrayList<>();
+		List<Competition> cpts = findBy(criteria, start, pageSize);
+		Integer count = 0;
+		if (ListUtils.isNotEmpty(cpts)) {
+			for (Competition vmCompetition : cpts) {
+				Map map = getRecordDetail(vmCompetition);
+				maps.add(map);
+			}
+			try {
+				count = getRecordCount(criteria);
+			} catch (Exception e) {
+				count = cpts.size();
+			}
+		}
+		result.put("results", cpts);
+		result.put("totalCount", count);
+		result.put("start", start);
+		result.put("pageSize", pageSize);
+		return result;
+	}
+	
+	/** 新增或更新管理员信息
+	 * @author lianzw
+	 * @param values
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map saveCompetition(Map values) throws DataAccessException{
+		Integer cptId = getIntValue(values, "cptId");
+		int oper = Constant.OPER_UPDATE;
+		Competition cpt = null;
+		if (cptId > 0) {
+			cpt = get(cptId);
+		}
+		if (cpt == null) {
+			oper = Constant.OPER_INSTER;
+			cpt = new Competition();
+			cpt.setState(Constant.BASE_STATE);
+		}
+		try {
+			BeanUtils.copyProperties(cpt, values);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (oper == Constant.OPER_INSTER) {
+			insert(cpt);
+		}else{
+			update(cpt);
+		}
+		Map record = getRecordDetail(cpt);
+		return record;
+	}
+	
+	/** 删除管理员
+	 * @author lianzw
+	 * @param cptId
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map deleteCompetition(Integer cptId) throws DataAccessException{
+		Competition cpt = get(cptId);
+		return deleteCompetition(cpt);
+	}
+	
+	public Map deleteCompetition(Competition cpt) throws DataAccessException{
+		Integer code = Constant.RESULT_CODE_SUCCESS;
+		String msg = "删除成功！";
+		if (cpt == null) {
+			code = Constant.RESULT_CODE_ERROR;
+			msg = "删除失败！已经不存在，";
+		} else {
+			remove(cpt);
+		}
+
+		Map result = getReturnMap(msg, code);
+		return result;
+	}
+
+	public CompetitionDao getCompetitionDao() {
+		return competitionDao;
+	}
+
+	public void setCompetitionDao(CompetitionDao competitionDao) {
+		this.competitionDao = competitionDao;
+	}
+
+}

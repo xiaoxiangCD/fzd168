@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.OrderProduct">
+	<typeAlias alias="OrderProduct" type="cn.com.voge.gzvm.beans.OrderProduct" />
+
+	<resultMap id="OrderProductMap" class="OrderProduct">
+		<result property="proId" column="PRO_ID" />
+		<result property="relaId" column="RELA_ID" />
+		<result property="packageId" column="PACKAGE_ID" />
+		<result property="productId" column="PRODUCT_ID" />
+		<result property="productName" column="PRODUCT_NAME" />
+		<result property="count" column="COUNT"/>
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="productName" resultClass="int">
+		SELECT productName(*) FROM TB_ORDER_PRODUCT
+	</select>
+
+	<select id="select" resultMap="OrderProductMap">
+		SELECT * FROM TB_ORDER_PRODUCT
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				PRO_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY PRO_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="OrderProductMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="OrderProductMap">
+		SELECT * FROM TB_ORDER_PRODUCT
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="proId">
+				PRO_ID=#proId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="relaId">
+				RELA_ID=#relaId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="packageId">
+				PACKAGE_ID=#packageId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="productId">
+				PRODUCT_ID=#productId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="productName">
+				PRODUCT_NAME=#productName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="count">
+				COUNT=#count#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY PRO_ID
+	</select>
+
+	<insert id="insert" parameterClass="OrderProduct">
+		<selectKey resultClass="int" keyProperty="proId">
+			SELECT NEXTVAL('SQ_ORDER')
+		</selectKey>
+		INSERT INTO
+		TB_ORDER_PRODUCT(PRO_ID,RELA_ID,PACKAGE_ID,PRODUCT_ID,PRODUCT_NAME,COUNT,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#proId#,#relaId#,#packageId#,#productId#,#productName#,#count#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+	<delete id="delete" parameterClass="OrderProduct">
+		DELETE FROM TB_ORDER_PRODUCT WHERE PRO_ID=#proId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_ORDER_PRODUCT WHERE PRO_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_ORDER_PRODUCT
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="proId">
+				PRO_ID=#proId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="relaId">
+				RELA_ID=#relaId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="packageId">
+				PACKAGE_ID=#packageId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="productId">
+				PRODUCT_ID=#productId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="productName">
+				PRODUCT_NAME=#productName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="count">
+				COUNT=#count#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="OrderProduct">
+		UPDATE TB_ORDER_PRODUCT SET
+			RELA_ID=#relaId#,PACKAGE_ID=#packageId#,PRODUCT_ID=#productId#,PRODUCT_NAME=#productName#,COUNT=#count#,
+			VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE PRO_ID=#proId#
+	</update>
+	
+
+</sqlMap>

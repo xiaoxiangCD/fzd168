@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.JoinCompetition">
+	<typeAlias alias="JoinCompetition" type="cn.com.voge.gzvm.beans.JoinCompetition" />
+
+	<resultMap id="JoinCompetitionMap" class="JoinCompetition">
+		<result property="joinId" column="JOIN_ID" />
+		<result property="joinState" column="JOIN_STATE" />
+		<result property="competiId" column="COMPETI_ID" />
+		<result property="adminName" column="GROUP_TYPE" />
+		<result property="ownerId" column="OWNER_ID" />
+		<result property="joinType" column="JOIN_TYPE" />
+		<result property="payState" column="PAY_STATE" />
+		<result property="joinTime" column="JOIN_TIME" javaType="date" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_JOIN_COMPETITION
+	</select>
+
+	<select id="select" resultMap="JoinCompetitionMap">
+		SELECT * FROM TB_JOIN_COMPETITION
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				LAN_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY JOIN_TIME
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="JoinCompetitionMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="JoinCompetitionMap">
+		SELECT * FROM TB_JOIN_COMPETITION
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="joinId">
+				JOIN_ID=#joinId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinState">
+				JOIN_STATE=#joinState#
+			</isNotNull>
+			<isNotNull prepend="AND" property="competiId">
+				COMPETI_ID=#competiId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminName">
+				GROUP_TYPE=#adminName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="ownerId">
+				OWNER_ID=#ownerId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinType">
+				JOIN_TYPE=#joinType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="payState">
+				PAY_STATE=#payState#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY JOIN_TIME
+	</select>
+
+	<insert id="insert" parameterClass="JoinCompetition">
+		<selectKey resultClass="int" keyProperty="joinId">
+			SELECT NEXTVAL('SQ_WXUSER')
+		</selectKey>
+		INSERT INTO TB_JOIN_COMPETITION(JOIN_ID,COMPETI_ID,GROUP_TYPE,OWNER_ID,JOIN_TYPE,PAY_STATE,JOIN_STATE,JOIN_TIME,
+			VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#joinId#,#competiId#,#adminName#,#ownerId#,#joinType#,#payState#,#joinState#,#joinTime#,
+			#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+
+	<delete id="delete" parameterClass="JoinCompetition">
+		DELETE FROM TB_JOIN_COMPETITION WHERE JOIN_ID=#joinId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_JOIN_COMPETITION WHERE JOIN_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_JOIN_COMPETITION
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="joinId">
+				JOIN_ID=#joinId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinState">
+				JOIN_STATE=#joinState#
+			</isNotNull>
+			<isNotNull prepend="AND" property="competiId">
+				COMPETI_ID=#competiId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="adminName">
+				GROUP_TYPE=#adminName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="ownerId">
+				OWNER_ID=#ownerId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinType">
+				JOIN_TYPE=#joinType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="payState">
+				PAY_STATE=#payState#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="JoinCompetition">
+		UPDATE TB_JOIN_COMPETITION SET
+			COMPETI_ID=#competiId#,GROUP_TYPE=#adminName#,OWNER_ID=#ownerId#,JOIN_TYPE=#joinType#,
+			PAY_STATE=#payState#,JOIN_STATE=#joinState#,JOIN_TIME=#joinTime#,
+			VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE JOIN_ID=#joinId#
+	</update>
+	
+
+</sqlMap>

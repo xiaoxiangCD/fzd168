@@ -1,0 +1,87 @@
+.add_panel{
+	width:100%;overflow:hidden;overflow-y:auto;
+}
+
+.add_row{
+	margin: 14px 0;
+}
+
+.last_row{
+	padding-bottom:15px;
+	margin:30px 15px;
+	border-bottom:2px solid #999;
+}
+
+.panel_title{
+	text-align: left;padding: 10px;
+}
+
+.panel_edit{
+	text-align: left;padding:3px 5px;
+}
+
+.panel_name{
+	color:#0099FF;
+	font-size:15px;
+}
+
+.edit_btn{
+	padding:3px 15px;
+}
+
+.face_img{
+	height:80px;border:1px solid #EEE;
+}
+
+.edit_img_btn{
+	margin-top:20px;
+}
+
+.edit_sure{
+	background:#0099FF;
+	color:#FFFFFF;
+	padding:3px 25px;
+}
+
+.edit_cancel{
+	background:#FFFFFF;
+	color:#999999;
+	border:1px solid #DDD;
+	padding:3px 25px;
+}
+
+/*2*/
+.new_command{
+	display:block;
+	color:#0099FF;
+	border:1px solid #0099FF;
+	padding:2px 4px;
+	margin-top: 7px;
+}
+
+.new_command:hover{
+	color:#0099FF;
+	border:1px solid #0099FF;
+}
+
+.del_command{
+	margin-top:4px;
+}
+
+.choice_file{
+	padding:5px 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+.text_box{
+	width:80%;
+	height:34px !important;
+}
+.textbox{
+	width:85% !important;
+}
+
+
+
+
+
+

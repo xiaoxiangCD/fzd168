@@ -1,0 +1,88 @@
+var Pheight = '';
+var competiId="";
+$().ready(function() { 
+	console.log($('#container').height());
+	console.log($('.ctrl_panel').height());
+	Pheight = $('#container').height() - ($('.ctrl_panel').height() + 40);
+	$(".add_panel").height(Pheight+'px');
+})
+
+
+function saveCompet(){
+	var competiName= $("#competiName").val();
+	var level=$("#level").val();
+	var groupType=$("#groupType").val();
+	var peopleNum=$("#peopleNum").val();
+	var city=$("#city").val();
+	var startTime=$("#startTime").val();
+	var joinStartTime=$("#joinStartTime").val();
+	var joinEndTime=$("#joinEndTime").val();
+	var joinType=$("#joinType").val();
+	var chargeType=$("#chargeType").val();
+	var addr=$("#addr").val();
+	
+	var url = '/gzvm/competi!saveCompeti.action';
+	var data = {
+			competiName : competiName,
+			level : level,
+			groupType : groupType,
+			peopleNum : peopleNum,
+			city : city,
+			startTime : startTime,
+			joinStartTime : joinStartTime,
+			joinEndTime : joinEndTime,
+			joinType : joinType,
+			chargeType : chargeType,
+			addr:addr,
+	};
+	$.ajax({
+				url : url,
+				data : data,
+				dataType : 'json',
+				type : 'post',
+				success : function(result) {
+					competiId=result.competiId;
+					swal( result.resultMsg);
+				},
+				failure : function(result) {
+					swal("请求失败!", result.resultMsg);
+				}
+			});
+}
+
+function saveDiscount(){
+	var password=$("#password").val();
+	var discount=$("#discount").val();
+	var discountNum=$("#discountNum").val();
+	var url = '/gzvm/competi!saveDiscount.action';
+	var data = {
+			competiId : competiId,
+			password : password,
+			discount : discount,
+			discountNum : discountNum,
+	};
+	$.ajax({
+				url : url,
+				data : data,
+				dataType : 'json',
+				type : 'post',
+				success : function(result) {
+					swal( result.resultMsg);
+				},
+				failure : function(result) {
+					swal("请求失败!", result.resultMsg);
+				}
+			});
+}
+
+
+function changeJoinType(){
+	var joinType=$("#joinType").val();
+	if(joinType==1){
+//		预报名
+		$("#chargeType").html('<option value="" >--请选择--</option> <option value="1" >预报名收费</option> <option value="2" >中签收费</option> <option value="3" >中签不收费</option>');
+	}else{
+//		直接报名
+		$("#chargeType").html('<option value="" >--请选择--</option> <option value="1" >报名收费</option> <option value="2" >报名不收费</option>');
+	}
+}

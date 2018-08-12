@@ -1,0 +1,8 @@
+package cn.com.voge.gzvm.service;
+
+import com.voyageci.core.service.BaseService;
+
+public class UserService extends BaseService {
+	
+	
+}

@@ -1,0 +1,16 @@
+$().ready(function() { 
+	var h = $(window).height() - 125;;
+	$("#container").height(h+'px');
+	setLogoImg();
+	setFooter();
+})
+
+function setFooter(){//设置底部的内容
+	var htmlStr = '<div class="footer_panel" ><p class="footer_item">广州垂马体育发展有限公司</p></div>';
+	$('#footer').html(htmlStr);
+}
+
+function setLogoImg(){//换logo
+	var htmlStr = '/gzvm/manage/images/chuima.png';
+	$('#logoImg').attr("src",htmlStr);;
+}

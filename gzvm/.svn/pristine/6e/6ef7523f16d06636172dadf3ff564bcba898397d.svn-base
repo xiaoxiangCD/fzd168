@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.ProductAttrData">
+	<typeAlias alias="ProductAttrData" type="cn.com.voge.gzvm.beans.ProductAttrData" />
+
+	<resultMap id="ProductAttrDataMap" class="ProductAttrData">
+		<result property="attrId" column="ATTR_ID" />
+		<result property="relaId" column="RELA_ID" />
+		<result property="classifyName" column="CLASSIFY_NAME" />
+		<result property="productId" column="PRODUCT_ID" />
+		<result property="itemName" column="ITEM_NAME" />
+		<result property="dispIndex" column="DISP_INDEX"/>
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="itemName" resultClass="int">
+		SELECT itemName(*) FROM TB_PRODUCT_ATTR_DATA
+	</select>
+
+	<select id="select" resultMap="ProductAttrDataMap">
+		SELECT * FROM TB_PRODUCT_ATTR_DATA
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				ATTR_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY ATTR_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="ProductAttrDataMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="ProductAttrDataMap">
+		SELECT * FROM TB_PRODUCT_ATTR_DATA
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="attrId">
+				ATTR_ID=#attrId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="relaId">
+				RELA_ID=#relaId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="classifyName">
+				CLASSIFY_NAME=#classifyName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="productId">
+				PRODUCT_ID=#productId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="itemName">
+				ITEM_NAME=#itemName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="dispIndex">
+				DISP_INDEX=#dispIndex#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY ATTR_ID
+	</select>
+
+	<insert id="insert" parameterClass="ProductAttrData">
+		<selectKey resultClass="int" keyProperty="attrId">
+			SELECT NEXTVAL('SQ_ORDER')
+		</selectKey>
+		INSERT INTO
+		TB_PRODUCT_ATTR_DATA(ATTR_ID,RELA_ID,CLASSIFY_NAME,PRODUCT_ID,ITEM_NAME,DISP_INDEX,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#attrId#,#relaId#,#classifyName#,#productId#,#itemName#,#dispIndex#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+	<delete id="delete" parameterClass="ProductAttrData">
+		DELETE FROM TB_PRODUCT_ATTR_DATA WHERE ATTR_ID=#attrId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_PRODUCT_ATTR_DATA WHERE ATTR_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_PRODUCT_ATTR_DATA
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="attrId">
+				ATTR_ID=#attrId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="relaId">
+				RELA_ID=#relaId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="classifyName">
+				CLASSIFY_NAME=#classifyName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="productId">
+				PRODUCT_ID=#productId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="itemName">
+				ITEM_NAME=#itemName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="dispIndex">
+				DISP_INDEX=#dispIndex#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="ProductAttrData">
+		UPDATE TB_PRODUCT_ATTR_DATA SET
+			RELA_ID=#relaId#,CLASSIFY_NAME=#classifyName#,PRODUCT_ID=#productId#,ITEM_NAME=#itemName#,DISP_INDEX=#dispIndex#,
+			VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE ATTR_ID=#attrId#
+	</update>
+	
+
+</sqlMap>

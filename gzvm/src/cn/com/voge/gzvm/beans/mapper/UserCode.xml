@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.UserCode">
+	<typeAlias alias="UserCode" type="cn.com.voge.gzvm.beans.UserCode" />
+
+	<resultMap id="UserCodeMap" class="UserCode">
+		<result property="codeId" column="CODE_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="year" column="YEAR" />
+        <result property="joinDate" column="JOIN_DATE" />
+        <result property="entryCode" column="ENTRY_CODE" />
+ 
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_USER_CODE
+	</select>
+
+	<select id="select" resultMap="UserCodeMap">
+		SELECT * FROM TB_USER_CODE
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				CODE_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY CODE_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="UserCodeMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="UserCodeMap">
+		SELECT * FROM TB_USER_CODE
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="codeId">
+				CODE_ID=#codeId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="year">
+				YEAR=#year#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinDate">
+				JOIN_DATE=#joinDate#
+			</isNotNull>
+			<isNotNull prepend="AND" property="entryCode">
+				ENTRY_CODE=#entryCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY CODE_ID
+	</select>
+
+	<insert id="insert" parameterClass="UserCode">
+		<selectKey resultClass="int" keyProperty="codeId">
+			SELECT NEXTVAL('SQ_USER')
+		</selectKey>
+		INSERT INTO
+		TB_USER_CODE(CODE_ID,USER_ID,YEAR,JOIN_DATE,ENTRY_CODE,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#codeId#,#userId#,#year#,#joinDate#,#entryCode#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+
+	<delete id="delete" parameterClass="UserCode">
+		DELETE FROM TB_USER_CODE WHERE CODE_ID=#codeId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_USER_CODE WHERE CODE_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_USER_CODE
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="codeId">
+				CODE_ID=#codeId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="year">
+				YEAR=#year#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinDate">
+				JOIN_DATE=#joinDate#
+			</isNotNull>
+			<isNotNull prepend="AND" property="entryCode">
+				ENTRY_CODE=#entryCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	
+	
+	<update id="update" parameterClass="UserCode">
+		UPDATE TB_USER_CODE SET
+		CODE_ID=#codeId#,USER_ID=#userId#,YEAR=#year#,JOIN_DATE=#joinDate#,ENTRY_CODE=#entryCode#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE CODE_ID=#codeId#
+	</update>
+	
+
+</sqlMap>

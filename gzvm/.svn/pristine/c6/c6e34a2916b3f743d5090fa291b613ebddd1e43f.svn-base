@@ -1,0 +1,48 @@
+
+/*container��ʽ*/
+#container{
+	background:#FEF8B6;
+}
+
+#container .login_panel{
+	height:100%;
+}
+
+#container .edit_panel{
+	position:relative;height:100%;
+}
+
+#container .login_space{
+	width:350px;height:350px;background:#FFF;margin-left:-175px;margin-top:-175px;position: absolute;left:50%;top:50%;
+}
+
+#container .login_row{
+	margin:30px;
+}
+
+#container .hint_text{
+	color:#3399cc;
+	font-size:12px;
+	display:inline-block;
+}
+.border_r{
+	border-right:solid 1px #3399cc;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

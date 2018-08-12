@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.Attachment">
+<typeAlias alias="Attachment" type="cn.com.voge.gzvm.beans.Attachment"/>
+
+<resultMap id="AttachmentMap" class="Attachment">
+	<result property="attachId" column="ATTACH_ID"/>
+	<result property="ownerType" column="OWNER_TYPE"/>
+	<result property="ownerId" column="OWNER_ID"/>
+	<result property="extType" column="EXT_TYPE"/>
+	<result property="attachName" column="ATTACH_NAME"/>
+	<result property="attachExt" column="ATTACH_EXT"/>
+	<result property="attachPath" column="ATTACH_PATH"/>
+	<result property="dispIndex" column="DISP_INDEX" nullValue="0"/>
+	<result property="fileSize" column="FILE_SIZE" nullValue="0"/>
+	<result property="attachTime" column="ATTACH_TIME" javaType="date"/>
+	
+	<result property="versionNum" column="VER_NUM" nullValue="0"/>
+	<result property="instanceId" column="INSTANCE_ID" nullValue="0"/>
+	<result property="state" column="STATE" nullValue="0"/>
+	<result property="createUser" column="CREATE_USER" nullValue="0"/>
+	<result property="createDate" column="CREATE_DATE" javaType="date"/>
+</resultMap>
+
+<select id="count" resultClass="int">
+	SELECT count(*) FROM TB_EC_ATTACHMENT
+</select>
+
+<select id="select" resultMap="AttachmentMap">
+	SELECT * FROM TB_EC_ATTACHMENT
+	<dynamic prepend="WHERE">
+		<isParameterPresent>
+			ATTACH_ID=#value#
+		</isParameterPresent>
+	</dynamic>
+	ORDER BY INSTANCE_ID,OWNER_TYPE,OWNER_ID,EXT_TYPE, DISP_INDEX
+</select>
+
+<select id="selectBySql" parameterClass="string" resultMap="AttachmentMap">
+	$value$
+</select>
+
+<select id="selectByMap" parameterClass="map" resultMap="AttachmentMap">
+	SELECT * FROM TB_EC_ATTACHMENT
+	<dynamic prepend="WHERE">
+		<isNotNull prepend="AND" property="instanceId">
+			INSTANCE_ID=#instanceId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="attachId">
+			ATTACH_ID=#attachId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ownerType">
+			OWNER_TYPE=#ownerType#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ownerId">
+			OWNER_ID=#ownerId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="extType">
+			EXT_TYPE=#extType#
+		</isNotNull>
+		<isNotNull prepend="AND" property="nullExtType">
+			EXT_TYPE IS NULL
+		</isNotNull>
+		<isNotNull prepend="AND" property="ownerIdes">
+			OWNER_ID IN ($ownerIdes$)
+		</isNotNull>
+		<isNotNull prepend="AND" property="attachName">
+			ATTACH_NAME=#attachName#
+		</isNotNull>
+		<isNotNull prepend="AND" property="state">
+			(STATE &amp; #state#) >0
+		</isNotNull>
+		<isNotNull prepend="AND" property="authoritySQL">
+			$authoritySQL$
+		</isNotNull>
+		
+	</dynamic>
+	ORDER BY INSTANCE_ID,OWNER_TYPE,OWNER_ID,EXT_TYPE, DISP_INDEX
+</select>
+
+<insert id="insert" parameterClass="Attachment">
+	<selectKey resultClass="int" keyProperty="attachId"  >   
+     SELECT NEXTVAL('SQ_ATTACHMENT')   
+   	</selectKey>
+	INSERT INTO TB_EC_ATTACHMENT(ATTACH_ID,OWNER_TYPE,OWNER_ID,EXT_TYPE,ATTACH_NAME,
+		ATTACH_EXT,ATTACH_PATH,DISP_INDEX,FILE_SIZE,ATTACH_TIME,
+	    VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+	VALUES(#attachId#,#ownerType#,#ownerId#,#extType#,#attachName#,
+		#attachExt#,#attachPath#,#dispIndex#,#fileSize#,#attachTime#,
+	    #versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+</insert>
+
+<delete id="delete" parameterClass="Attachment">
+	DELETE FROM TB_EC_ATTACHMENT WHERE ATTACH_ID=#attachId#
+</delete>
+
+<delete id="deleteByPK" parameterClass="int">
+	DELETE FROM TB_EC_ATTACHMENT WHERE ATTACH_ID=#value#
+</delete>
+
+<delete id="deleteByMap" parameterClass="map">
+DELETE FROM TB_EC_ATTACHMENT
+<dynamic prepend="WHERE">
+		<isNotNull prepend="AND" property="instanceId">
+			INSTANCE_ID=#instanceId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="attachId">
+			ATTACH_ID=#attachId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ownerType">
+			OWNER_TYPE=#ownerType#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ownerId">
+			OWNER_ID=#ownerId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="ownerIdes">
+			OWNER_ID IN ($ownerIdes$)
+		</isNotNull>
+		<isNotNull prepend="AND" property="attachName">
+			ATTACH_NAME=#attachName#
+		</isNotNull>
+		<isNotNull prepend="AND" property="state">
+			(STATE &amp; #state#) >0
+		</isNotNull>
+		<isNotNull prepend="AND" property="authoritySQL">
+			$authoritySQL$
+		</isNotNull>
+	</dynamic>
+</delete>
+
+<update id="update" parameterClass="Attachment">
+	UPDATE TB_EC_ATTACHMENT 
+	SET OWNER_TYPE=#ownerType#,OWNER_ID=#ownerId#,EXT_TYPE=#extType#,ATTACH_NAME=#attachName#,
+		DISP_INDEX=#dispIndex#,ATTACH_EXT=#attachExt#,FILE_SIZE=#fileSize#,ATTACH_PATH=#attachPath#,ATTACH_TIME=#attachTime#,
+	  	VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+	WHERE ATTACH_ID=#attachId#
+</update>
+
+</sqlMap>

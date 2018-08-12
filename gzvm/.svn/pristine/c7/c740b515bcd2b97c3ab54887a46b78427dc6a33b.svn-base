@@ -1,0 +1,487 @@
+@CHARSET "UTF-8";
+
+* {
+	font-family: '微软雅黑';
+}
+/* 清楚样式 */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p,
+	blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd,
+	q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+	fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr,
+	th, td, article, aside, canvas, details, figcaption, figure, footer,
+	header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 14px;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+/*控制全局比例大小媒体对象*/
+@media ( max-width : 320px) {
+	html {
+		font-size: 15px;
+	}
+	body {
+		font-size: 8px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		line-height: 1;
+	}
+}
+
+@media ( min-width : 320px) and (max-width: 400px) {
+	html {
+		font-size: 20px;
+	}
+	body {
+		font-size: 10px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		line-height: 1;
+	}
+}
+
+@media ( min-width : 401px) and (max-width: 480px) {
+	/*iphone7 Plus尺寸所在*/
+	html {
+		font-size: 20px;
+	}
+	body {
+		font-size: 10px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		line-height: 1;
+	}
+}
+
+@media ( min-width : 481px) and (max-width: 640px) {
+	html {
+		font-size: 20px;
+	}
+	body {
+		font-size: 10px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		line-height: 1;
+	}
+}
+
+@media ( min-width : 641px) and (max-width: 768px) { /*ipad 尺寸所在*/
+	html {
+		font-size: 22px;
+	}
+	body {
+		font-size: 12px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		line-height: 1;
+	}
+}
+
+@media ( min-width : 769px) and (max-width: 920px) {
+	html {
+		font-size: 25px;
+	}
+	body {
+		font-size: 12px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		line-height: 1;
+	}
+}
+
+@media ( min-width : 921px) and (max-width: 968px) {
+	html {
+		font-size: 25px;
+	}
+	body {
+		font-size: 12px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		line-height: 1;
+	}
+}
+
+@media ( min-width : 969px) and (max-width: 1080px) {
+	html {
+		font-size: 25px;
+	}
+	body {
+		font-size: 12px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		line-height: 1;
+	}
+}
+
+@media ( min-width : 1080px) {
+	html {
+		font-size: 25px;
+	}
+	body {
+		font-size: 12px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		line-height: 1;
+	}
+}
+
+body {
+	line-height: 1;
+}
+
+:focus {
+	outline: 1;
+}
+
+article, aside, canvas, details, figcaption, figure, footer, header,
+	hgroup, menu, nav, section, summary {
+	display: block;
+}
+
+ul {
+	list-style: none;
+}
+
+li {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+
+a {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	text-decoration: none; /* ָ���δ�����ʹ������*/
+}
+
+a:visited {
+	text-decoration: none; /*ָ�Ѿ����ʹ������*/
+}
+
+a:hover {
+	text-decoration: none; /*ָ���������*/
+}
+
+a:active {
+	text-decoration: none; /* ָ���ڵ������*/
+}
+
+ins {
+	background-color: #ff9;
+	color: #000;
+	text-decoration: none;
+}
+
+mark {
+	background-color: #ff9;
+	color: #000;
+	font-style: italic;
+	font-weight: bold;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+	border-bottom: 1px dotted #000;
+	cursor: help;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+hr {
+	display: block;
+	height: 0.1em;
+	border: 0;
+	border-top: 1px solid #cccccc;
+	margin: 1em 0;
+	padding: 0;
+}
+
+input, select {
+	vertical-align: middle;
+}
+
+input, input[type="button"], input[type="submit"], input[type="reset"],
+	input[type="date"], input[type="moth"] { /* iPhone�?�ռ���ʽ��� */
+	/* -webkit-appearance: none; */
+	
+}
+
+textarea {
+	-webkit-appearance: none;
+	resize: none;
+}
+
+/*end*/
+
+/*头部样式*/
+#header {
+	width: 100%;
+}
+
+#header .header_panel {
+	/* background: url(/gzvm/client/images/bg.png) no-repeat top right; */
+	background: #f7feee;
+	height: 100px;
+	text-align: -webkit-center;
+	overflow: hidden;
+}
+
+#header .header_item {
+	max-width: 1200px;
+}
+
+#header .logo_panel {
+	text-align: -webkit-left;
+}
+
+#header .user_panel {
+	text-align: -webkit-right;
+}
+
+#header .logo_img {
+	height: auto;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 20px;
+	height: 60px;
+	width: auto;
+	margin-top: 20px;
+}
+
+#header .header_fonts {
+	font-size: 22px;
+	color: #FFF;
+	height: 80px;
+	line-height: 80px;
+	display: inline-block;
+}
+
+#header .login_out {
+	font-size: 14px;
+	color: #FFF;
+	height: 80px;
+	line-height: 80px;
+	display: inline-block;
+}
+
+#header .user_panel {
+	display: inline-block;
+}
+
+#header .user_name {
+	display: inline-block;
+	font-size: 14px;
+	color: #FFF;
+}
+
+.nav_panel {
+	/* height:50px; */
+	text-align: left;
+}
+
+.nav, .banner {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.nav li {
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.nav li a {
+	display: inline-block;
+	line-height: 50px;
+	height: 100%;
+	margin-top: 41px;
+	padding: 0px 15px;
+	
+}
+
+.h a {
+	font-size: 15px;
+	border-bottom: 2px solid transparent;
+}
+
+.active a{
+	/* color: #427305; */
+	border-bottom: 2px solid #F00;
+}
+
+.nav_name_current {
+	/* color: #427305 !important; */
+}
+
+.current {
+	background-color: #cfe5b4;
+}
+
+.nav>li>a:hover, .nav>li>a:focus {
+	background: none !important;
+	/* color: #427305 !important; */
+	border-bottom: 2px solid #F00;
+}
+
+.phone_panel p {
+	font-size: 16px;
+	margin-top: 55px;
+}
+
+.phone_panel p span {
+	color: #427305;
+	font-weight: bold;
+	font-family: ' 鏂规缁嗛粦鈥旂畝浣�;
+}
+
+/*底部样式*/
+#footer {
+	width: 100%;
+}
+
+#footer .footer_panel {
+	background: #f7feee;
+	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	padding: 10px 0;
+}
+
+#footer .footer_item {
+	color: #333;
+	margin: 0.8em auto
+}
+
+.footer_org, .footer_text {
+	display: inline-block;
+}
+
+.footer_org {
+	text-align: right;
+	width: 200px;
+}
+
+.footer_text {
+	text-align: left;
+	width: 400px;
+}
+
+.bg {
+	position: relative;
+	background-color: #fff;
+}
+
+.bg_color {
+	background-color: #000;
+}
+
+/*响应式样式*/
+@media only screen and (max-width: 767px) {
+	#header {
+		width: 100%;
+		height: 5em;
+		position: absolute;
+		z-index: 3;
+	}
+	#header .header_panel {
+		height: 5em;
+		background: #f7feee;
+		text-align: -webkit-center;
+		overflow: hidden;
+	}
+	#header .header_item {
+		max-width: 1200px;
+	}
+	#header .logo_panel {
+		text-align: -webkit-left;
+	}
+	#header .user_panel {
+		text-align: -webkit-right;
+	}
+	#header .logo_img {
+		display: inline-block;
+		margin-left: 3em;
+		height: 3em;
+		width: auto;
+		margin-top: 1em;
+	}
+	#header .header_fonts {
+		font-size: 22px;
+		color: #FFF;
+		height: 80px;
+		line-height: 80px;
+		display: inline-block;
+	}
+	#header .login_out {
+		font-size: 14px;
+		color: #FFF;
+		height: 80px;
+		line-height: 80px;
+		display: inline-block;
+	}
+	#header .user_panel {
+		display: inline-block;
+	}
+	#header .user_name {
+		display: inline-block;
+		font-size: 14px;
+		color: #FFF;
+	}
+	
+}

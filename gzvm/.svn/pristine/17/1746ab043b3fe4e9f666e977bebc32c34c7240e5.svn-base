@@ -1,0 +1,216 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>国际垂直马拉松</title>
+<link type="text/css" rel="stylesheet" href="/gzvm/css/bootstrap.css">
+<link type="text/css" rel="stylesheet" href="/gzvm/css/pagination.css">
+<link type="text/css" rel="stylesheet" href="/gzvm/project/css/common.css">
+<link type="text/css" rel="stylesheet" href="/gzvm/project/css/manage.css">
+<link type="text/css" rel="stylesheet" href="/gzvm/css/sweetalert.css">
+<link rel="stylesheet" href="../css/diyUpload.css">
+<link rel="stylesheet" href="../css/webuploader.css">
+<script src="../js/diyUpload.js"></script>
+<script type="text/javascript" src="/gzvm/js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="/gzvm/js/bootstrap.js"></script>
+<script type="text/javascript" src="/gzvm/js/jquery.pagination.js"></script>
+</head>
+<body>
+<div class="bg">
+		<div id="header">
+		<div class="header_panel" >
+			<div class="header_item">
+				<div class="row">
+					<div class="col-md-6 logo_panel">
+						<img id="logoImg" src="/gzvm/project/images/logo.png" class="img-responsive logo_img">
+					</div>
+					<div class="col-md-3 logo_panel">
+						<img  src="/gzvm/project/images/avalogo.png" class="img-responsive avalogo_img">
+						<img  src="/gzvm/project/images/tvalogo.png" class="img-responsive avalogo_img">
+					</div>
+					<div class="col-md-3 logo_panel">
+						<p class="login_text"><a href="">登录</a> | <a href="">注册</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="nav_panel">
+		<ul class="nav h" id="nav">
+			<li class="h ">
+				<a href="#">
+					<span class="index_icon" id="index"></span>
+					<span class="nav_name " id="index_name">首页</span>
+					<div class="clear"></div>
+				</a>  
+			</li>
+			<li class="h">
+				<a href="#">
+					<span class="competition_icon" id="competition"></span>
+					<span class="nav_name" id="competition_name">赛事资讯</span>
+					<div class="clear"></div>
+				</a>  
+			</li>
+			<li class="h current">
+				<a href="#">
+					<span class="about_icon_current" id="about"></span>
+					<span class="nav_name nav_name_current" id="about_name">关于我们</span>
+					<div class="clear"></div>
+				</a>  
+			</li>
+			
+		</ul>
+	</div>
+	
+	<div class="container content space_top">
+		<div class="Type align_l w space_bottom row" id="titleModule" >
+			
+		</div>
+		<div class="sub_nav float_l" id="moduleItem">
+			<!-- <div class="basics">
+				<div class="user_img">
+					<img src="/gzvm/project/images/default.png">
+				</div>
+				<div class="user_infor">
+					<p class="user_name">用户昵称</p>
+					<p class="user_detail">
+						<span class="user_sex">女</span>
+						<span class="user_age">25</span>
+					</p>
+				</div>
+			</div> -->
+			<!-- <div class="sub_nav_type">
+				<p>分类</p>
+			</div>
+			<div class="sub_type personal " id="moduleIzzz">
+				<p class="name_panel">个人资料</p>
+				<p class="tool_panel s">
+					<img alt="" src="/gzvm/manage/images/edit.png">
+					<img alt="" src="/gzvm/manage/images/del.png">
+				</p>
+			</div>
+			<div class="sub_type grade ctrl_item">
+				<p class="name_panel" id="newType">
+					<img alt="" src="/gzvm/project/images/new.png"> <a>新增分类</a>
+				</p>
+			</div> -->
+		</div>
+		
+		<div class="detail_panel float-l">
+			<div class="list">
+				<div class="detail_title align_l w space_bottom row">
+					<p class="detail_name col-md-6">文本内容</p>
+					<!-- <div class="state_search">
+						<lable>
+							<select class="form-control search_input " type="text" name="" >
+								<option>赛时状态</option>
+								<option>预报名</option>
+								<option>抽签中</option>
+								<option>开赛</option>
+								<option>已结束</option>
+							</select>
+							<input class="form-control btn bg_color state_btn" type="submit"  value="赛事筛选"/>
+							<div class="clear"></div>
+						</lable>
+					</div> -->
+						<div class="col-md-6">
+							<div class="col-md-3 "></div>	
+							<div class="col-md-3 "></div>
+							<div class="col-md-3 "></div>
+							<div class="col-md-3 ctrl_item"  onclick="addContent();">
+								<img alt="" src="/gzvm/manage/images/add.png"> <a>新增</a>
+							</div>
+						</div>
+				</div>
+				<div id="contents">
+					<div class="competition">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="comptition_img">
+									<img src="/gzvm/project/images/default.png">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="comptition_text">
+									<div class="competition_title">成都国际金融中心（成都IFS）</div>
+									<div class="competition_date">
+										<p>时间：</p>
+										<p id="date">2017-04-13</p>
+									</div>
+									<div class="competiton_adress">
+										<p>地点：</p>
+										<p id="adress">成都国际金融中心</p>
+									</div>
+									<div class="competition_dsc">
+										<p>
+											本次比赛场地设于成都市中心的地标性建筑之一——成都国际金融中心（成都IFS），购物中心主楼双塔高达248米，共52个楼层，拥有近300家商铺，其中…
+										</p>
+									</div>
+									<div class="detail">
+										<a href="#">更多详情 ></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="page space_top space_bottom ">
+					<div class="M-box3"></div>
+					<div class="clear"></div>
+				</div>
+			</div>
+					
+		</div>
+		
+		<div class="clear"></div>
+	</div>
+	<div id="footer">
+		<div class="footer_panel" >
+			<p class="footer_item">广州垂马体育发展有限公司</p>
+		</div>
+	</div>
+	<div class="pop_panel" id="new">
+		<div class="pop_top w" >
+			<p id="saveModuleType">新增分类</p>
+			<span class="pop_exit" id="exit">
+				<img src="/gzvm/client/images/exit.png">
+			</span>
+		</div>
+		<div class="pop_content">
+			<div class=" w space_top space_bottom">
+				<div class="row space_bottom hint_panel align_c">
+					<!-- <div class="pop_hint pop_hint_l">
+						<span class="hint_img">
+							<img src="/gzvm/client/images/hint_img.png">
+						</span>
+					</div>
+					<div class="pop_hint pop_hint_r">
+						<p class="success_hint align_l w ">您的登录密码重置成功，请妥善保管！</p>
+					</div> -->
+					<div class="row space_bottom">
+						<div class="col-md-2 align_r" id="saveModuleName">分类名字</div>
+						<div class="col-md-9">
+							<input class="item w" type="text" id="tvMobile"/>
+						</div>
+					</div>
+				</div>
+				<div class="row space_top align_c" id="moduleType">
+					<div class="col-md-2"></div>
+					<div class="align_c col-md-6">
+						<input class="item  bg_color btn  pop_btn" type="submit" value="保存" id="login" />
+						
+						<input class="item  bg_color btn  pop_btn " style="background-color:#f00; margin-top:15px;	"type="submit" value="删除" id="del" onclick="del();" />
+					</div>
+					<div class="col-md-4"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+    <script src="/gzvm/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="/gzvm/project/js/manage.js"></script>
+</html>

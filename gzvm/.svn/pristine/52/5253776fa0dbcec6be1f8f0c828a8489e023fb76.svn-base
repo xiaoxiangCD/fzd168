@@ -1,0 +1,88 @@
+package cn.com.voge.gzvm.service;
+
+import java.util.Map;
+
+import com.voyageci.tools.utils.GeneralUtils;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.beans.VMAdmin;
+
+/** 
+ * @author lianzw 
+ * @version 创建时间：2017年5月4日 上午11:16:52 
+ * 类说明 
+ */
+@SuppressWarnings({"rawtypes","unchecked"})
+public class AdminService extends GzvmSercice{
+	
+	
+	/** 管理员账号认证
+	 * @author lianzw
+	 * @param adminCode
+	 * @param password
+	 * @return
+	 */
+	public Map authenticate(String adminCode, String password){
+		Map criteria = initCriteria();
+		criteria.put("loginCode", adminCode);// 手机号或者管理员编码
+		VMAdmin admin = getAdmin(criteria);
+		if (admin == null) {
+			return getReturnMap("登录失败，账号不存在。", Constant.RESULT_CODE_ERROR);
+		}
+		String dbPwd = admin.getPassword();
+		if (dbPwd.equals(GeneralUtils.MD5(password))){
+			return adminManager.getRecordDetail(admin);
+		} 
+		return getReturnMap("登录失败，账号或密码错误。", Constant.RESULT_CODE_ERROR);
+	}
+	
+	public VMAdmin getAdmin(Map criteria){
+		return adminManager.getAdmin(criteria);
+	}
+
+	public Map getAdmins(Map criteria,Integer start, Integer pageSize){
+		criteria = initCriteria(criteria);
+		if((start == null)||(start<0)){
+			start = 0;
+		}
+		if((pageSize == null)||(pageSize<0)){
+			pageSize = Constant.ROWS_MAX;
+		}
+		return adminManager.getAdmins(criteria, start, pageSize);
+	}
+	
+	public Map saveAdmin(Map values){
+		return adminManager.saveAdmin(values);
+	}
+	
+	public Map deleteAdmin(Integer adminId){
+		return adminManager.deleteAdmin(adminId);
+	}
+	
+	public Map getAdminLogs(Map criteria,Integer start, Integer pageSize){
+		criteria = initCriteria(criteria);
+		if((start == null)||(start<0)){
+			start = 0;
+		}
+		if((pageSize == null)||(pageSize<0)){
+			pageSize = Constant.ROWS_MAX;
+		}
+		return adminManager.getAdminLogs(criteria, start, pageSize);
+	}
+	
+	public Map saveAdminLog(Integer adminId, String module, String method, String describe, Map result){
+		if (adminId <= 0) {
+			return null;
+		}
+		Integer logState = getIntValue(result, "resultCode");
+		String errMsg = getStringValue(result, "resutlMsg");
+		return adminManager.saveAdminLog(adminId, module, method, describe,logState,errMsg);
+	}
+	
+//	public static void main(String[] strings) {
+//		AdminService as = new AdminService();
+//		as.getAdminLogs(null, null, null);
+//		
+//	}
+	
+}

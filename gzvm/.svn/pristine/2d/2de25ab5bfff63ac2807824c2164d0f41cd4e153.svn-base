@@ -1,0 +1,145 @@
+var Theight = '';
+$().ready(function() { 
+	getUsers();
+	$('#searchBtn').click(function(){
+		getUsers();
+	});
+})
+
+function getUsers(){
+	var param = {};
+	if($('#searchLike').val() != ''){
+		param.searchLike = $('#searchLike').val();
+	}
+	initTable({
+		tableId :"table",
+		url : '/gzvm/user!getUsers.action',
+		queryParams : param,
+		columns: [
+//	        {field:"adminid",title:"",align:"center",valign:"middle",sortable:"true",checkbox:"true"},
+            {field:"userName",title:"姓名",align:"center",valign:"middle",sortable:"true"},
+			{field:"sex",title:"性别",align:"center",valign:"middle",sortable:"true",formatter:function(value,row,index){
+				if(value == 2){
+					return "女";
+				}else{
+					return "男";
+				}
+			}},
+			{field:"idCard",title:"证件号码",align:"center",valign:"middle",sortable:"true"},
+			{field:"age",title:"年龄",align:"center",valign:"middle",sortable:"true"},
+			{field:"mobile",title:"电话",align:"center",valign:"middle",sortable:"true"},
+			{field:"addr",title:"地址",align:"center",valign:"middle",sortable:"true"},
+			{field:"profession",title:"职业",align:"center",valign:"middle",sortable:"true"},
+		],
+	})
+}
+
+
+function getParam(){
+	var param = {};
+	if($("#userName").val() != ""){
+		param.userName =$("#userName").val();
+	}else{
+		alert("请输入姓名");
+		return null;
+	}
+	if($("#sex").val() != ""){
+		param.sex =$("#sex").val();
+	}else{
+		alert("请选择性别");
+		return null;
+	}
+	if($("#idType").val() != ""){
+		param.idType =$("#idType").val();
+	}else{
+		alert("请选择证件类型");
+		return null;
+	}
+	if($("#idCard").val() != ""){
+		param.idCard =$("#idCard").val();
+	}else{
+		alert("请输入证件号");
+		return null;
+	}
+	if($("#mobile").val() != ""){
+		param.idCard =$("#mobile").val();
+	}else{
+		alert("请输入手机号");
+		return null;
+	}
+	if($("#email").val() != ""){
+		param.email =$("#email").val();
+	}
+	if($("#profession").val() != ""){
+		param.profession =$("#profession").val();
+	}
+	if($("#addr").val() != ""){
+		param.addr =$("#addr").val();
+	}
+	if(idCard){
+		param.idCard = idCard;
+	}
+	/*param.state =$("#calssifyState").combobox('getValue');
+	param.description =$("#description").val();*/
+	return param;
+}
+
+function save(){
+	/*$('.btn-pubing').attr("disabled",true);*/
+	var param = getParam();
+	console.log();
+	if(param){
+		$.ajax({
+	    	url : '/gzvm/user!saveUser.action',
+	    	data: param,
+	    	dataType : 'json',
+	    	type : 'post',
+	    	success : function(result) {
+	    		if(result.resultCode==1){
+	    			hideAddView();
+	    			getUsers();
+	    		}else{
+	    			alert(result.resultMsg);
+	    		}
+	    	}
+	    });
+	}
+}
+
+function hideAddView(){
+	$("#addWindow").hide();
+	$("#userName").val('');
+	$("#sex").val('');
+	$("#idType").val('');
+	$("#idCard").val('');
+	$("#mobile").val('');
+	$("#email").val('');
+	$("#profession").val('');
+	$("#addr").val('');
+}
+
+
+function showAdd(){
+	$('#addWindow').show();
+}
+
+function closeAdd(){
+	$('#addWindow').hide();
+	$('#addForm').reset();
+}
+
+function showDel(){
+	$('#alertWindow').show();
+}
+
+function closeDel(){
+	$('#alertWindow').hide();
+}
+
+
+
+
+
+
+
+

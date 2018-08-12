@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.JoinMember">
+	<typeAlias alias="JoinMember" type="cn.com.voge.gzvm.beans.JoinMember" />
+
+	<resultMap id="JoinMemberMap" class="JoinMember">
+		<result property="memberId" column="MEMBER_ID" />
+		<result property="idType" column="ID_TYPE" />
+		<result property="joinId" column="JOIN_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="competiId" column="COMPETI_ID" />
+		<result property="userName" column="USER_NAME" />
+		<result property="idCard" column="ID_CARD" />
+		<result property="mobile" column="MOBILE" javaType="date" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_JOIN_MEMBER
+	</select>
+
+	<select id="select" resultMap="JoinMemberMap">
+		SELECT * FROM TB_JOIN_MEMBER
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				MEMBER_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY MOBILE
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="JoinMemberMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="JoinMemberMap">
+		SELECT * FROM TB_JOIN_MEMBER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="memberId">
+				MEMBER_ID=#memberId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="idType">
+				ID_TYPE=#idType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinId">
+				JOIN_ID=#joinId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="competiId">
+				COMPETI_ID=#competiId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userName">
+				USER_NAME=#userName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="idCard">
+				ID_CARD=#idCard#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY MOBILE
+	</select>
+
+	<insert id="insert" parameterClass="JoinMember">
+		<selectKey resultClass="int" keyProperty="memberId">
+			SELECT NEXTVAL('SQ_WXUSER')
+		</selectKey>
+		INSERT INTO TB_JOIN_MEMBER(MEMBER_ID,JOIN_ID,USER_ID,COMPETI_ID,USER_NAME,ID_CARD,ID_TYPE,MOBILE,
+			VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#memberId#,#joinId#,#userId#,#competiId#,#userName#,#idCard#,#idType#,#mobile#,
+			#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+
+	<delete id="delete" parameterClass="JoinMember">
+		DELETE FROM TB_JOIN_MEMBER WHERE MEMBER_ID=#memberId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_JOIN_MEMBER WHERE MEMBER_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_JOIN_MEMBER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="memberId">
+				MEMBER_ID=#memberId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="idType">
+				ID_TYPE=#idType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="joinId">
+				JOIN_ID=#joinId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="competiId">
+				COMPETI_ID=#competiId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userName">
+				USER_NAME=#userName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="idCard">
+				ID_CARD=#idCard#
+			</isNotNull>
+			<isNotNull prepend="AND" property="mobile">
+				MOBILE=#mobile#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="JoinMember">
+		UPDATE TB_JOIN_MEMBER SET
+			JOIN_ID=#joinId#,USER_ID=#userId#,COMPETI_ID=#competiId#,USER_NAME=#userName#,
+			ID_CARD=#idCard#,ID_TYPE=#idType#,MOBILE=#mobile#,
+			VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE MEMBER_ID=#memberId#
+	</update>
+	
+
+</sqlMap>

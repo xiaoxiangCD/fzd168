@@ -1,0 +1,117 @@
+
+
+.item{
+	height:348px;
+}
+.item img{
+	width:100%;
+	height:100%;
+	display:block;
+}
+.prev_img,.next_img{
+	position:absolute;
+	top:50%;
+	margin-top:-22px;
+}
+
+.next_img{
+	margin-left:-22px;
+}
+.perv_img{
+	margin-right:-22px;
+}
+.banner{
+	position:relative;
+}
+.search_panel{
+	width:350px;
+	height:280px;
+	position:absolute;
+	bottom:40px;
+	left:40px;
+	background-color:#fff;
+	border:solid 1px #ccc;
+	padding:30px 30px 30px 20px;
+}
+.search_row{
+	margin-bottom:12px;
+}
+.search_text{
+	display:inline-block;
+	width:74px;
+	margin-right:10px;
+}
+.search_input{
+	display:inline-block;
+	width:210px;
+	height:34px;
+}
+.search_sub{
+	color:#fff;
+	border:0;
+}
+/* 赛事列表 */
+.competition{
+	background:#ffd819;
+	padding:30px;
+	margin-bottom:10px;
+}
+.comptition_img{
+	width:100%;
+	height:auto;
+}
+.comptition_img img{
+	display:inline-block;
+	width:100%;
+	height:auto;
+}
+.comptition_text{
+	padding-left:30px;
+}
+.competition_title{
+	font-weight:bold;
+	font-size:16px;
+	margin:15px 0;
+	color:#000;
+}
+.competition_type p{
+	display:inline-block;
+	background-color:#000;
+	padding:5px 20px;
+	border-radius:2px;
+	margin-right:10px;
+	color:#fff;
+	font-size:14px;
+	font-weight:bold;
+	margin:10px 0 ;
+}
+.competition_type p img{
+	display:inline-block;
+	height:16px;
+	width:auto;
+}
+.competiton_date p,.competiton_adress p{
+	display:inline-block;
+	margin-right:10px;
+	margin:10px 0;
+}
+/* .competiton_date #date{
+	color:#ff9966;
+} */
+.competition_dsc{
+	color:#666;
+	margin:10px 0;
+	line-height:22px;
+	overflow:hidden; 
+	text-overflow:ellipsis;
+	display:-webkit-box;
+	-webkit-box-orient:vertical; 
+	-webkit-line-clamp:2; 
+}
+.detail{
+	margin:15px 0;
+	float:right;
+}
+.detail a{
+	color:#666;
+}

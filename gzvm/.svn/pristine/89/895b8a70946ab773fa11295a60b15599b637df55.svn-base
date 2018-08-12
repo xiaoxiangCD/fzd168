@@ -1,0 +1,229 @@
+package cn.com.voge.gzvm.template.manager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.dao.DataAccessException;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.template.beans.Module;
+import cn.com.voge.gzvm.template.beans.OperModule;
+import cn.com.voge.gzvm.template.dao.ModuleDao;
+import cn.com.voge.gzvm.template.dao.OperModuleDao;
+
+import com.google.gxp.com.google.common.collect.Maps;
+import com.voyageci.core.manage.AbstractEntityManage;
+import com.voyageci.tools.utils.BeanUtils;
+import com.voyageci.tools.utils.ListUtils;
+
+
+@SuppressWarnings({"rawtypes","unchecked"})
+public class ModuleManager extends AbstractEntityManage<Module, ModuleDao> {
+
+	private ModuleDao moduleDao;
+	private OperModuleDao operModuleDao;
+	
+	@Override
+	public Map getRecordDetail(Module object) throws DataAccessException {
+		Map record = super.getRecordDetail(object);
+		return record;
+	}
+	
+	/** 获取系统模块
+	 * @author xzq
+	 * @param criteria
+	 * @param start
+	 * @param pageSize
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map getModule(Map criteria,Integer start, Integer pageSize) throws DataAccessException{
+		Map result = Maps.newHashMap();
+		List<Map> maps = new ArrayList<>();
+		List<Module> modules = findBy(criteria, start, pageSize);
+		Integer count = 0;
+		if (ListUtils.isNotEmpty(modules)) {
+			for (Module module : modules) {
+				Map map = getRecordDetail(module);
+				maps.add(map);
+			}
+			try {
+				count = getRecordCount(criteria);
+			} catch (Exception e) {
+				count = modules.size();
+			}
+		}
+		result.put("results", maps);
+		result.put("totalCount", count);
+		result.put("start", start);
+		result.put("pageSize", pageSize);
+		return result;
+	}
+	/** 获取管理员模块
+	 * @author xzq
+	 * @param criteria
+	 * @param start
+	 * @param pageSize
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map getOperModule(Integer operId,Integer start, Integer pageSize) throws DataAccessException{
+		Map criteria = new HashMap();
+		criteria.put("operId", operId);
+		Map result = Maps.newHashMap();
+		List<Map> maps = new ArrayList<>();
+		List<OperModule> operModules = operModuleDao.findBy(criteria, start, pageSize);
+		Integer count = 0;
+		if (ListUtils.isNotEmpty(operModules)) {
+			for (OperModule operModule : operModules) {
+				Map map = getRecordMap(operModule,true);
+				maps.add(map);
+			}
+			try {
+				count = getRecordCount(criteria);
+			} catch (Exception e) {
+				count = operModules.size();
+			}
+		}
+		result.put("results", maps);
+		result.put("totalCount", count);
+		result.put("start", start);
+		result.put("pageSize", pageSize);
+		return result;
+	}
+	
+	/** 新增或更新系统模块
+	 * @author xzq
+	 * @param values
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map saveModule(Map values) throws DataAccessException{
+		Integer moduleId = getIntValue(values, "moduleId");
+		int oper = Constant.OPER_UPDATE;
+		Module module = null;
+		if (moduleId > 0) {
+			module = moduleDao.get(moduleId);
+		}
+		if (module == null) {
+			oper = Constant.OPER_INSTER;
+			module = new Module();
+			module.setState(Constant.BASE_STATE);
+		}
+		try {
+			BeanUtils.copyProperties(module, values);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (oper == Constant.OPER_INSTER) {
+			moduleDao.insert(module);
+		}else{
+			moduleDao.update(module);
+		}
+		Map record = getRecordMap(module, true);
+		return record;
+	}
+	
+	/** 新增或更新系统模块
+	 * @author xzq
+	 * @param values
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map saveOperModule(Map values) throws DataAccessException{
+		Integer operId = getIntValue(values, "operId");
+		int oper = Constant.OPER_UPDATE;
+		OperModule operModule = null;
+		if (operId > 0) {
+			operModule = operModuleDao.get(operId);
+		}
+		if (operModule == null) {
+			oper = Constant.OPER_INSTER;
+			operModule = new OperModule();
+			operModule.setState(Constant.BASE_STATE);
+		}
+		try {
+			BeanUtils.copyProperties(operModule, values);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (oper == Constant.OPER_INSTER) {
+			operModuleDao.insert(operModule);
+		}else{
+			operModuleDao.update(operModule);
+		}
+		Map record = getRecordMap(operModule, true);
+		return record;
+	}
+	
+	
+	/** 删除管理员模块
+	 * @author xzq
+	 * @param operId
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map delOperModule(Integer operId) throws DataAccessException{
+		OperModule operModule = operModuleDao.get(operId);
+		return delOperModule(operModule);
+	}
+	
+	public Map delOperModule(OperModule operModule) throws DataAccessException{
+		Integer code = Constant.RESULT_CODE_SUCCESS;
+		String msg = "删除成功！";
+		if (operModule == null) {
+			code = Constant.RESULT_CODE_ERROR;
+			msg = "删除失败！已经不存在，";
+		} else {
+			operModuleDao.remove(operModule);
+		}
+		Map result = getReturnMap(msg, code);
+		return result;
+	}
+	
+	
+	/** 删除系统模块
+	 * @author xzq
+	 * @param moduleId
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map delModule(Integer moduleId) throws DataAccessException{
+		Module module = moduleDao.get(moduleId);
+		return delModule(module);
+	}
+	
+	public Map delModule(Module module) throws DataAccessException{
+		Integer code = Constant.RESULT_CODE_SUCCESS;
+		String msg = "删除成功！";
+		if (module == null) {
+			code = Constant.RESULT_CODE_ERROR;
+			msg = "删除失败！已经不存在，";
+		} else {
+			moduleDao.remove(module);
+		}
+		Map result = getReturnMap(msg, code);
+		return result;
+	}
+	
+	
+
+	public ModuleDao getModuleDao() {
+		return moduleDao;
+	}
+
+	public void setModuleDao(ModuleDao moduleDao) {
+		this.moduleDao = moduleDao;
+	}
+
+	public OperModuleDao getOperModuleDao() {
+		return operModuleDao;
+	}
+
+	public void setOperModuleDao(OperModuleDao operModuleDao) {
+		this.operModuleDao = operModuleDao;
+	}
+	
+}

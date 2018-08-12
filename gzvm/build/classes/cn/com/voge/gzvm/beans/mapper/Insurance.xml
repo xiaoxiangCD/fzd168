@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.Insurance">
+	<typeAlias alias="Insurance" type="cn.com.voge.gzvm.beans.Insurance" />
+
+	<resultMap id="InsuranceMap" class="Insurance">
+		<result property="insuranceId" column="INSURANCE_ID" />
+		<result property="insuranceName" column="INSURANCE_NAME" />
+		<result property="fileName" column="FILE_NAME" />
+		<result property="cost" column="COST" />
+		<result property="uploadTime" column="UPLOAD_TIME" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_INSURANCE
+	</select>
+
+	<select id="select" resultMap="InsuranceMap">
+		SELECT * FROM TB_INSURANCE
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				INSURANCE_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY INSURANCE_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="InsuranceMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="InsuranceMap">
+		SELECT * FROM TB_INSURANCE
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="insuranceId">
+				INSURANCE_ID=#insuranceId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="insuranceName">
+				INSURANCE_NAME=#insuranceName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="fileName">
+				FILE_NAME=#fileName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="cost">
+				COST=#cost#
+			</isNotNull>
+			<isNotNull prepend="AND" property="uploadTime">
+				UPLOAD_TIME=#uploadTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="sendTime">
+				SEND_TIME=#sendTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY INSURANCE_ID
+	</select>
+
+	<insert id="insert" parameterClass="Insurance">
+		<selectKey resultClass="int" keyProperty="insuranceId">
+			SELECT NEXTVAL('SQ_PACKAGE')
+		</selectKey>
+		INSERT INTO
+		TB_INSURANCE(INSURANCE_ID,INSURANCE_NAME,FILE_NAME,COST,UPLOAD_TIME,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#insuranceId#,#insuranceName#,#fileName#,#cost#,#uploadTime#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+	<delete id="delete" parameterClass="Insurance">
+		DELETE FROM TB_INSURANCE WHERE INSURANCE_ID=#insuranceId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_INSURANCE WHERE INSURANCE_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_INSURANCE
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="insuranceId">
+				INSURANCE_ID=#insuranceId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="insuranceName">
+				INSURANCE_NAME=#insuranceName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="fileName">
+				FILE_NAME=#fileName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="cost">
+				COST=#cost#
+			</isNotNull>
+			<isNotNull prepend="AND" property="uploadTime">
+				UPLOAD_TIME=#uploadTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="Insurance">
+		UPDATE TB_INSURANCE SET
+		INSURANCE_NAME=#insuranceName#,FILE_NAME=#fileName#,COST=#cost#,UPLOAD_TIME=#uploadTime#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE INSURANCE_ID=#insuranceId#
+	</update>
+	
+
+</sqlMap>

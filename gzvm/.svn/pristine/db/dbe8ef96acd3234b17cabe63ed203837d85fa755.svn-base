@@ -1,0 +1,4 @@
+$().ready(function() { 
+	var h = $(window).height() - 140;;
+	$("#container").height(h+'px');
+})

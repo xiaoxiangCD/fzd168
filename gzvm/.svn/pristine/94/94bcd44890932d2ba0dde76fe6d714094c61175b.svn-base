@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.TeamMember">
+	<typeAlias alias="TeamMember" type="cn.com.voge.gzvm.beans.TeamMember" />
+
+	<resultMap id="TeamMemberMap" class="TeamMember">
+		<result property="menberId" column="MENBER_ID" />
+		<result property="teamId" column="TEAM_ID" />
+		<result property="userId" column="USER_ID" />
+        <result property="userCode" column="USER_CODE" />
+        <result property="menberType" column="MENBER_TYPE" />
+        
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_TEAM_MEMBER
+	</select>
+
+	<select id="select" resultMap="TeamMemberMap">
+		SELECT * FROM TB_TEAM_MEMBER
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				MENBER_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY MENBER_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="TeamMemberMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="TeamMemberMap">
+		SELECT * FROM TB_TEAM_MEMBER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="menberId">
+				MENBER_ID=#menberId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="teamId">
+				TEAM_ID=#teamId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userCode">
+				USER_CODE=#userCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="menberType">
+				MENBER_TYPE=#menberType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY MENBER_ID
+	</select>
+
+	<insert id="insert" parameterClass="TeamMember">
+		<selectKey resultClass="int" keyProperty="menberId">
+			SELECT NEXTVAL('SQ_USER')
+		</selectKey>
+		INSERT INTO
+		TB_TEAM_MEMBER(MENBER_ID,TEAM_ID,USER_ID,USER_CODE,MENBER_TYPE,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#menberId#,#teamId#,#userId#,#userCode#,#menberType#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+
+	<delete id="delete" parameterClass="TeamMember">
+		DELETE FROM TB_TEAM_MEMBER WHERE MENBER_ID=#menberId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_TEAM_MEMBER WHERE MENBER_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_TEAM_MEMBER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="menberId">
+				MENBER_ID=#menberId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="teamId">
+				TEAM_ID=#teamId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userCode">
+				USER_CODE=#userCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="menberType">
+				MENBER_TYPE=#menberType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+		</dynamic>
+	</delete>
+
+
+	
+	<update id="update" parameterClass="TeamMember">
+		UPDATE TB_TEAM_MEMBER SET
+		MENBER_ID=#menberId#,TEAM_ID=#teamId#,USER_ID=#userId#,USER_CODE=#userCode#,MENBER_TYPE=#menberType#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE MENBER_ID=#menberId#
+	</update>
+	
+
+</sqlMap>

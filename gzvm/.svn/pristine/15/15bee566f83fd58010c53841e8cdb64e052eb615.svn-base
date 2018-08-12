@@ -1,0 +1,121 @@
+package cn.com.voge.gzvm.action;
+
+import java.util.Map;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.beans.AdminToken;
+
+import com.google.common.collect.Maps;
+import com.voyageci.tools.utils.GeneralUtils;
+
+/** 
+ * @author lianzw 
+ * @version 创建时间：2017年5月4日 下午3:29:22 
+ * 类说明 
+ */
+@SuppressWarnings({"rawtypes","unchecked"})
+public class AdminAction extends GebileAction{
+
+	private static final long serialVersionUID = 6031581639462035004L;
+	private String adminName;
+	private String adminType;
+	private String mobile;
+	private String qq;
+	
+	public void login(){
+		Map result = adminService.authenticate(adminCode, password);
+		if (result.containsKey("adminId")) {
+			adminId = (Integer) result.get("adminId");
+			AdminToken token = saveToken(adminId, request);
+			result.put("token", token.getToken());
+			result.put("tokenId", token.getTokenId());
+			saveAdminLog(token,"AdminAction", "login", "登录接口。",result);
+		}
+		
+		writeJson(response, result);
+	}
+	
+	/** 保存管理员
+	 * @author lianzw
+	 */
+	public void saveAdmin(){
+		AdminToken token = getToken(true);
+		
+		Map values = Maps.newHashMap();
+		if (adminId != null) {
+			values.put("adminId", adminId);
+		}
+		values.put("adminCode", adminCode);
+		values.put("adminName", adminName);
+		if(adminType == null){
+			adminType = Constant.ADMIN_TYPE_COMMON;
+		}
+		values.put("adminType", adminType);
+		values.put("mobile", mobile);
+		values.put("qq", qq);
+		values.put("password",GeneralUtils.MD5(password));
+		Map result = null;
+		try {
+			result = adminService.saveAdmin(values);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (result == null) {
+			result = getReturnMap("保存失败", Constant.RESULT_CODE_ERROR);
+		}else{
+			result.putAll(getReturnMap("保存成功!", Constant.RESULT_CODE_SUCCESS));
+		}
+		saveAdminLog(token,"AdminAction", "saveAdmin", "新增/编辑管理员接口。",result);
+		writeJson(response, result);
+	}
+	
+	public void delAdmin(){
+		AdminToken token = getToken(true);
+		Map result = null;
+		try {
+			result = adminService.deleteAdmin(adminId);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (result == null) {
+			result = getReturnMap("保存失败", Constant.RESULT_CODE_ERROR);
+		}else{
+			result.putAll(getReturnMap("保存成功!", Constant.RESULT_CODE_SUCCESS));
+		}
+		saveAdminLog(token,"AdminAction", "delAdmin", "删除管理员接口。",result);
+		writeJson(response, result);
+	}
+
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+
+	public String getAdminType() {
+		return adminType;
+	}
+
+	public void setAdminType(String adminType) {
+		this.adminType = adminType;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getQq() {
+		return qq;
+	}
+
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+
+}

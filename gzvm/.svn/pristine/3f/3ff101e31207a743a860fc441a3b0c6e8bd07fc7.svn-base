@@ -1,0 +1,427 @@
+package cn.com.voge.gzvm.manager;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.dao.DataAccessException;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.beans.Competition;
+import cn.com.voge.gzvm.beans.CompetitionInsurance;
+import cn.com.voge.gzvm.beans.Discount;
+import cn.com.voge.gzvm.beans.Insurance;
+import cn.com.voge.gzvm.beans.JoinCompetition;
+import cn.com.voge.gzvm.beans.JoinInfoDefine;
+import cn.com.voge.gzvm.dao.CompetitionDao;
+import cn.com.voge.gzvm.dao.CompetitionInsuranceDao;
+import cn.com.voge.gzvm.dao.CompetitionPackageDao;
+import cn.com.voge.gzvm.dao.DiscountDao;
+import cn.com.voge.gzvm.dao.InsuranceDao;
+import cn.com.voge.gzvm.dao.JoinCompetitionDao;
+import cn.com.voge.gzvm.dao.JoinInfoDao;
+import cn.com.voge.gzvm.dao.JoinInfoDefineDao;
+import cn.com.voge.gzvm.dao.JoinPhotoDao;
+
+import com.google.gxp.com.google.common.collect.Maps;
+import com.voyageci.core.manage.AbstractEntityManage;
+import com.voyageci.tools.utils.BeanUtils;
+import com.voyageci.tools.utils.ListUtils;
+
+
+@SuppressWarnings({"rawtypes","unchecked"})
+public class CompetitionManager extends AbstractEntityManage<Competition, CompetitionDao> {
+
+	private CompetitionDao competitionDao;
+	private CompetitionPackageDao competitionPackageDao;
+	private CompetitionInsuranceDao competitionInsuranceDao;
+	private DiscountDao discountDao;
+	private JoinInfoDefineDao joinInfoDefineDao;
+	private InsuranceDao insuranceDao;
+	private JoinCompetitionDao joinCompetitionDao;
+	private JoinPhotoDao joinPhotoDao;
+	private JoinInfoDao joinInfoDao;
+
+	@Override
+	public Map getRecordDetail(Competition object) throws DataAccessException {
+		Map record = super.getRecordDetail(object);
+		return record;
+	}
+	
+	@Override
+	public void insertDetail(Competition object, Map values) throws DataAccessException {
+//		super.insertDetail(object, values);
+		
+	}
+	
+	@Override
+	public void updateDetail(Competition object, Map newValues, Map oldValues) throws DataAccessException {
+//		super.updateDetail(object, newValues, oldValues);
+		
+	}
+	
+	@Override
+	public void removeDetail(Competition object) throws DataAccessException {
+		Map criteria = Maps.newHashMap();
+		criteria.put("competiId", object.getCompetiId());
+		competitionPackageDao.deleteBy(criteria);
+		discountDao.deleteBy(criteria);
+		joinInfoDefineDao.deleteBy(criteria);
+		
+		List<CompetitionInsurance> cis = competitionInsuranceDao.findBy(criteria);
+		if (ListUtils.isNotEmpty(cis)) {
+			for (CompetitionInsurance ci : cis) {
+				deleteInsurance(ci.getInsuranceId());
+			}
+		}
+		
+		List<JoinCompetition> jcs = joinCompetitionDao.findBy(criteria);
+		if (ListUtils.isNotEmpty(jcs)) {
+			for (JoinCompetition jc : jcs) {
+				deleteJoinDetail(jc);
+			}
+		}
+	}
+	
+	/** 获取赛事列表
+	 * @author lianzw
+	 * @param criteria
+	 * @param start
+	 * @param pageSize
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map getCompetitions(Map criteria,Integer start, Integer pageSize) throws DataAccessException{
+		Map result = Maps.newHashMap();
+		List<Map> maps = new ArrayList<>();
+		List<Competition> cpts = findBy(criteria, start, pageSize);
+		Integer count = 0;
+		if (ListUtils.isNotEmpty(cpts)) {
+			for (Competition vmCompetition : cpts) {
+				Map map = getRecordDetail(vmCompetition);
+				maps.add(map);
+			}
+			try {
+				count = getRecordCount(criteria);
+			} catch (Exception e) {
+				count = cpts.size();
+			}
+		}
+		result.put("results", cpts);
+		result.put("totalCount", count);
+		result.put("start", start);
+		result.put("pageSize", pageSize);
+		return result;
+	}
+	
+	/** 新增或更新赛事信息
+	 * @author lianzw
+	 * @param values
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map saveCompetition(Map values) throws DataAccessException{
+		Integer competiId = getIntValue(values, "competiId");
+		int oper = Constant.OPER_UPDATE;
+		Competition cpt = null;
+		if (competiId > 0) {
+			cpt = get(competiId);
+		}
+		if (cpt == null) {
+			oper = Constant.OPER_INSTER;
+			cpt = new Competition();
+			cpt.setState(Constant.BASE_STATE);
+		}
+		try {
+			BeanUtils.copyProperties(cpt, values);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		if (oper == Constant.OPER_INSTER) {
+			insert(cpt);
+		}else{
+			update(cpt);
+		}
+		Map record = getRecordDetail(cpt);
+		return record;
+	}
+	
+	/** 删除赛事
+	 * @author lianzw
+	 * @param competiId
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map deleteCompetition(Integer competiId) throws DataAccessException{
+		Competition cpt = get(competiId);
+		return deleteCompetition(cpt);
+	}
+	
+	public Map deleteCompetition(Competition cpt) throws DataAccessException{
+		Integer code = Constant.RESULT_CODE_SUCCESS;
+		String msg = "删除成功！";
+		if (cpt == null) {
+			code = Constant.RESULT_CODE_ERROR;
+			msg = "删除失败！已经不存在，";
+		} else {
+			removeDetail(cpt);
+			remove(cpt);
+		}
+		Map result = getReturnMap(msg, code);
+		return result;
+	}
+	
+	/** 删除报名详情
+	 * @author lianzw
+	 * @param joinId
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map deleteJoinDetail(Integer joinId) throws DataAccessException{
+		JoinCompetition jc = joinCompetitionDao.get(joinId);
+		return deleteJoinDetail(jc);
+	}
+	
+	public Map deleteJoinDetail(JoinCompetition jc) throws DataAccessException{
+		Integer code = Constant.RESULT_CODE_SUCCESS;
+		String msg = "删除成功！";
+		if (jc == null) {
+			code = Constant.RESULT_CODE_ERROR;
+			msg = "删除失败！已经不存在，";
+		} else {
+			joinPhotoDao.deleteBy("joinId", jc.getJoinId());
+			joinInfoDao.deleteBy("joinId", jc.getJoinId());
+			joinCompetitionDao.remove(jc);
+		}
+		Map result = getReturnMap(msg, code);
+		return result;
+	}
+	
+	/** 保存用户报名信息定义
+	 * @author lianzw
+	 * @param competiId
+	 * @param names
+	 * @param types
+	 * @param requireds
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map saveJoinInfoDefines(Integer competiId,List<String> names, List<String> types,List<Integer> requireds) throws DataAccessException{
+		Map criteria = Maps.newHashMap();
+		criteria.put("competiId", competiId);
+		joinInfoDefineDao.deleteBy(criteria);
+		if (ListUtils.isNotEmpty(names)) {
+			for (int i = 0; i < names.size(); i++) {
+				JoinInfoDefine define = new JoinInfoDefine();
+				define.setCompetiId(competiId);
+				define.setDefineName(names.get(i));
+				define.setDataType(types.get(i));
+				define.setRequired(requireds.get(i));
+				define.setDispIndex(i);
+				define.setState(Constant.BASE_STATE);
+				joinInfoDefineDao.insert(define);
+			}
+		}
+		return getReturnMap("保存成功", Constant.RESULT_CODE_SUCCESS);
+	}
+	
+	/**
+	 * 保存口令
+	 * @author lianzw
+	 * @param competiId
+	 * @param ruleIds
+	 * @param passwords
+	 * @param discounts
+	 * @param disNums
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map saveDiscounts(Integer competiId, List<Integer> ruleIds, List<String> passwords, List<Float> discounts, List<Integer> disNums) throws DataAccessException{
+		Map criteria = Maps.newHashMap();
+		criteria.put("competiId", competiId);
+		if (ListUtils.isEmpty(passwords)) {
+			discountDao.deleteBy(criteria);
+		}else {
+			List<Discount> dcs = discountDao.findBy(criteria);
+			if (ListUtils.isNotEmpty(dcs)) {
+				for (Discount discount : dcs) {
+					int index = ruleIds.indexOf(discount.getRuleId());
+					if(index < 0){
+						discountDao.remove(discount);
+					}else{
+						discount.setPassWord(passwords.get(index));
+						discount.setDiscount(discounts.get(index));
+						discount.setDiscountNum(disNums.get(index));
+						discountDao.update(discount);
+						ruleIds.remove(index);
+						passwords.remove(index);
+						discounts.remove(index);
+						disNums.remove(index);
+					}
+				}
+			}
+			for (int i = 0; i < passwords.size(); i++) {
+				Discount discount  = new Discount();
+				discount.setCompetiId(competiId);
+				discount.setPassWord(passwords.get(i));
+				discount.setDiscount(discounts.get(i));
+				discount.setDiscountNum(disNums.get(i));
+				discount.setState(Constant.BASE_STATE);
+				discountDao.insert(discount);
+			}
+		}
+		return getReturnMap("保存成功", Constant.RESULT_CODE_SUCCESS);
+	}
+	
+	/** 保存赛事保险
+	 * @author lianzw
+	 * @param competiId
+	 * @param fileName
+	 * @param cost
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map saveCompetitionInsurance(Integer competiId, String fileName, Float cost) throws DataAccessException{
+		Map insMap = saveInsurance(null, fileName, cost);
+		Integer insuranceId = getIntValue(insMap, "insuranceId");
+		CompetitionInsurance ci = new CompetitionInsurance();
+		ci.setCompetiId(competiId);
+		ci.setInsuranceId(insuranceId);
+		ci.setState(Constant.BASE_STATE);
+		competitionInsuranceDao.insert(ci);
+		return getRecordMap(ci, true);
+	}
+	
+	/** 保存保险
+	 * @author lianzw
+	 * @param values
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map saveInsurance(Integer insuranceId, String fileName, Float cost) throws DataAccessException{
+//		Integer insuranceId = getIntValue(values, "insuranceId");
+		int oper = Constant.OPER_UPDATE;
+		Insurance insurance = null;
+		if (insuranceId != null && insuranceId > 0) {
+			insurance = insuranceDao.get(insuranceId);
+		}
+		if (insurance == null) {
+			oper = Constant.OPER_INSTER;
+			insurance = new Insurance();
+			insurance.setState(Constant.BASE_STATE);
+			insurance.setUploadTime(new Date());
+		}
+		
+		insurance.setFileName(fileName);
+		insurance.setCost(cost);
+		insurance.setInsuranceName(fileName);
+		
+		if (oper == Constant.OPER_INSTER) {
+			insuranceDao.insert(insurance);
+		}else{
+			insuranceDao.update(insurance);
+		}
+		Map record = getRecordMap(insurance,true);
+		return record;
+	}
+	
+	/** 删除保险
+	 * @author lianzw
+	 * @param insuranceId
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public Map deleteInsurance(Integer insuranceId) throws DataAccessException{
+		Insurance insurance = insuranceDao.get(insuranceId);
+		return deleteInsurance(insurance);
+	}
+	
+	public Map deleteInsurance(Insurance insurance) throws DataAccessException{
+		Integer code = Constant.RESULT_CODE_SUCCESS;
+		String msg = "删除成功！";
+		if (insurance == null) {
+			code = Constant.RESULT_CODE_ERROR;
+			msg = "删除失败！已经不存在，";
+		} else {
+			competitionInsuranceDao.deleteBy("insuranceId", insurance.getInstanceId());
+			insuranceDao.remove(insurance);
+		}
+		Map result = getReturnMap(msg, code);
+		return result;
+	}
+
+	public CompetitionDao getCompetitionDao() {
+		return competitionDao;
+	}
+
+	public void setCompetitionDao(CompetitionDao competitionDao) {
+		this.competitionDao = competitionDao;
+	}
+
+	public CompetitionPackageDao getCompetitionPackageDao() {
+		return competitionPackageDao;
+	}
+
+	public void setCompetitionPackageDao(CompetitionPackageDao competitionPackageDao) {
+		this.competitionPackageDao = competitionPackageDao;
+	}
+
+	public CompetitionInsuranceDao getCompetitionInsuranceDao() {
+		return competitionInsuranceDao;
+	}
+
+	public void setCompetitionInsuranceDao(
+			CompetitionInsuranceDao competitionInsuranceDao) {
+		this.competitionInsuranceDao = competitionInsuranceDao;
+	}
+
+	public DiscountDao getDiscountDao() {
+		return discountDao;
+	}
+
+	public void setDiscountDao(DiscountDao discountDao) {
+		this.discountDao = discountDao;
+	}
+
+	public JoinInfoDefineDao getJoinInfoDefineDao() {
+		return joinInfoDefineDao;
+	}
+
+	public void setJoinInfoDefineDao(JoinInfoDefineDao joinInfoDefineDao) {
+		this.joinInfoDefineDao = joinInfoDefineDao;
+	}
+
+	public InsuranceDao getInsuranceDao() {
+		return insuranceDao;
+	}
+
+	public void setInsuranceDao(InsuranceDao insuranceDao) {
+		this.insuranceDao = insuranceDao;
+	}
+
+	public JoinCompetitionDao getJoinCompetitionDao() {
+		return joinCompetitionDao;
+	}
+
+	public void setJoinCompetitionDao(JoinCompetitionDao joinCompetitionDao) {
+		this.joinCompetitionDao = joinCompetitionDao;
+	}
+
+	public JoinPhotoDao getJoinPhotoDao() {
+		return joinPhotoDao;
+	}
+
+	public void setJoinPhotoDao(JoinPhotoDao joinPhotoDao) {
+		this.joinPhotoDao = joinPhotoDao;
+	}
+
+	public JoinInfoDao getJoinInfoDao() {
+		return joinInfoDao;
+	}
+
+	public void setJoinInfoDao(JoinInfoDao joinInfoDao) {
+		this.joinInfoDao = joinInfoDao;
+	}
+
+}

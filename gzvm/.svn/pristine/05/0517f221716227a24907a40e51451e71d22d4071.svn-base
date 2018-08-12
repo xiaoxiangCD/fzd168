@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.Competition">
+<typeAlias alias="Competition" type="cn.com.voge.gzvm.beans.Competition"/>
+
+<resultMap id="CompetitionMap" class="Competition">
+	<result property="competiId" column="COMPETI_ID"/>
+	<result property="competiName" column="COMPETI_NAME"/>
+	<result property="competiCode" column="COMPETI_CODE"/>
+	<result property="competiType" column="COMPETI_TYPE"/>
+	<result property="level" column="LEVEL"/>
+	<result property="joinType" column="JOIN_TYPE"/>
+	<result property="city" column="CITY" />
+	<result property="addr" column="ADDR" />
+	<result property="joinStartTime" column="JOIN_START_TIME" javaType="date"/>
+	<result property="joinEndTime" column="JOIN_END_TIME" javaType="date"/>
+	<result property="startTime" column="START_TIME" javaType="date"/>
+	<result property="endTime" column="END_TIME" javaType="date"/>
+	<result property="discountSet" column="DISCOUNT_SET"/>
+	<result property="luckyType" column="LUCKY_TYPE"/>
+	<result property="joinProve" column="JOIN_PROVE"/>
+	<result property="chargeType" column="CHARGE_TYPE"/>
+	<result property="groupType" column="GROUP_TYPE" />
+	<result property="peopleNum" column="PEOPLE_NUM" nullValue="0"/>
+	<result property="groupPerNum" column="GROUP_PER_NUM" nullValue="0"/>
+	<result property="groupNum" column="GROUP_NUM" nullValue="0"/>
+	<result property="descr" column="DESCR" nullValue="0"/>
+	
+	<result property="versionNum" column="VER_NUM" nullValue="0"/>
+	<result property="instanceId" column="INSTANCE_ID" nullValue="0"/>
+	<result property="state" column="STATE" nullValue="0"/>
+	<result property="createUser" column="CREATE_USER" nullValue="0"/>
+	<result property="createDate" column="CREATE_DATE" javaType="date"/>
+</resultMap>
+
+<select id="count" resultClass="int">
+	SELECT count(*) FROM TB_COMPETITION
+</select>
+
+<select id="select" resultMap="CompetitionMap">
+	SELECT * FROM TB_COMPETITION
+	<dynamic prepend="WHERE">
+		<isParameterPresent>
+			COMPETI_ID=#value#
+		</isParameterPresent>
+	</dynamic>
+	ORDER BY INSTANCE_ID,COMPETI_NAME,COMPETI_CODE,COMPETI_TYPE, CITY
+</select>
+
+<select id="selectBySql" parameterClass="string" resultMap="CompetitionMap">
+	$value$
+</select>
+
+<select id="selectByMap" parameterClass="map" resultMap="CompetitionMap">
+	SELECT * FROM TB_COMPETITION
+	<dynamic prepend="WHERE">
+		<isNotNull prepend="AND" property="instanceId">
+			INSTANCE_ID=#instanceId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="competiId">
+			COMPETI_ID=#competiId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="competiName">
+			COMPETI_NAME=#competiName#
+		</isNotNull>
+		<isNotNull prepend="AND" property="competiLike">
+			COMPETI_NAME LIKE '%'||#competiLike#||'%' OR COMPETI_CODE LIKE '%'||#competiLike#||'%'
+		</isNotNull>
+		<isNotNull prepend="AND" property="competiCode">
+			COMPETI_CODE=#competiCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="competiType">
+			COMPETI_TYPE=#competiType#
+		</isNotNull>
+		<isNotNull prepend="AND" property="nullExtType">
+			COMPETI_TYPE IS NULL
+		</isNotNull>
+		<isNotNull prepend="AND" property="competiCodees">
+			COMPETI_CODE IN ($competiCodees$)
+		</isNotNull>
+		<isNotNull prepend="AND" property="level">
+			LEVEL=#level#
+		</isNotNull>
+		<isNotNull prepend="AND" property="city">
+			CITY=#city#
+		</isNotNull>
+		<isNotNull prepend="AND" property="state">
+			(STATE &amp; #state#) >0
+		</isNotNull>
+		<isNotNull prepend="AND" property="authoritySQL">
+			$authoritySQL$
+		</isNotNull>
+		
+	</dynamic>
+	ORDER BY INSTANCE_ID,COMPETI_NAME,COMPETI_CODE,COMPETI_TYPE, CITY
+</select>
+
+<insert id="insert" parameterClass="Competition">
+	<selectKey resultClass="int" keyProperty="competiId"  >   
+     SELECT NEXTVAL('SQ_COMPETITION')   
+   	</selectKey>
+	INSERT INTO TB_COMPETITION(COMPETI_ID,COMPETI_NAME,COMPETI_CODE,COMPETI_TYPE,LEVEL,JOIN_TYPE,
+		JOIN_END_TIME,CITY,JOIN_START_TIME,START_TIME,END_TIME,DISCOUNT_SET,ADDR,DESCR,
+		LUCKY_TYPE,JOIN_PROVE,CHARGE_TYPE,GROUP_TYPE,PEOPLE_NUM,GROUP_NUM,GROUP_PER_NUM,
+	    VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+	VALUES(#competiId#,#competiName#,#competiCode#,#competiType#,#level#,#joinType#,
+		#joinEndTime#,#city#,#joinStartTime#,#startTime#,#endTime#,#discountSet#,#addr#,#descr#,
+		#luckyType#,#joinProve#,#chargeType#,#groupType#,#peopleNum#,#groupNum#,#groupPerNum#,
+	    #versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+</insert>
+
+<delete id="delete" parameterClass="Competition">
+	DELETE FROM TB_COMPETITION WHERE COMPETI_ID=#competiId#
+</delete>
+
+<delete id="deleteByPK" parameterClass="int">
+	DELETE FROM TB_COMPETITION WHERE COMPETI_ID=#value#
+</delete>
+
+<delete id="deleteByMap" parameterClass="map">
+DELETE FROM TB_COMPETITION
+<dynamic prepend="WHERE">
+		<isNotNull prepend="AND" property="instanceId">
+			INSTANCE_ID=#instanceId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="competiId">
+			COMPETI_ID=#competiId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="competiName">
+			COMPETI_NAME=#competiName#
+		</isNotNull>
+		<isNotNull prepend="AND" property="competiCode">
+			COMPETI_CODE=#competiCode#
+		</isNotNull>
+		<isNotNull prepend="AND" property="competiCodees">
+			COMPETI_CODE IN ($competiCodees$)
+		</isNotNull>
+		<isNotNull prepend="AND" property="level">
+			LEVEL=#level#
+		</isNotNull>
+		<isNotNull prepend="AND" property="state">
+			(STATE &amp; #state#) >0
+		</isNotNull>
+		<isNotNull prepend="AND" property="authoritySQL">
+			$authoritySQL$
+		</isNotNull>
+	</dynamic>
+</delete>
+
+<update id="update" parameterClass="Competition">
+	UPDATE TB_COMPETITION 
+	SET COMPETI_NAME=#competiName#,COMPETI_CODE=#competiCode#,COMPETI_TYPE=#competiType#,LEVEL=#level#,CITY=#city#,
+		JOIN_TYPE=#joinType#,JOIN_START_TIME=#joinStartTime#,JOIN_END_TIME=#joinEndTime#,START_TIME=#startTime#,
+		END_TIME=#endTime#,DISCOUNT_SET=#discountSet#,LUCKY_TYPE=#luckyType#,JOIN_PROVE=#joinProve#,ADDR=#addr#,DESCR=#descr#,
+		CHARGE_TYPE=#chargeType#,GROUP_TYPE=#groupType#,PEOPLE_NUM=#peopleNum#,GROUP_NUM=#groupNum#,GROUP_PER_NUM=#groupPerNum#,
+	  	VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+	WHERE COMPETI_ID=#competiId#
+</update>
+
+</sqlMap>
+
+
+
+
+

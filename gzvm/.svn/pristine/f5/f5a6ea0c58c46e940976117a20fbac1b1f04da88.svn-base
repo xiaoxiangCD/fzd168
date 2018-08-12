@@ -1,0 +1,145 @@
+var WH = $(window).height();
+var moduleId = '';
+
+$().ready(function(){
+	var HH = $("#header").height();
+	var IH = WH - HH ;
+	console.log(WH+','+ HH +','+IH);
+	$('#rightPanel').css('min-height',IH);
+	if($.query.keys && $.query.keys.moduleId){
+		moduleId = $.query.keys.moduleId;
+	}
+});
+
+
+function getModule(option){
+	$.ajax({
+		url : '/gzvm/admin!getModule.action',
+		dataType : 'json',
+		type : 'post',
+		success : function(result) {
+			if(result.resultCode == 1){
+				var current = '';
+				var crt = '';
+				if(moduleId == ''){
+					current = ' active';
+					crt = ' class="selected"';
+				}
+				var url = '<li class="h'+current+'"><a href="/gzvm/fzd/pages/fzd_index.jsp">首页 </a></li>';
+				var urlB = '<li><a href="/gzvm/fzd/pages/fzd_index.jsp"'+crt+'>- 首页 </a></li>';
+				if(result.results && result.results.length > 0){
+					for(var i in result.results){
+						var obj = result.results[i];
+						current = '';
+						crt = '';
+						if(moduleId != '' && moduleId==obj.moduleId){
+							current = ' active';
+							crt = ' class="selected"';
+						}
+						url += '<li class="h'+current+'"><a href="'+obj.moduleUrl+'?moduleId='+obj.moduleId+'">'+obj.moduleName+'</a></li>';
+						urlB += '<li><a href="'+obj.moduleUrl+'?moduleId='+obj.moduleId+'"'+crt+'>- '+obj.moduleName+' </a></li>';
+					}
+					getModuleItems(option);
+				}
+				$('#nav').html(url);
+				$('#sNav').html(urlB);
+			}else{
+				swal( result.resultMsg);
+			}
+		},
+		failure : function(result) {
+			swal("请求失败!", result.resultMsg);
+		}
+	});	
+}
+
+function getModuleItems(option){
+	if(moduleId != ''){
+		$.ajax({
+			url : '/gzvm/admin!getModuleItem.action',
+			data : { moduleId : moduleId},
+			dataType : 'json',
+			type : 'post',
+			success : function(result) {
+				if(result.resultCode==0){
+					swal( result.resultMsg);
+				} else {
+					var url = '';
+					if(result.results && result.results.length>0){
+						for(var i in result.results){
+							var obj = result.results[i];
+							url += '<li id="'+obj.itemId+'" class="mg_list_item'+ (i == 0 ? ' mg_active">' : '">')
+								+ obj.itemName+'</li>';
+						}
+						getItemContents(result.results[0].itemId,option);
+					}
+					$('#items').html(url);
+					
+					if(url!=''){
+						$('.mg_list_item').each(function (i){
+							$(this).click(function (){
+								var obj = result.results[i];
+								var clickHtml = $(this).html();
+								getItemContents(obj.itemId,option,clickHtml);
+							});
+						});
+					}
+				}
+			},
+			failure : function(result) {
+				swal("请求失败!", result.resultMsg);
+			}
+		});
+	}
+}
+
+function getItemContents(itemId,option,titleName){
+	$('.mg_list_item').removeClass("mg_active");
+	$('#'+itemId).addClass('mg_active');
+	$('#itemName').html(titleName);
+	$.ajax({
+		url : '/gzvm/admin!getItemContents.action',
+		data : {
+			itemId : itemId,
+			state : 2
+		},
+		dataType : 'json',
+		type : 'post',
+		success : function(result) {
+			if(result.resultCode==0){
+				swal( result.resultMsg);
+			}else{
+				option && option(result);
+			}
+		},
+		failure : function(result) {
+			swal("请求失败!", result.resultMsg);
+		}
+	});
+	
+	
+}
+
+function logout(){
+	window.location.href = '/gzvm/admin!logout.action';
+}
+
+setInterval(ping, 150000);
+function ping() {
+	$.ajax({
+		url : '/gzvm/admin!ping.action',
+		dataType : 'json',
+		type : 'post',
+		success : function(result) {
+			if (result.resultCode == 0) {
+				parent.logout();
+			}
+		}
+	});
+}
+
+function openItemPage(contentId){
+	window.location.href = '/gzvm/fzd/pages/health_item.jsp?contentId='+contentId+'&moduleId='+moduleId;
+	
+}
+

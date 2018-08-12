@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=no">
+<title>微信支付</title>
+<link rel="stylesheet" href="/gzvm/css/bootstrap.css" />
+<script src="/gzvm/js/jquery-1.11.3.js"></script>
+<script src="/gzvm/js/jquery.params.js"></script>
+<script src="/gzvm/js/bootstrap.js"></script>
+<script type="text/javascript" src="/gzvm/js/jquery.qrcode.min.js"></script>
+<script src="/gzvm/js/respond.min.js"></script>
+<script src="/gzvm/js/html5shiv.min.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script> 
+<script src="/gzvm/js/weixin/PayParamUtils.js"></script>
+<script src="/gzvm/js/weixin/wxpay.js"></script>
+<style>
+html {
+	font-size: 40px;
+}
+
+body {
+	font-size: 20px;
+	padding: 0px;
+	margin: 0;
+	font-family: '微软雅黑';
+}
+
+.header span {
+	font-size: 1em;
+	flex: 1;
+}
+
+.page_item {
+	overflow: hidden;
+	padding: 10px;
+	display: -webkit-flex;
+}
+
+.item {
+	padding: 0 5px;
+	text-align: center;
+	flex: 1;
+}
+</style>
+</head>
+<body>
+
+	<div class="header"
+		style="text-align: center; border-bottom: 1px solid #eee; padding: 10px;">
+		<span>我的订单</span>
+	</div>
+	<div class="section">
+		<div class="page_title" style="padding: 0 10px;">
+			<p
+				style="display: -webkit-inline-box; font-size: 0.9em; line-height: 39px;">广州沃捷信息科技有限公司</p>
+			<a
+				style="display: -webkit-inline-box; font-size: 0.7em; float: right; line-height: 39px; color: #f00;display: none" >订单运行中&gt;</a>
+		</div>
+		<div class="page_item"
+			style="background-color: #F5F5F5; padding: 15px 10px;">
+			<div class="item">
+				<img src="/gzvm/manage/images/weixin.jpg" style="width: 100px; height: 100px;" />
+			</div>
+			<div class="item" style="flex: 2;">
+				<h4 style="font-size: 0.6em; margin-top: 0;">广州沃捷信息科技有限公司成立于2008年,注册资金200万元,位于海珠区科技孵</h4>
+				<p style="font-size: 0.6em; color: #ACACAC;">
+					公司主要从事电信业务软件研发和咨询、大数据分析以及企业战略管理软件的研发工作</p>
+				<div style="text-align: left;">
+					<a href="#"
+						style="font-size: 0.6em; background-color: #f00; color: #fff; padding: 5px;display: none">七天退换</a>
+				</div>
+			</div>
+			<div class="item" style="font-size: 0.6em;">
+				￥0.01<br> <s>￥250</s>
+			</div>
+		</div>
+		<div style="clear: both"></div>
+		<div
+			style="margin: 15px 0; border-bottom: 1px solid #eee; padding: 0 10px;">
+			<p style="text-align: right; font-size: 0.65em;">
+				共<span> 1 </span>件商品 合计:￥<span>0.01</span>
+			</p>
+		</div>
+		<div
+			style="margin: -5px; border-bottom: 1px solid #eee; padding: 0 10px;">
+			<p style="text-align: right;">
+				<a href="voge_products.html" class="btn btn-default" style="font-size: 0.8em;">取消</a>
+				<a href="#" class="btn btn-default" style="font-size: 0.8em;">查看详情</a>
+				<a href="#" id="showPop" class="btn "
+					style="font-size: 0.8em; background-color: #FF6700; color: #fff;">确认付款</a>
+			</p>
+		</div>
+	</div>
+	<div id="popDiv"
+		style="background: rgba(0, 0, 0, 0.4); position: fixed; overflow: hidden; top: 0; right: 0; bottom: 0; left: 0; z-index: 10000; display: none;">
+		<div
+			style="width: 450px; height: 500px; text-align: center; position: fixed; left: 50%; top: 50%; z-index: 10000; border: 1px solid #ccc; background: #fff; padding-top: 20px; margin-left: -225px; margin-top: -250px;">
+			<div
+				style="width: 300px; height: 300px; border: 1px solid #ccc; margin: 10px auto;">
+				<div style="width: 298px; height: 298px;padding:22px;" id="qrcode"> </div>
+			</div>
+			<div style="font-size: .8em; color: #ccc; text-align: center;">微信扫一扫，轻松支付</div>
+			<div
+				style="font-size: 1.2em; color: #f00; text-align: center; margin: 10px auto;">￥0.01</div>
+			<div style="text-align: center; margin-top: 10px;">
+				<!-- <a class="btn btn-info" onclick="selLocation();">确定</a> -->
+				<a class="btn btn-danger"
+					onclick="$('#popDiv').css('display','none');"
+					style="font-size: .8em; margin-top: 20px;">取消</a>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$('#showPop').click(function(){
+		WeiXinPay(function(result){
+			$("#qrcode").html('');
+			$("#qrcode").qrcode(result.code_url);
+			$('#popDiv').show();
+		});		
+	});
+
+</script>
+</html>

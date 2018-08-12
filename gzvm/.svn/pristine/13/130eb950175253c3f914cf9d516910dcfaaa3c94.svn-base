@@ -1,0 +1,210 @@
+/*控制全局比例大小媒体对象*/
+@media ( max-width : 320px) {
+	html {
+		font-size: 15px;
+	}
+	body {
+		font-size: 8px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		background-color: #F5F4F9;
+		padding-bottom: 4.4em;
+	}
+}
+
+@media ( min-width : 320px) and (max-width: 400px) {
+	html {
+		font-size: 20px;
+	}
+	body {
+		font-size: 10px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		background-color: #F5F4F9;
+		padding-bottom: 4.4em;
+	}
+}
+
+@media ( min-width : 401px) and (max-width: 480px) {/*iphone7 Plus尺寸所在*/
+	html {
+		font-size: 20px;
+	}
+	body {
+		font-size: 10px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		background-color: #F5F4F9;
+		padding-bottom: 4.4em;
+	}
+}
+
+@media ( min-width : 481px) and (max-width: 640px) {
+	html {
+		font-size: 20px;
+	}
+	body {
+		font-size: 10px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		background-color: #F5F4F9;
+		padding-bottom: 4.4em;
+	}
+}
+
+/* @media ( min-width : 541px) and (max-width: 640px) {
+	html {
+		font-size: 33px;
+	}
+	body {
+		font-size: 16px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		background-color: #F5F4F9;
+		padding-bottom: 4.4em;
+	}
+} */
+
+@media ( min-width : 641px) and (max-width: 768px) {/*ipad 尺寸所在*/
+	html {
+		font-size: 22px;
+	}
+	body {
+		font-size: 12px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		background-color: #F5F4F9;
+		padding-bottom: 4.4em;
+	}
+}
+
+@media ( min-width : 769px) and (max-width: 920px) {
+	html {
+		font-size: 25px;
+	}
+	body {
+		font-size: 12px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		background-color: #F5F4F9;
+		padding-bottom: 4.4em;
+	}
+}
+
+@media ( min-width : 921px) and (max-width: 968px) {
+	html {
+		font-size: 25px;
+	}
+	body {
+		font-size: 12px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		background-color: #F5F4F9;
+		padding-bottom: 4.4em;
+	}
+}
+
+@media ( min-width : 969px) and (max-width: 1080px) {
+	html {
+		font-size: 25px;
+	}
+	body {
+		font-size: 12px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		background-color: #F5F4F9;
+		padding-bottom: 4.4em;
+	}
+}
+
+@media ( min-width : 1080px) {
+	html {
+		font-size: 25px;
+	}
+	body {
+		font-size: 12px;
+		padding: 0;
+		margin: 0;
+		font-family: tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", 宋体,
+			sans-serif;
+		overflow-x: hidden;
+		background-color: #F5F4F9;
+		padding-bottom: 4.4em;
+	}
+}
+
+.flex {
+	overflow: hidden;
+	display: flex;
+	display: -webkit-box;
+	/* display : -moz-flex;
+	display : -o-flex;
+	display : -ms-flex; */
+	padding: .5em 1em;
+}
+
+.flex_item_s {
+	padding: 0 .5em;
+	text-align: center;
+	-webkit-box-align: center;
+	flex: 1;
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-ms-flex: 1;
+}
+
+.flex_item_m {
+	padding: 0 .5em;
+	text-align: center;
+	-webkit-box-align: center;
+	flex: 2;
+	-webkit-box-flex: 2;
+	-moz-box-flex: 2;
+	-ms-flex: 2;
+}
+
+.flex_item_l {
+	padding: 0 .5em;
+	text-align: center;
+	-webkit-box-align: center;
+	flex: 3;
+	-webkit-box-flex: 3;
+	-moz-box-flex: 3;
+	-ms-flex: 3;
+}
+
+.flex_item_xl {
+	padding: 0 .5em;
+	text-align: center;
+	-webkit-box-align: center;
+	flex: 4;
+	-webkit-box-flex: 4;
+	-moz-box-flex: 4;
+	-ms-flex: 4;
+}

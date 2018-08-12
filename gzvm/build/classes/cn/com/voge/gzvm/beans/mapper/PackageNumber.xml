@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.PackageNumber">
+	<typeAlias alias="PackageNumber" type="cn.com.voge.gzvm.beans.PackageNumber" />
+
+	<resultMap id="PackageNumberMap" class="PackageNumber">
+		<result property="numberId" column="NUMBER_ID" />
+		<result property="packageId" column="PACKAGE_ID" />
+		<result property="numberName" column="NUMBER_NAME" />
+		<result property="dispIndex" column="DISP_INDEX" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_PACKAGE_NUMBER
+	</select>
+
+	<select id="select" resultMap="PackageNumberMap">
+		SELECT * FROM TB_PACKAGE_NUMBER
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				NUMBER_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY NUMBER_ID
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="PackageNumberMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="PackageNumberMap">
+		SELECT * FROM TB_PACKAGE_NUMBER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="numberId">
+				NUMBER_ID=#numberId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="packageId">
+				PACKAGE_ID=#packageId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="numberName">
+				NUMBER_NAME=#numberName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="dispIndex">
+				DISP_INDEX=#dispIndex#
+			</isNotNull>
+			<isNotNull prepend="AND" property="remark">
+				REMARK=#remark#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY DISP_INDEX
+	</select>
+
+	<insert id="insert" parameterClass="PackageNumber">
+		<selectKey resultClass="int" keyProperty="numberId">
+			SELECT NEXTVAL('SQ_PACKAGE')
+		</selectKey>
+		INSERT INTO
+		TB_PACKAGE_NUMBER(NUMBER_ID,PACKAGE_ID,NUMBER_NAME,DISP_INDEX,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#numberId#,#packageId#,#numberName#,#dispIndex#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+	<delete id="delete" parameterClass="PackageNumber">
+		DELETE FROM TB_PACKAGE_NUMBER WHERE NUMBER_ID=#numberId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_PACKAGE_NUMBER WHERE NUMBER_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_PACKAGE_NUMBER
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="numberId">
+				NUMBER_ID=#numberId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="packageId">
+				PACKAGE_ID=#packageId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="numberName">
+				NUMBER_NAME=#numberName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="dispIndex">
+				DISP_INDEX=#dispIndex#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="PackageNumber">
+		UPDATE TB_PACKAGE_NUMBER SET
+		PACKAGE_ID=#packageId#,NUMBER_NAME=#numberName#,DISP_INDEX=#dispIndex#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE NUMBER_ID=#numberId#
+	</update>
+	
+
+</sqlMap>

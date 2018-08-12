@@ -1,0 +1,10 @@
+var Pheight = '';
+$().ready(function() { 
+	console.log($('#container').height());
+	console.log($('.ctrl_panel').height());
+	Pheight = $('#container').height() - ($('.ctrl_panel').height() + 40);
+	$(".add_panel").height(Pheight+'px');
+})
+
+
+

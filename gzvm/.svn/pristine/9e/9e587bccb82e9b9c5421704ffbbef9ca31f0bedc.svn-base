@@ -1,0 +1,34 @@
+
+
+
+jQuery(document).ready(function($){
+	$('#healthTalk').show();
+	$('#healthTalk').siblings().hide();
+	$('.mg_list_item').click(function(){
+		var showId = $(this).attr("id");
+		console.log(showId);
+		$(this).addClass("mg_active");
+		$(this).siblings().removeClass("mg_active");
+		var titleStr = '';
+		var panelId = '';
+		if(showId == 'L1'){
+			panelId = 'healthTalk';
+		}else if(showId == 'L2'){
+			panelId = 'cultural_exchange';
+		}else if(showId == 'L3'){
+			titleStr = '脏腑类案例';
+			panelId = 'zangfuCase';
+		}else if(showId == 'L4'){
+			titleStr = '女性类案例';
+			panelId = 'nvxingCase';
+		}else if(showId == 'L5'){
+			titleStr = '扶元类案例';
+			panelId = 'fuyuanCase';
+		}else if(showId == 'L6'){
+			titleStr = '痛可贴类案例';
+			panelId = 'tongketieCase';
+		}
+		$('#'+panelId).show();
+		$('#'+panelId).siblings().hide();
+	})
+});

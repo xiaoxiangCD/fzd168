@@ -1,0 +1,295 @@
+.title {
+	position: relative;
+	text-align: center;
+}
+
+.title .title_icon, .title .title_cn, .title .title_en {
+	display: inline-block;
+}
+
+.title .title_icon {
+	/* margin-top:8px; */
+	
+}
+
+.title .title_cn {
+	font-weight: bold;
+	font-size: 18px;
+	color: #427305;
+	margin: 30px 0;
+}
+
+.title .title_en {
+	font-weight: bold;
+	font-size: 18px;
+	color: #e2ca84;
+	padding: 10px 20px 10px 0;
+}
+
+.title .more {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	height: 24px;
+	line-height: 24px;
+	/* background:#ffd819; */
+	padding: 0 20px;
+}
+
+.title .more a {
+	color: #006acd;
+}
+
+/* 娓呮娴姩 */
+.clear {
+	clear: both;
+}
+
+/*footer锟斤拷式*/
+
+
+/*container*/
+.container {
+	padding: 0 !important;
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+	background: #fff;
+}
+
+.content {
+	padding-bottom: 60px;
+}
+
+.space_top {
+	margin-top: 40px;
+	margin-bottom: 30px;
+}
+
+.space_top a:hover {
+	text-decoration: none;
+	color: #427305;
+}
+
+.container {
+	padding: 0 !important;
+}
+
+.item {
+	height: auto;
+}
+
+.item img {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+.prev_img, .next_img {
+	position: absolute;
+	top: 50%;
+	margin-top: -22px;
+}
+
+.next_img {
+	margin-left: -22px;
+}
+
+.perv_img {
+	margin-right: -22px;
+}
+
+.banner {
+	/* position:relative; */
+	
+}
+
+.search_panel {
+	width: 350px;
+	height: 280px;
+	position: absolute;
+	bottom: 40px;
+	left: 40px;
+	background-color: #fff;
+	border: solid 1px #ccc;
+	padding: 30px 30px 30px 20px;
+}
+
+.search_row {
+	margin-bottom: 12px;
+}
+
+.search_text {
+	display: inline-block;
+	width: 74px;
+	margin-right: 10px;
+}
+
+.search_input {
+	display: inline-block;
+	width: 210px;
+	height: 34px;
+}
+
+.search_sub {
+	color: #fff;
+	border: 0;
+}
+
+/* 璧涗簨鍒楄〃 */
+.competition {
+	/* background: url(/gzvm/project/images/text_bg_01.png) no-repeat bottom right; */
+	padding: 30px;
+	margin-bottom: 10px;
+}
+
+.comptition_img {
+	width: 100%;
+	height: auto;
+}
+
+.comptition_img img {
+	display: inline-block;
+	width: 100%;
+	height: 20em;
+}
+
+.comptition_text {
+	padding-left: 30px;
+}
+
+.competition_title {
+	font-weight: bold;
+	font-size: 16px;
+	margin: 15px 0;
+	color: #000;
+}
+
+.competition_type p {
+	display: inline-block;
+	background-color: #F00;
+	padding: 5px 20px;
+	border-radius: 2px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	margin: 10px 10px 10px 0;
+}
+
+.competition_type p img {
+	display: inline-block;
+	height: 16px;
+	width: auto;
+}
+
+.competition_date p, .competition_adress p {
+	display: inline-block;
+	margin-right: 10px;
+	margin: 10px 0;
+}
+/* .competition_date #date{
+	color:#ff9966;
+} */
+.competition_dsc {
+	color: #333;
+	margin: 10px 0;
+	line-height: 22px;
+	overflow: hidden;
+	/* text-overflow:ellipsis;
+	display:-webkit-box; */
+	/* -webkit-box-orient:vertical; 
+	-webkit-line-clamp:5;  */
+}
+
+.detail {
+	margin: 0;
+	float: right;
+}
+
+.detail a {
+	color: #666;
+}
+
+/*我的样式*/
+.yh_product_img {
+	width: 5em;
+	height: 5em;
+	display: block;
+	margin: 0 auto;
+}
+
+.yh_product_number {
+	color: #F00;
+	font-size: 1.5em;
+}
+
+.yh_product_name {
+	display: block;
+	text-align: -webkit-center;
+	margin: 1em 0;
+	font-size: 1.3em;
+	color: #427305;
+}
+
+.yh_product_item {
+	display: block;
+	text-align: -webkit-center;
+	margin-top: .5em;
+	font-size: 1em;
+	color: #427305;
+	margin-bottom: 2em;
+}
+
+.yh_product_panel {
+	border: 1px solid #DDD;
+	border-radius: 15px;
+}
+
+.anli_product_img {
+	width: 9em;
+	height: 9em;
+	display: block;
+	margin: 20px auto;
+}
+
+.anli_product_number {
+	color: #F00;
+	font-size: 1.5em;
+}
+
+.anli_product_name {
+	display: block;
+	text-align: -webkit-center;
+	margin: 1em 0;
+	font-size: 1.3em;
+	color: #427305;
+}
+
+.anli_product_item {
+	display: block;
+	text-align: -webkit-center;
+	margin-top: .5em;
+	font-size: 1em;
+	color: #427305;
+	margin-bottom: 2em;
+	min-height: 7em;
+}
+
+.anli_product_panel {
+	border: 1px solid #DDD;
+	border-radius: 10px;
+	padding: 0 20px;
+}
+
+
+@media only screen and (max-width: 767px) {
+	.yh_product_panel{
+		margin:1em 6em;
+	}
+	.anli_product_panel{
+		margin: 2em 3em;
+	}
+}
+
+
+

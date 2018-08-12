@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.template.beans.ModuleItem">
+	<typeAlias alias="ModuleItem" type="cn.com.voge.gzvm.template.beans.ModuleItem" />
+
+	<resultMap id="ModuleItemMap" class="ModuleItem">
+		<result property="itemId" column="ITEM_ID" />
+		<result property="moduleId" column="MODULE_ID" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="parentId" column="PARENT_ID" />
+		<result property="itemName" column="ITEM_NAME" />
+		<result property="itemType" column="ITEM_TYPE" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="dispIndex" column="DISP_INDEX" nullValue="0"/>
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_MODULE_ITEM
+	</select>
+
+	<select id="select" resultMap="ModuleItemMap">
+		SELECT * FROM TB_MODULE_ITEM
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				ITEM_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY DISP_INDEX
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="ModuleItemMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="ModuleItemMap">
+		SELECT * FROM TB_MODULE_ITEM
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="itemId">
+				ITEM_ID=#itemId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="moduleId">
+				MODULE_ID=#moduleId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="itemCode">
+				ITEM_CODE=#itemCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="parentId">
+				PARENT_ID=#parentId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="itemName">
+				ITEM_NAME=#itemName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="itemType">
+				ITEM_TYPE=#itemType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY DISP_INDEX
+	</select>
+
+	<insert id="insert" parameterClass="ModuleItem">
+		<selectKey resultClass="int" keyProperty="itemId">
+			SELECT NEXTVAL('SQ_MODULE')
+		</selectKey>
+		INSERT INTO
+		TB_MODULE_ITEM(ITEM_ID,MODULE_ID,PARENT_ID,ITEM_NAME,ITEM_TYPE,ITEM_CODE,DESCRIPTION,DISP_INDEX,
+			VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#itemId#,#moduleId#,#parentId#,#itemName#,#itemType#,#itemCode#,#description#,#dispIndex#,
+			#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+	<delete id="delete" parameterClass="ModuleItem">
+		DELETE FROM TB_MODULE_ITEM WHERE ITEM_ID=#itemId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_MODULE_ITEM WHERE ITEM_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_MODULE_ITEM
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="itemId">
+				ITEM_ID=#itemId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="moduleId">
+				MODULE_ID=#moduleId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="itemCode">
+				ITEM_CODE=#itemCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="parentId">
+				PARENT_ID=#parentId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="itemName">
+				ITEM_NAME=#itemName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="itemType">
+				ITEM_TYPE=#itemType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="ModuleItem">
+		UPDATE TB_MODULE_ITEM SET
+			MODULE_ID=#moduleId#,PARENT_ID=#parentId#,ITEM_NAME=#itemName#,ITEM_TYPE=#itemType#,ITEM_CODE=#itemCode#,
+			DESCRIPTION=#description#,DISP_INDEX=#dispIndex#,
+			VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE ITEM_ID=#itemId#
+	</update>
+	
+
+</sqlMap>

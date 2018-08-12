@@ -1,0 +1,65 @@
+
+.search_panel{
+	width:100%;
+	background-color:#e4e4e4;
+	border:solid 1px #ccc;
+	padding:20px 30px;
+	margin-bottom:20px;
+}
+.search_btn{
+	color:#fff !important;
+}
+/* 赛事列表 */
+.competition{
+	border:solid 1px #eee;
+	padding:30px;
+	margin-bottom:10px;
+}
+.comptition_img{
+	width:100%;
+	height:auto;
+}
+.comptition_img img{
+	display:inline-block;
+	width:100%;
+	height:auto;
+}
+.comptition_text{
+	padding-left:30px;
+}
+.competition_title{
+	font-weight:bold;
+	font-size:16px;
+	margin:15px 0;
+}
+.competition_type p{
+	display:inline-block;
+	background-color:#333;
+	padding:5px 20px;
+	border-radius:2px;
+	margin-right:10px;
+	color:#fff;
+	font-size:12px;
+	margin:10px 0 ;
+}
+.competiton_date p,.competiton_adress p{
+	display:inline-block;
+	margin-right:10px;
+	margin:10px 0;
+}
+.competiton_date #date{
+	color:#ff9966;
+}
+.competition_dsc{
+	color:#ccc;
+	margin:10px 0;
+	line-height:18px;
+}
+.detail{
+	margin:15px 0;
+}
+
+/* 分页 */
+.page .M-box3{
+	float:right;
+}

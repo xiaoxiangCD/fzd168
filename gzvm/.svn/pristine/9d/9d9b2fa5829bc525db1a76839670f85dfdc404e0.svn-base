@@ -1,0 +1,50 @@
+package cn.com.voge.gzvm.service;
+
+import java.util.Map;
+
+import cn.com.voge.gzvm.Constant;
+import cn.com.voge.gzvm.manager.AdminManager;
+
+import com.google.gxp.com.google.common.collect.Maps;
+import com.voyageci.core.service.BaseService;
+
+/** 
+ * @author lianzw 
+ * @version 创建时间：2017年5月4日 上午11:23:29 
+ * 类说明 预留的公共类，写公用方法
+ */
+@SuppressWarnings({"rawtypes","unchecked"})
+public class GzvmSercice  extends BaseService{
+	
+	protected AdminManager adminManager;
+
+	/** 初始化查询参数
+	 * @author lianzw
+	 * @param criteria
+	 */
+	public Map initCriteria(Map criteria){
+		if (criteria == null) {
+			criteria = Maps.newHashMap();
+			criteria.put("state", Constant.BASE_STATE);
+		}else{
+			if (!criteria.containsKey("state")) {
+				criteria.put("state", Constant.BASE_STATE);
+			}
+		}
+		return criteria;
+	}
+	
+	public Map initCriteria(){
+		Map criteria = Maps.newHashMap();
+		return initCriteria(criteria);
+	}
+	
+	public AdminManager getAdminManager() {
+		return adminManager;
+	}
+
+	public void setAdminManager(AdminManager adminManager) {
+		this.adminManager = adminManager;
+	}
+
+}

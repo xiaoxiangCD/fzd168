@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.JoinInfo">
+	<typeAlias alias="JoinInfo" type="cn.com.voge.gzvm.beans.JoinInfo" />
+
+	<resultMap id="JoinInfoMap" class="JoinInfo">
+		<result property="infoId" column="INFO_ID" />
+		<result property="joinId" column="JOIN_ID" />
+		<result property="defineId" column="DEFINE_ID" />
+		<result property="competiId" column="COMPETI_ID" />
+		<!-- <result property="infoName" column="INFO_NAME" />
+		<result property="dataType" column="DATA_TYPE" />
+		<result property="required" column="REQUIRED" />
+		<result property="dispIndex" column="DISP_INDEX" /> -->
+		<result property="value" column="VALUE" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_JOIN_INFO
+	</select>
+
+	<select id="select" resultMap="JoinInfoMap">
+		SELECT * FROM TB_JOIN_INFO
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				INFO_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+		ORDER BY DISP_INDEX
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="JoinInfoMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="JoinInfoMap">
+		SELECT * FROM TB_JOIN_INFO
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="infoId">
+				INFO_ID=#infoId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="defineId">
+				DEFINE_ID=#defineId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="competiId">
+				COMPETI_ID=#competiId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="infoName">
+				INFO_NAME=#infoName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="dataType">
+				DATA_TYPE=#dataType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="required">
+				REQUIRED=#required#
+			</isNotNull>
+			<isNotNull prepend="AND" property="sendTime">
+				SEND_TIME=#sendTime#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+		ORDER BY DISP_INDEX
+	</select>
+
+	<insert id="insert" parameterClass="JoinInfo">
+		<selectKey resultClass="int" keyProperty="infoId">
+			SELECT NEXTVAL('SQ_COMPETITION')
+		</selectKey>
+		INSERT INTO TB_JOIN_INFO(INFO_ID,JOIN_ID,DEFINE_ID,COMPETI_ID,VALUE,<!-- INFO_NAME,DATA_TYPE,REQUIRED,DISP_INDEX, -->
+			VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#infoId#,#joinId#,#defineId#,#competiId#,#value#,<!-- #infoName#,#dataType#,#required#,#dispIndex#, -->
+			#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+	
+	<delete id="delete" parameterClass="JoinInfo">
+		DELETE FROM TB_JOIN_INFO WHERE INFO_ID=#infoId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_JOIN_INFO WHERE INFO_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_JOIN_INFO
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="infoId">
+				INFO_ID=#infoId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="defineId">
+				DEFINE_ID=#defineId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="competiId">
+				COMPETI_ID=#competiId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="infoName">
+				INFO_NAME=#infoName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="dataType">
+				DATA_TYPE=#dataType#
+			</isNotNull>
+			<isNotNull prepend="AND" property="required">
+				REQUIRED=#required#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="JoinInfo">
+		UPDATE TB_JOIN_INFO SET
+			JOIN_ID=#joinId#,COMPETI_ID=#competiId#,DEFINE_ID=#defineId#,VALUE=#value#,
+			<!-- INFO_NAME=#infoName#,DATA_TYPE=#dataType#,REQUIRED=#required#,DISP_INDEX=#dispIndex#, -->
+			VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE INFO_ID=#infoId#
+	</update>
+	
+
+</sqlMap>

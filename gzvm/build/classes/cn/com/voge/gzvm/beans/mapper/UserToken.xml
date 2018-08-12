@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="cn.com.voge.gzvm.beans.UserToken">
+	<typeAlias alias="UserToken" type="cn.com.voge.gzvm.beans.UserToken" />
+
+	<resultMap id="UserTokenMap" class="UserToken">
+		<result property="tokenId" column="TOKEN_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="token" column="TOKEN" />
+		<result property="userCode" column="USER_CODE" />
+		<result property="userName" column="USER_NAME" />
+		<result property="roleCode" column="ROLE_CODE" />
+		<result property="roleId" column="ROLE_ID" />
+		<result property="loginTime" column="LOGIN_TIME" javaType="date" />
+		<result property="expTime" column="EXP_TIME" javaType="date" />
+		<result property="clientOs" column="CLIENT_OS" />
+		<result property="terminal" column="TERMINAL" />
+		<result property="userAgent" column="USER_AGENT" />
+
+		<result property="versionNum" column="VER_NUM" nullValue="0" />
+		<result property="instanceId" column="INSTANCE_ID" nullValue="0" />
+		<result property="state" column="STATE" nullValue="0" />
+		<result property="createUser" column="CREATE_USER" nullValue="0" />
+		<result property="createDate" column="CREATE_DATE" javaType="date" />
+	</resultMap>
+
+	<select id="count" resultClass="int">
+		SELECT count(*) FROM TB_USER_TOKEN
+	</select>
+
+	<select id="select" resultMap="UserTokenMap">
+		SELECT * FROM TB_USER_TOKEN
+		<dynamic prepend="WHERE">
+			<isParameterPresent>
+				TOKEN_ID=#value#
+			</isParameterPresent>
+		</dynamic>
+	</select>
+
+	<select id="selectBySql" parameterClass="string" resultMap="UserTokenMap">
+		$value$
+	</select>
+
+	<select id="selectByMap" parameterClass="map" resultMap="UserTokenMap">
+		SELECT * FROM TB_USER_TOKEN
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="instanceId">
+				INSTANCE_ID=#instanceId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="tokenId">
+				TOKEN_ID=#tokenId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="token">
+				TOKEN=#token#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userName">
+				USER_NAME=#userName#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userCode">
+				USER_CODE=#userCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="roleCode">
+				ROLE_CODE=#roleCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="roleCodeLike">
+				ROLE_CODE LIKE
+				'%'||#roleCodeLike#||'%' 
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE &amp; #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+		</dynamic>
+		ORDER BY INSTANCE_ID,LOGIN_TIME DESC
+	</select>
+
+	<insert id="insert" parameterClass="UserToken">
+		<selectKey resultClass="int" keyProperty="tokenId">
+			SELECT
+			NEXTVAL('SQ_TOKEN')
+		</selectKey>
+		INSERT INTO
+		TB_USER_TOKEN(TOKEN_ID,USER_ID,TOKEN,USER_CODE,ROLE_CODE,ROLE_ID,USER_NAME,
+		LOGIN_TIME,EXP_TIME,CLIENT_OS,TERMINAL,USER_AGENT,
+		VER_NUM,STATE,CREATE_USER,CREATE_DATE,INSTANCE_ID)
+		VALUES(#tokenId#,#userId#,#token#,#userCode#,#roleCode#,#roleId#,#userName#,
+		#loginTime#,#expTime#,#clientOs#,#terminal#,#userAgent#,
+		#versionNum#,#state#,#createUser#,#createDate#,#instanceId#)
+	</insert>
+
+	<delete id="delete" parameterClass="UserToken">
+		DELETE FROM TB_USER_TOKEN WHERE
+		TOKEN_ID=#tokenId#
+	</delete>
+
+	<delete id="deleteByPK" parameterClass="int">
+		DELETE FROM TB_USER_TOKEN
+		WHERE TOKEN_ID=#value#
+	</delete>
+
+	<delete id="deleteByMap" parameterClass="map">
+		DELETE FROM TB_USER_TOKEN
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="instanceId">
+				INSTANCE_ID=#instanceId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="tokenId">
+				TOKEN_ID=#tokenId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userId">
+				USER_ID=#userId#
+			</isNotNull>
+			<isNotNull prepend="AND" property="token">
+				TOKEN=#token#
+			</isNotNull>
+			<isNotNull prepend="AND" property="userCode">
+				USER_CODE=#userCode#
+			</isNotNull>
+			<isNotNull prepend="AND" property="state">
+				(STATE AND #state#) >0
+			</isNotNull>
+			<isNotNull prepend="AND" property="authoritySQL">
+				$authoritySQL$
+			</isNotNull>
+		</dynamic>
+	</delete>
+
+	<update id="update" parameterClass="UserToken">
+		UPDATE TB_USER_TOKEN SET
+		USER_ID=#userId#,USER_CODE=#userCode#,TOKEN=#token#,ROLE_CODE=#roleCode#,ROLE_ID=#roleId#,USER_NAME=#userName#,
+		LOGIN_TIME=#loginTime#,EXP_TIME=#expTime#,CLIENT_OS=#clientOs#,TERMINAL=#terminal#,USER_AGENT=#userAgent#,
+		VER_NUM=#versionNum#,STATE=#state#,CREATE_USER=#createUser#,CREATE_DATE=#createDate#,INSTANCE_ID=#instanceId#
+		WHERE TOKEN_ID=#tokenId#
+	</update>
+
+</sqlMap>
